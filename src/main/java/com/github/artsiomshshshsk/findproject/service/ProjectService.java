@@ -12,7 +12,7 @@ public class ProjectService {
 
     public Project createProject(User user){
         return Project.builder()
-                .createdAt(LocalDateTime.now())
+                .publishedAt(LocalDateTime.now())
                 .owner(user)
                 .build();
     }

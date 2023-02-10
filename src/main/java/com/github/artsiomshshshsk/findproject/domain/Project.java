@@ -21,10 +21,13 @@ public class Project {
     @Id
     private Long id;
     private String name;
+    private String shortDescription;
     private String description;
     @OneToMany
-    private List<Role> roles;
+    private List<Role> team;
     @ManyToOne
     private User owner;
-    private LocalDateTime createdAt;
+    private LocalDateTime publishedAt;
+    private ProjectStatus status;
+
 }
