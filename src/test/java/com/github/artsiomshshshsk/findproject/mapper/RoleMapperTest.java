@@ -7,11 +7,6 @@ import com.github.artsiomshshshsk.findproject.dto.UserResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,7 +17,6 @@ class RoleMapperTest {
     private RoleMapper roleMapper;
 
     private UserMapper userMapper;
-
 
     @BeforeEach
     void setUp() {

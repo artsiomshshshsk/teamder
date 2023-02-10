@@ -18,8 +18,7 @@ class UserMapperTest {
     }
 
     @Test
-
-    void map() {
+    void givenUser_whenToUserResponse_thenReturnUserResponse() {
         //given
         User user = User.builder()
                 .id(1L)
@@ -30,6 +29,19 @@ class UserMapperTest {
         UserResponse userResponse = userMapper.toUserResponse(user);
         //then
         assertEquals(userResponse.id(), user.getId());
+        assertEquals(userResponse.username(), user.getUsername());
+    }
+
+    @Test
+    void givenUser_whenToUserResponse_thenReturnUserResponseWithNullId() {
+        //given
+        User user = User.builder()
+                .username("username")
+                .build();
+        //when
+        UserResponse userResponse = userMapper.toUserResponse(user);
+        //then
+        assertNull(userResponse.id());
         assertEquals(userResponse.username(), user.getUsername());
     }
 
