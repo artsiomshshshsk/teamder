@@ -3,11 +3,9 @@ package com.github.artsiomshshshsk.findproject.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Entity(name = "_users")
