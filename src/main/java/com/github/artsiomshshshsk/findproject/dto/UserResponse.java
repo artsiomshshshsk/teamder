@@ -5,5 +5,5 @@ import lombok.Builder;
 @Builder
 public record UserResponse (
     String username,
-    long id
+    Long id
 ){}
