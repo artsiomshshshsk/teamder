@@ -7,6 +7,8 @@ import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundExceptio
 import com.github.artsiomshshshsk.findproject.mapper.ProjectMapper;
 import com.github.artsiomshshshsk.findproject.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -24,4 +26,11 @@ public class ProjectService {
         }
         return projectMapper.toProjectResponse(project.get());
     }
+
+    public Page<ProjectResponse> findAllProjects(Pageable pageable) {
+        Page<Project> projects = projectRepository.findAll(pageable);
+        return projects.map(projectMapper::toProjectResponse);
+    }
+
+
 }
