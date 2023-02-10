@@ -5,22 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Application {
-    enum Status {
-        PENDING, ACCEPTED, REJECTED
-    }
+public class Submission {
     @Id
     private Long id;
     @OneToOne
     private User applicant;
+    private String submissionMessage;
     @ManyToOne
     private Project project;
     @OneToOne
     private Role role;
-    private Status status;
+    private ApplicationStatus status;
+    private LocalDateTime submittedAt;
+    private LocalDateTime statusChangedAt;
 
 }

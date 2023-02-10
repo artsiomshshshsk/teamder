@@ -25,6 +25,6 @@ public class User {
     @OneToMany
     private List<Project> projects;
     @OneToMany
-    private List<Application> applications;
+    private List<Submission> applications;
 
 }
