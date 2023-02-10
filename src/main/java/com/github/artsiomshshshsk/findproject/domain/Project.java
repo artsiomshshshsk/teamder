@@ -5,9 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +14,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class Project {
     @Id
@@ -24,10 +24,11 @@ public class Project {
     private String shortDescription;
     private String description;
     @OneToMany
-    private List<Role> team;
+    private List<Role> roles;
     @ManyToOne
     private User owner;
     private LocalDateTime publishedAt;
     private ProjectStatus status;
+
 
 }
