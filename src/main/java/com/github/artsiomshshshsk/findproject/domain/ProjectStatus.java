@@ -1,8 +1,8 @@
 package com.github.artsiomshshshsk.findproject.domain;
 
 public enum ProjectStatus {
-    PUBLISHED,
-    IN_PROGRESS,
+    RECRUITING,
+    IN_DEVELOPMENT,
     FINISHED
 }
 
