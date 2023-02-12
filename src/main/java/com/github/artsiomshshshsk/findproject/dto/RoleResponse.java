@@ -6,6 +6,5 @@ import lombok.Builder;
 public record RoleResponse (
       Long id,
       String name,
-      UserResponse assignedUser,
-      boolean isAvailable
+      UserResponse assignedUser
 ){}

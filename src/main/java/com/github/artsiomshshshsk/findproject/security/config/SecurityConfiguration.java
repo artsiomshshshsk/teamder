@@ -35,6 +35,7 @@ public class SecurityConfiguration {
         .and()
         .authorizeHttpRequests()
         .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
+        .anyRequest().authenticated()
         .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

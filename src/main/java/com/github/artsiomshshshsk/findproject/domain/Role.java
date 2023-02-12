@@ -1,8 +1,6 @@
 package com.github.artsiomshshshsk.findproject.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -14,9 +12,10 @@ import lombok.*;
 @Builder
 public class Role {
         @Id
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
+        @SequenceGenerator(name = "role_id_seq", sequenceName = "role_id_seq", allocationSize = 1)
         private Long id;
         private String name;
         @ManyToOne
         private User assignedUser;
-        private boolean isAvailable;
 }

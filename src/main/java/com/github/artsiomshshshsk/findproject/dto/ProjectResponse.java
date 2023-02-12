@@ -3,7 +3,6 @@ package com.github.artsiomshshshsk.findproject.dto;
 
 import com.github.artsiomshshshsk.findproject.domain.ProjectStatus;
 import lombok.Builder;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
