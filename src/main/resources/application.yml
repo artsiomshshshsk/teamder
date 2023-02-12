@@ -1,4 +1,3 @@
-
 aws:
   s3:
     bucketName: ${BUCKET_NAME}
@@ -38,6 +37,5 @@ logging:
   level:
     org.hibernate.SQL: TRACE
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
 
 
