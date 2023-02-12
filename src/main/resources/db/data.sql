@@ -1,6 +1,6 @@
-insert into _USERS (id, username, email, password, role) values (1, 'fvondrak0', 'kpaumier0@time.com', '$2a$10$z4fDDSacOqh1LkT6rqRo/.DwYXg/Zo90F5kbgw1yKLgS3w0LnMJoG', 'ADMIN');  -- 4Dbd1jQ
-insert into _USERS (id, username, email, password, role) values (2, 'cmackeig1', 'aletham1@cnet.com', '$2a$10$U636geqzDRBM2AId1eAv5eYeSJzC6PTHliCaAe1H.ZfFgDM70R6.S', 'ADMIN');
-insert into _USERS (id, username, email, password, role) values (3, 'ffills2', 'asmorfit2@addthis.com', '$2a$10$hvIqiKuehMn4HhenhYwSvOgf76kHqTq0wpvT87anrV9hj2WayXJlm', 'USER');
+insert into _USERS (username, email, password, role) values ('fvondrak0', 'kpaumier0@time.com', '$2a$10$z4fDDSacOqh1LkT6rqRo/.DwYXg/Zo90F5kbgw1yKLgS3w0LnMJoG', 'ADMIN');  -- 4Dbd1jQ
+insert into _USERS (username, email, password, role) values ('cmackeig1', 'aletham1@cnet.com', '$2a$10$U636geqzDRBM2AId1eAv5eYeSJzC6PTHliCaAe1H.ZfFgDM70R6.S', 'ADMIN');
+insert into _USERS (username, email, password, role) values ('ffills2', 'asmorfit2@addthis.com', '$2a$10$hvIqiKuehMn4HhenhYwSvOgf76kHqTq0wpvT87anrV9hj2WayXJlm', 'USER');
 
 
 -- insert into Project ( name, short_description, description, published_at, status) values ( 'Faustina', 'reinvent intuitive experiences', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.

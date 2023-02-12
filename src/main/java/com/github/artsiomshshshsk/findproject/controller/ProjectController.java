@@ -1,6 +1,8 @@
 package com.github.artsiomshshshsk.findproject.controller;
 
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.github.artsiomshshshsk.findproject.config.S3ConfigProperties;
 import com.github.artsiomshshshsk.findproject.domain.User;
 import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import java.io.File;
 
 
 @RestController

@@ -29,6 +29,8 @@ public class User implements UserDetails {
 
     private String password;
 
+    private String cvFilename;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Project> projects;
     @OneToMany
