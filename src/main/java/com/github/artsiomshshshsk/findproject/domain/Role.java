@@ -5,7 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
-@Entity
+
+@Entity(name = "_roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
