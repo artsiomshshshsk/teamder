@@ -36,7 +36,6 @@ class RoleMapperTest {
                 .id(1L)
                 .name("name")
                 .assignedUser(user)
-                .isAvailable(true)
                 .build();
 
         //when
