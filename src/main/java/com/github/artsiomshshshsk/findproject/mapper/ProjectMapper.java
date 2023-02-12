@@ -38,6 +38,7 @@ public interface ProjectMapper {
                 .shortDescription(projectRequest.shortDescription())
                 .description(projectRequest.description())
                 .roles(roles)
+                .chatInviteLink(projectRequest.chatInviteLink())
                 .owner(user)
                 .build();
     }

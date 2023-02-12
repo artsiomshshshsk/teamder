@@ -15,8 +15,7 @@ import java.util.List;
 @Builder
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_id_seq")
-    @SequenceGenerator(name = "project_id_seq", sequenceName = "project_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
@@ -34,6 +33,9 @@ public class Project {
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
+
+    @Column(name = "chat_invite_link")
+    private String chatInviteLink;
 
 
 }

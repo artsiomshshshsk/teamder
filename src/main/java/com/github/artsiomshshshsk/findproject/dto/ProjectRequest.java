@@ -11,5 +11,6 @@ public record ProjectRequest(
         String shortDescription,
         String description,
         List<RoleRequest> roles,
+        String chatInviteLink,
         RoleRequest ownerRole) {
 }
