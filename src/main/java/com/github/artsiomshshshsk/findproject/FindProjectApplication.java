@@ -1,10 +1,13 @@
 package com.github.artsiomshshshsk.findproject;
 
 import com.github.artsiomshshshsk.findproject.domain.Project;
+import com.github.artsiomshshshsk.findproject.security.config.JWTConfigProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
+@EnableConfigurationProperties(JWTConfigProperties.class)
 public class FindProjectApplication {
 
     public static void main(String[] args) {
