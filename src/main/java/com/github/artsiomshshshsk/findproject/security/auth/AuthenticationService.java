@@ -36,6 +36,7 @@ public class AuthenticationService {
   private static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
 
   public AuthenticationResponse register(String registerRequest, MultipartFile fileResume) {
+
     // Use a unique filename
     String filename = UUID.randomUUID().toString() + ".pdf";
     while(s3Client.doesObjectExist(s3ConfigProperties.bucketName(), filename)){

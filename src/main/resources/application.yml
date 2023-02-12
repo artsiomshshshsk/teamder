@@ -1,3 +1,16 @@
+
+aws:
+  s3:
+    bucketName: ${BUCKET_NAME}
+    accessKey: ${ACCESS_KEY}
+    secretKey: ${SECRET_KEY}
+    region: ${REGION}
+    endpoint: ${ENDPOINT}
+
+jwt:
+  expirationTime: ${JWT_EXPIRATION_TIME}
+  secret: ${JWT_SECRET}
+
 spring:
   config:
     import: optional:secrets.yml
@@ -26,5 +39,5 @@ logging:
     org.hibernate.SQL: TRACE
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-jwt:
-  expirationTime: 1440000
+
+
