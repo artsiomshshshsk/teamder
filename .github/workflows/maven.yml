@@ -8,6 +8,13 @@
 
 name: Java CI with Maven
 
+env:
+  BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  REGION: ${{ secrets.REGION }}
+  ENDPOINT: ${{ secrets.ENDPOINT }}
+
 on:
   push:
     branches: [ "main" ]
