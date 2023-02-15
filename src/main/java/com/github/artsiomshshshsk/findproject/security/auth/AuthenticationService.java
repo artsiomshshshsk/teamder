@@ -8,6 +8,7 @@ import com.github.artsiomshshshsk.findproject.repository.UserRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
 import com.github.artsiomshshshsk.findproject.security.config.JwtService;
 import com.github.artsiomshshshsk.findproject.service.FileUploadService;
+import com.github.artsiomshshshsk.findproject.service.FileUploadServiceS3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +36,7 @@ public class AuthenticationService {
       throw new RuntimeException(e);
     }
 
-    String fileName = fileUploadService.uploadFile(fileResume);
+    String fileName = fileUploadService.uploadFile(fileResume,"application/pdf");
     var user = User.builder()
         .username(request.getUsername())
         .email(request.getEmail())

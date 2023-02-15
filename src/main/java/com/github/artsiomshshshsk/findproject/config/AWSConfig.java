@@ -3,6 +3,7 @@ package com.github.artsiomshshshsk.findproject.config;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -28,7 +29,9 @@ public class AWSConfig {
         return AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials()))
-                .withRegion(Regions.fromName(s3ConfigProperties.region()))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(
+                        s3ConfigProperties.endpoint(), s3ConfigProperties.region()
+                ))
                 .build();
     }
 

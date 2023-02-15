@@ -43,6 +43,7 @@ public class ProjectController {
     public ResponseEntity<ProjectResponse> createProject(
             @RequestBody ProjectRequest projectRequest,
             @AuthenticationPrincipal User user) {
+
         return ResponseEntity.ok(projectService.createProject(user,projectRequest));
     }
 }

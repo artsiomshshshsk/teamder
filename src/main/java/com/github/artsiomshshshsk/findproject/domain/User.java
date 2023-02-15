@@ -35,7 +35,6 @@ public class User implements UserDetails {
     private List<Project> projects;
     @OneToMany
     private List<Submission> applications;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
