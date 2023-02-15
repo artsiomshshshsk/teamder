@@ -3,8 +3,10 @@ package com.github.artsiomshshshsk.findproject.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.github.artsiomshshshsk.findproject.config.S3ConfigProperties;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Service
+@Primary
 public class FileUploadServiceS3 implements FileUploadService{
 
     private final AmazonS3 s3Client;
@@ -58,10 +61,8 @@ public class FileUploadServiceS3 implements FileUploadService{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        return s3ConfigProperties.endpoint() + filename;
+        System.out.println(s3ConfigProperties.endpoint() + filename);
+        return s3ConfigProperties.endpoint() + s3ConfigProperties.bucketName() + "/" + filename;
 
     }
-
-
 }

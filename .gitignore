@@ -32,8 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-<<<<<<< HEAD
 secrets.yml
-=======
-secrets.yml
->>>>>>> #2-security-debt
+.terraform*
+terraform.*

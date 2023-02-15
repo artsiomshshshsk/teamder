@@ -32,9 +32,15 @@ spring:
     init:
       data-locations: "classpath*:db/data.sql"
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 logging:
   level:
     org.hibernate.SQL: TRACE
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
 
 

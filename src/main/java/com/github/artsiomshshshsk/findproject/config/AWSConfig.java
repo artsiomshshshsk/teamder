@@ -27,11 +27,13 @@ public class AWSConfig {
     @Bean
     public AmazonS3 amazonS3() {
         return AmazonS3ClientBuilder
+
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials()))
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(
                         s3ConfigProperties.endpoint(), s3ConfigProperties.region()
                 ))
+                .withPathStyleAccessEnabled(true)
                 .build();
     }
 
