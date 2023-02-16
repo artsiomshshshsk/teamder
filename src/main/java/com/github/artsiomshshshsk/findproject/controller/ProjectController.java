@@ -1,8 +1,6 @@
 package com.github.artsiomshshshsk.findproject.controller;
 
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.github.artsiomshshshsk.findproject.config.S3ConfigProperties;
 import com.github.artsiomshshshsk.findproject.domain.User;
 import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
@@ -15,7 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import java.io.File;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 @RestController
@@ -30,11 +28,11 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findProjectById(id));
     }
 
-
     @GetMapping
-    public ResponseEntity<Page<ProjectResponse>> findAllProjects(@RequestParam(defaultValue = "0") int page,
-                                                 @RequestParam(defaultValue = "10") int size,
-                                                 @RequestParam(defaultValue = "id") String sortBy) {
+    public ResponseEntity<Page<ProjectResponse>> findAllProjects(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return ResponseEntity.ok(projectService.findAllProjects(pageable));
     }
@@ -42,8 +40,7 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<ProjectResponse> createProject(
             @RequestBody ProjectRequest projectRequest,
-            @AuthenticationPrincipal User user) {
-
+            @ApiIgnore @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(projectService.createProject(user,projectRequest));
     }
 }

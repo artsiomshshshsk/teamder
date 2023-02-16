@@ -4,7 +4,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.github.artsiomshshshsk.findproject.config.S3ConfigProperties;
+import com.github.artsiomshshshsk.findproject.exception.InvalidFileFormatException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -27,19 +29,15 @@ public class FileUploadServiceS3 implements FileUploadService{
 
 
     public String uploadFile(MultipartFile file, String contentType) {
-        System.out.println(s3ConfigProperties);
-        // Use a unique filename
         String filename = UUID.randomUUID().toString() + ".pdf";
-//        while (s3Client.doesObjectExist(s3ConfigProperties.bucketName(), filename)) {
-//            filename = UUID.randomUUID().toString() + ".pdf";
-//        }
-
-        // Validate the uploaded file
-        if (file.isEmpty() || !file.getContentType().equals(contentType)) {
-            throw new RuntimeException("Invalid file");
+        while (s3Client.doesObjectExist(s3ConfigProperties.bucketName(), filename)) {
+            filename = UUID.randomUUID().toString() + ".pdf";
         }
 
-        // Store the file temporarily
+        if (file.isEmpty() || !file.getContentType().equals(contentType)) {
+            throw new InvalidFileFormatException("Only pdf files are acceptable");
+        }
+
         Path tempFile;
         try {
             tempFile = Files.createTempFile(Paths.get(TEMP_DIR), "temp-", ".pdf");
@@ -61,8 +59,6 @@ public class FileUploadServiceS3 implements FileUploadService{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(s3ConfigProperties.endpoint() + filename);
         return s3ConfigProperties.endpoint() + s3ConfigProperties.bucketName() + "/" + filename;
-
     }
 }

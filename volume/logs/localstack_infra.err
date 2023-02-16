@@ -43,3 +43,11 @@
 2023-02-15T21:56:14.334  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
 2023-02-15T21:56:17.347  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
 2023-02-15T21:56:23.461  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObject => 200
+2023-02-15T22:23:58.242  INFO --- [   asgi_gw_0] localstack.request.http    : GET / => 200
+2023-02-15T22:24:38.796  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
+2023-02-15T22:24:42.062  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.ListObjects => 404 (NoSuchBucket)
+2023-02-15T22:24:54.458  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObject => 200
+2023-02-16T12:14:58.286  INFO --- [   asgi_gw_0] localstack.request.http    : GET / => 200
+2023-02-16T12:21:56.825  INFO --- [   asgi_gw_1] localstack.request.http    : GET / => 200
+2023-02-16T12:24:28.754  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
+2023-02-16T12:24:41.064  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetObject => 200

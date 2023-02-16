@@ -15,11 +15,10 @@ public class AuthenticationController {
 
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
-          @RequestParam("registerRequest") String registerRequest,
-          @RequestParam("resume") MultipartFile file
+          @RequestBody RegisterRequest registerRequest
   ){
 
-    return ResponseEntity.ok(service.register(registerRequest, file));
+    return ResponseEntity.ok(service.register(registerRequest));
   }
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(

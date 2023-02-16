@@ -32,7 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-secrets.yml
+#secrets.yml
 .terraform*
 terraform.*
-volume

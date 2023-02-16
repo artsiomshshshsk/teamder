@@ -29,7 +29,7 @@ public class User implements UserDetails {
 
     private String password;
 
-    private String cvFilename;
+    private String resumeURL;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Project> projects;
