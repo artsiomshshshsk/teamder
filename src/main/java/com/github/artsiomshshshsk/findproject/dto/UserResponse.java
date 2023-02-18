@@ -5,5 +5,7 @@ import lombok.Builder;
 @Builder
 public record UserResponse (
     String username,
-    Long id
+    Long id,
+
+    String profilePictureURL
 ){}

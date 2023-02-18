@@ -28,3 +28,7 @@
 2023-02-18T22:47:33.050  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.PutObject => 200
 2023-02-18T22:47:44.751  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObject => 200
 2023-02-18T22:47:45.124  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.ListObjects => 404 (404)
+2023-02-18T23:03:30.428  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.HeadObject => 404 (404)
+2023-02-18T23:03:30.533  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.PutObject => 200
+2023-02-18T23:03:35.455  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.HeadObject => 404 (404)
+2023-02-18T23:03:35.486  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.PutObject => 200
