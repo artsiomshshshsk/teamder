@@ -31,6 +31,8 @@ public class User implements UserDetails {
 
     private String resumeURL;
 
+    private String profilePictureURL;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Project> projects;
     @OneToMany

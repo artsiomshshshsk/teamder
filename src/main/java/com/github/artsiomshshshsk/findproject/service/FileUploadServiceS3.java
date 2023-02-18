@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.github.artsiomshshshsk.findproject.config.S3ConfigProperties;
+import com.github.artsiomshshshsk.findproject.domain.FileType;
 import com.github.artsiomshshshsk.findproject.exception.InvalidFileFormatException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -28,19 +29,20 @@ public class FileUploadServiceS3 implements FileUploadService{
     private static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
 
 
-    public String uploadFile(MultipartFile file, String contentType) {
-        String filename = UUID.randomUUID().toString() + ".pdf";
+    public String uploadFile(MultipartFile file, FileType fileType) {
+
+        String filename = getFilename(fileType);
         while (s3Client.doesObjectExist(s3ConfigProperties.bucketName(), filename)) {
-            filename = UUID.randomUUID().toString() + ".pdf";
+            filename = getFilename(fileType);
         }
 
-        if (file.isEmpty() || !file.getContentType().equals(contentType)) {
+        if (file.isEmpty() || !file.getContentType().equals(fileType.getContentType())) {
             throw new InvalidFileFormatException("Only pdf files are acceptable");
         }
 
         Path tempFile;
         try {
-            tempFile = Files.createTempFile(Paths.get(TEMP_DIR), "temp-", ".pdf");
+            tempFile = Files.createTempFile(Paths.get(TEMP_DIR), "temp-", fileType.getExtension());
             Files.write(tempFile, file.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -48,7 +50,7 @@ public class FileUploadServiceS3 implements FileUploadService{
 
         // Upload the file to S3
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType("application/pdf");
+        metadata.setContentType(fileType.getContentType());
         PutObjectRequest putObjectRequest = new PutObjectRequest(s3ConfigProperties.bucketName(), filename, tempFile.toFile());
         putObjectRequest.setMetadata(metadata);
         s3Client.putObject(putObjectRequest);
@@ -60,5 +62,9 @@ public class FileUploadServiceS3 implements FileUploadService{
             throw new RuntimeException(e);
         }
         return s3ConfigProperties.endpoint() + s3ConfigProperties.bucketName() + "/" + filename;
+    }
+
+    private static String getFilename(FileType fileType) {
+        return UUID.randomUUID() + fileType.getExtension();
     }
 }

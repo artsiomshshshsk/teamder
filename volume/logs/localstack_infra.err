@@ -1,53 +1,30 @@
-2023-02-15T21:50:51.404  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
-2023-02-15T21:50:51.404  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
-2023-02-15T21:50:51.408  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
-2023-02-15T21:50:51.408  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
-2023-02-15T21:55:06.723  INFO --- [functhread34] l.services.motoserver      : starting moto server on http://0.0.0.0:35375
-2023-02-15T21:55:06.725  INFO --- [   asgi_gw_0] localstack.services.infra  : Starting mock S3 service on http port 4566 ...
-2023-02-15T21:55:06.983  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.HeadBucket => 404 (404)
-2023-02-15T21:55:06.994  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.CreateBucket => 200
-2023-02-15T21:55:07.007  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.HeadBucket => 200
-2023-02-15T21:55:07.019  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketPolicy => 404 (NoSuchBucketPolicy)
-2023-02-15T21:55:07.031  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketAcl => 200
-2023-02-15T21:55:07.130  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketCors => 404 (NoSuchCORSConfiguration)
-2023-02-15T21:55:07.138  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketWebsite => 404 (NoSuchWebsiteConfiguration)
-2023-02-15T21:55:07.147  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketVersioning => 200
-2023-02-15T21:55:07.154  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketAccelerateConfiguration => 200
-2023-02-15T21:55:07.167  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketRequestPayment => 200
-2023-02-15T21:55:07.175  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketLogging => 200
-2023-02-15T21:55:07.189  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketLifecycleConfiguration => 404 (NoSuchLifecycleConfiguration)
-2023-02-15T21:55:07.203  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketReplication => 404 (ReplicationConfigurationNotFoundError)
-2023-02-15T21:55:07.211  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketEncryption => 404 (ServerSideEncryptionConfigurationNotFoundError)
-2023-02-15T21:55:07.218  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetObjectLockConfiguration => 404 (ObjectLockConfigurationNotFoundError)
-2023-02-15T21:55:07.225  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.HeadBucket => 200
-2023-02-15T21:55:07.232  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketTagging => 404 (NoSuchTagSet)
-2023-02-15T21:55:18.859  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
-2023-02-15T21:55:35.359  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.HeadBucket => 200
-2023-02-15T21:55:35.375  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketPolicy => 404 (NoSuchBucketPolicy)
-2023-02-15T21:55:35.386  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketAcl => 200
-2023-02-15T21:55:35.411  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketCors => 404 (NoSuchCORSConfiguration)
-2023-02-15T21:55:35.421  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketWebsite => 404 (NoSuchWebsiteConfiguration)
-2023-02-15T21:55:35.429  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketVersioning => 200
-2023-02-15T21:55:35.437  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketAccelerateConfiguration => 200
-2023-02-15T21:55:35.452  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketRequestPayment => 200
-2023-02-15T21:55:35.458  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketLogging => 200
-2023-02-15T21:55:35.473  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketLifecycleConfiguration => 404 (NoSuchLifecycleConfiguration)
-2023-02-15T21:55:35.489  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketReplication => 404 (ReplicationConfigurationNotFoundError)
-2023-02-15T21:55:35.496  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketEncryption => 404 (ServerSideEncryptionConfigurationNotFoundError)
-2023-02-15T21:55:35.507  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObjectLockConfiguration => 404 (ObjectLockConfigurationNotFoundError)
-2023-02-15T21:55:35.513  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.HeadBucket => 200
-2023-02-15T21:55:35.520  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketTagging => 404 (NoSuchTagSet)
-2023-02-15T21:55:46.134  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.DeleteBucket => 409 (BucketNotEmpty)
-2023-02-15T21:56:07.761  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetObject => 404 (NoSuchKey)
-2023-02-15T21:56:11.145  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObject => 404 (NoSuchKey)
-2023-02-15T21:56:14.334  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
-2023-02-15T21:56:17.347  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
-2023-02-15T21:56:23.461  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObject => 200
-2023-02-15T22:23:58.242  INFO --- [   asgi_gw_0] localstack.request.http    : GET / => 200
-2023-02-15T22:24:38.796  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
-2023-02-15T22:24:42.062  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.ListObjects => 404 (NoSuchBucket)
-2023-02-15T22:24:54.458  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObject => 200
-2023-02-16T12:14:58.286  INFO --- [   asgi_gw_0] localstack.request.http    : GET / => 200
-2023-02-16T12:21:56.825  INFO --- [   asgi_gw_1] localstack.request.http    : GET / => 200
-2023-02-16T12:24:28.754  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.PutObject => 200
-2023-02-16T12:24:41.064  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetObject => 200
+2023-02-18T22:29:39.199  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
+2023-02-18T22:29:39.199  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
+2023-02-18T22:29:39.203  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2023-02-18T22:29:39.203  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2023-02-18T22:31:20.186  INFO --- [functhread19] l.services.motoserver      : starting moto server on http://0.0.0.0:54991
+2023-02-18T22:31:20.190  INFO --- [   asgi_gw_0] localstack.services.infra  : Starting mock S3 service on http port 4566 ...
+2023-02-18T22:31:20.490  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.HeadBucket => 404 (404)
+2023-02-18T22:31:20.503  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.CreateBucket => 200
+2023-02-18T22:31:20.514  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.HeadBucket => 200
+2023-02-18T22:31:20.521  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketPolicy => 404 (NoSuchBucketPolicy)
+2023-02-18T22:31:20.535  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketAcl => 200
+2023-02-18T22:31:20.876  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketCors => 404 (NoSuchCORSConfiguration)
+2023-02-18T22:31:20.891  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketWebsite => 404 (NoSuchWebsiteConfiguration)
+2023-02-18T22:31:20.904  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketVersioning => 200
+2023-02-18T22:31:20.916  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketAccelerateConfiguration => 200
+2023-02-18T22:31:20.940  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketRequestPayment => 200
+2023-02-18T22:31:20.952  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketLogging => 200
+2023-02-18T22:31:20.971  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketLifecycleConfiguration => 404 (NoSuchLifecycleConfiguration)
+2023-02-18T22:31:20.997  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketReplication => 404 (ReplicationConfigurationNotFoundError)
+2023-02-18T22:31:21.010  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetBucketEncryption => 404 (ServerSideEncryptionConfigurationNotFoundError)
+2023-02-18T22:31:21.020  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetObjectLockConfiguration => 404 (ObjectLockConfigurationNotFoundError)
+2023-02-18T22:31:21.030  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.HeadBucket => 200
+2023-02-18T22:31:21.038  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetBucketTagging => 404 (NoSuchTagSet)
+2023-02-18T22:45:59.810  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.HeadObject => 404 (404)
+2023-02-18T22:45:59.912  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.PutObject => 200
+2023-02-18T22:46:12.390  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.GetObject => 200
+2023-02-18T22:47:33.008  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.HeadObject => 404 (404)
+2023-02-18T22:47:33.050  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.PutObject => 200
+2023-02-18T22:47:44.751  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.GetObject => 200
+2023-02-18T22:47:45.124  INFO --- [   asgi_gw_1] localstack.request.aws     : AWS s3.ListObjects => 404 (404)

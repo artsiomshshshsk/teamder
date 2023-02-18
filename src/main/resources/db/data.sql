@@ -3,11 +3,11 @@ insert into _USERS (username, email, password, role) values ('cmackeig1', 'aleth
 insert into _USERS (username, email, password, role) values ('ffills2', 'asmorfit2@addthis.com', '$2a$10$hvIqiKuehMn4HhenhYwSvOgf76kHqTq0wpvT87anrV9hj2WayXJlm', 'USER');
 
 
--- insert into Project ( name, short_description, description, published_at, status) values ( 'Faustina', 'reinvent intuitive experiences', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
---
--- Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
---
--- Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', '2022-07-13 16:47:43', 'RECRUITING');
+insert into Project ( name, short_description, description, published_at, status) values ( 'Faustina', 'reinvent intuitive experiences', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.
+
+Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.
+
+Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', '2022-07-13 16:47:43', 'RECRUITING');
 -- insert into Project ( name, short_description, description, published_at, status) values ( 'Cher', 'iterate 24/7 initiatives', 'In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.
 --
 -- Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.

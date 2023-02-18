@@ -1,7 +1,7 @@
 
-LocalStack version: 1.4.0
-LocalStack Docker container id: 164037f2aa01
-LocalStack build date: 2023-02-13
-LocalStack build git hash: dde691c8
+LocalStack version: 1.4.1.dev
+LocalStack Docker container id: dc44a870d5b9
+LocalStack build date: 2023-02-17
+LocalStack build git hash: 2a4be3d1
 
 Ready.
