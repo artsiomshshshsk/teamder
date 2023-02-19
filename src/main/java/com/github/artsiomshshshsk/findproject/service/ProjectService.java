@@ -6,6 +6,7 @@ import com.github.artsiomshshshsk.findproject.domain.ProjectStatus;
 import com.github.artsiomshshshsk.findproject.domain.User;
 import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
+import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.mapper.ProjectMapper;
 import com.github.artsiomshshshsk.findproject.repository.ProjectRepository;
@@ -34,9 +35,9 @@ public class ProjectService {
         return projectMapper.toProjectResponse(project);
     }
 
-    public Page<ProjectResponse> findAllProjects(Pageable pageable) {
+    public Page<CatalogProjectResponse> findAllProjects(Pageable pageable) {
         Page<Project> projects = projectRepository.findAll(pageable);
-        return projects.map(projectMapper::toProjectResponse);
+        return projects.map(projectMapper::toCatalogProjectResponse);
     }
 
 

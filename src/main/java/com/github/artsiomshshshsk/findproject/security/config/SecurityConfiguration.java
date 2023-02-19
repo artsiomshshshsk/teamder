@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                     "/process_register").permitAll()
         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
         .requestMatchers(toH2Console()).permitAll()
-//        .antMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

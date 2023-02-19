@@ -6,6 +6,7 @@ import com.github.artsiomshshshsk.findproject.domain.User;
 import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.dto.RoleRequest;
+import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProjectMapper {
     ProjectResponse toProjectResponse(Project project);
+    CatalogProjectResponse toCatalogProjectResponse(Project project);
 
     default Project toProject(User user,ProjectRequest projectRequest){
         RoleRequest ownerRoleRequest = projectRequest.ownerRole();
