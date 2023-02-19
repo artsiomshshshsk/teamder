@@ -2,6 +2,7 @@ package com.github.artsiomshshshsk.findproject.service;
 
 import com.github.artsiomshshshsk.findproject.domain.Project;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
+import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.mapper.ProjectMapper;
 import com.github.artsiomshshshsk.findproject.repository.ProjectRepository;
@@ -77,13 +78,13 @@ class ProjectServiceTest {
         Page<Project> projectPage = new PageImpl<>(projects, pageable, 2);
         when(projectRepository.findAll(pageable)).thenReturn(projectPage);
 
-        ProjectResponse projectResponse1 = ProjectResponse.builder().id(1L).name("Project 1").build();
-        ProjectResponse projectResponse2 = ProjectResponse.builder().id(2L).name("Project 2").build();
-        when(projectMapper.toProjectResponse(projects.get(0))).thenReturn(projectResponse1);
-        when(projectMapper.toProjectResponse(projects.get(1))).thenReturn(projectResponse2);
+        CatalogProjectResponse projectResponse1 = CatalogProjectResponse.builder().id(1L).name("Project 1").build();
+        CatalogProjectResponse projectResponse2 = CatalogProjectResponse.builder().id(2L).name("Project 2").build();
+        when(projectMapper.toCatalogProjectResponse(projects.get(0))).thenReturn(projectResponse1);
+        when(projectMapper.toCatalogProjectResponse(projects.get(1))).thenReturn(projectResponse2);
 
         // when
-        Page<ProjectResponse> projectResponsePage = projectService.findAllProjects(pageable);
+        Page<CatalogProjectResponse> projectResponsePage = projectService.findAllProjects(pageable);
 
         // then
         assertThat(projectResponsePage.getTotalPages()).isEqualTo(1);

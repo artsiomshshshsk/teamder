@@ -5,6 +5,7 @@ import com.github.artsiomshshshsk.findproject.domain.ProjectStatus;
 import com.github.artsiomshshshsk.findproject.domain.User;
 import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
+import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 
 import com.github.artsiomshshshsk.findproject.mapper.ProjectMapper;
@@ -88,8 +89,8 @@ class ProjectControllerTest {
     void testFindAllProjects() throws Exception {
         // given
         ProjectResponse.builder().build();
-        Page<ProjectResponse> projectResponses = new PageImpl<>(Arrays.asList(
-                ProjectResponse.builder().build(), ProjectResponse.builder().build())
+        Page<CatalogProjectResponse> projectResponses = new PageImpl<>(Arrays.asList(
+                CatalogProjectResponse.builder().build(), CatalogProjectResponse.builder().build())
         );
         given(projectService.findAllProjects(any(Pageable.class))).willReturn(projectResponses);
 

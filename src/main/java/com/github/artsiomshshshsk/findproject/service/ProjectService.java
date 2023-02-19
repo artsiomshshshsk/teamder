@@ -25,7 +25,6 @@ import java.util.Optional;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
-
     private final UserRepository userRepository;
     private final ProjectMapper projectMapper;
 
