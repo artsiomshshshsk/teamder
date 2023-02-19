@@ -28,6 +28,8 @@ spring:
   h2:
     console:
       enabled: true
+      settings:
+        web-allow-others: true
   sql:
     init:
       data-locations: "classpath*:db/data.sql"
