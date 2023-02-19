@@ -29,6 +29,7 @@ public class AuthenticationService {
   public AuthenticationResponse register(RegisterRequest registerRequest){
     var user = userMapper.toUser(registerRequest);
     user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+    user.setRole(Role.USER);
     repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()
