@@ -33,9 +33,3 @@ Create resources with the Terraform
   terraform plan
   terraform apply --auto-approve
 ```
-
-build with Maven
-
-```bash
-  ./mvnw clean install
-```
