@@ -36,9 +36,6 @@ public class SpringFoxConfig {
                         "https://github.com/artsiomshshshsk",
                         "artsiomshablinskiy@gmail.com")
                 )
-                .contact(new Contact("Dzianis Klebanovich",
-                        "https://github.com/https://github.com/denisklebanovich",
-                        "denis.klebanovich@gmail.com"))
                 .version("1.0")
                 .build();
     }

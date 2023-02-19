@@ -8,6 +8,7 @@ import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
+import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.mapper.ProjectMapper;
 import com.github.artsiomshshshsk.findproject.repository.ProjectRepository;
 import com.github.artsiomshshshsk.findproject.repository.UserRepository;
@@ -29,9 +30,12 @@ public class ProjectService {
     private final ProjectMapper projectMapper;
 
     public ProjectResponse findProjectById(Long id) {
-        Project project = projectRepository.findById(id)
+        return projectMapper.toProjectResponse(findById(id));
+    }
+
+    private Project findById(Long id){
+        return projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Project with id %s not found", id)));
-        return projectMapper.toProjectResponse(project);
     }
 
     public Page<CatalogProjectResponse> findAllProjects(Pageable pageable) {

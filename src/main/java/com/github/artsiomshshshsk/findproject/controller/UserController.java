@@ -23,6 +23,6 @@ public class UserController {
             @ApiIgnore @AuthenticationPrincipal User user ,
             @RequestParam MultipartFile file,
             @RequestParam FileType fileType){
-        return ResponseEntity.ok(userService.uploadResume(user,file,fileType));
+        return ResponseEntity.ok(userService.uploadFile(user,file,fileType));
     }
 }

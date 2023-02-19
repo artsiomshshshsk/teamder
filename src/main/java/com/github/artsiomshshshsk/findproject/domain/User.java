@@ -3,6 +3,7 @@ package com.github.artsiomshshshsk.findproject.domain;
 
 import com.github.artsiomshshshsk.findproject.security.Role;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,13 +11,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "_users")
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
+@ToString
+@RequiredArgsConstructor
 
 public class User implements UserDetails {
     @Id
@@ -36,6 +39,7 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Project> projects;
     @OneToMany
+    @ToString.Exclude
     private List<Submission> applications;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -78,5 +82,18 @@ public class User implements UserDetails {
 
     public void addProject(Project project) {
         projects.add(project);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
