@@ -70,7 +70,7 @@ public class ProjectService {
         }
 
         if(!project.hasOpenedRole(applicationRequest.roleRequest())){
-            throw new IllegalStateException("There is no such opened role");
+            throw new IllegalStateException("There is no such opened role.");
         }
 
         Application application = Application.builder()
