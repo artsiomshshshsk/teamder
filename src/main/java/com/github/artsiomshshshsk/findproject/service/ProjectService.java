@@ -66,7 +66,7 @@ public class ProjectService {
         }
 
         if(project.hasApplicant(user)){
-            throw new IllegalStateException("You have already applied for your this project");
+            throw new IllegalStateException("You have already applied for your this project.");
         }
 
         if(!project.hasOpenedRole(applicationRequest.roleRequest())){
