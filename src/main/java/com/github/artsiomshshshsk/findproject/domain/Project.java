@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Entity
@@ -29,11 +30,23 @@ public class Project {
 
     @Column(length = 1000)
     private String description;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
     @ToString.Exclude
     private List<Role> roles;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "project",
+            fetch = FetchType.EAGER
+    )
+    private List<Application> applications;
+
     @ManyToOne
     private User owner;
+
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
@@ -43,6 +56,20 @@ public class Project {
     @Column(name = "chat_invite_link")
     private String chatInviteLink;
 
+    public boolean hasApplicant(User user){
+        return applications.stream()
+                .map(Application::getApplicant)
+                .anyMatch(applicant->applicant.equals(user));
+    }
+
+    public boolean hasOpenedRole(String name){
+        return roles.stream()
+                .anyMatch(role -> role.getName().equals(name) && role.getAssignedUser() == null);
+    }
+
+    public void addApplication(Application application){
+        applications.add(application);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,7 +1,7 @@
 package com.github.artsiomshshshsk.findproject.domain;
 
 public enum ApplicationStatus {
-    PENDING,
+    WAITING_FOR_REVIEW,
     ACCEPTED,
     REJECTED
 }
