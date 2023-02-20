@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
+
 
 @RestController
 @AllArgsConstructor
@@ -51,7 +53,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<ProjectResponse> createProject(
-            @RequestBody ProjectRequest projectRequest,
+            @Valid @RequestBody ProjectRequest projectRequest,
             @ApiIgnore @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(projectService.createProject(user,projectRequest));
     }

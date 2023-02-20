@@ -52,15 +52,13 @@ public class ProjectService {
     public ProjectResponse createProject(User user, ProjectRequest projectRequest) {
         Project project = projectMapper.toProject(user,projectRequest);
         project.setPublishedAt(LocalDateTime.now());
-        if(projectRequest.roles() == null || projectRequest.roles().isEmpty()){
+        if(projectRequest.roles().isEmpty()){
             project.setStatus(ProjectStatus.IN_DEVELOPMENT);
         }else{
             project.setStatus(ProjectStatus.RECRUITING);
         }
-        Project savedProject = projectRepository.saveAndFlush(project);
-        user.addProject(savedProject);
-        userRepository.saveAndFlush(user);
-        return projectMapper.toProjectResponse(project);
+        user.addProject(project);
+        return projectMapper.toProjectResponse(projectRepository.save(project));
     }
 
     public void createApplication(ApplicationRequest applicationRequest, User user, Long id) {
