@@ -36,11 +36,19 @@ public class User implements UserDetails {
 
     private String profilePictureURL;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "owner",
+            fetch = FetchType.EAGER
+    )
     private List<Project> projects;
-    @OneToMany
+
+    @OneToMany(
+            mappedBy = "applicant",
+            fetch = FetchType.EAGER
+    )
     @ToString.Exclude
-    private List<Submission> applications;
+    private List<Application> applications;
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -82,6 +90,10 @@ public class User implements UserDetails {
 
     public void addProject(Project project) {
         projects.add(project);
+    }
+
+    public void addApplication(Application application){
+        applications.add(application);
     }
 
     @Override

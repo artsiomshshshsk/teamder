@@ -2,6 +2,7 @@ package com.github.artsiomshshshsk.findproject.controller;
 
 
 import com.github.artsiomshshshsk.findproject.domain.User;
+import com.github.artsiomshshshsk.findproject.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,9 +25,19 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponse> findProjectById(@PathVariable Long id) {
-        return ResponseEntity.ok(projectService.findProjectById(id));
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ProjectResponse> findProjectById(@PathVariable Long projectId) {
+        return ResponseEntity.ok(projectService.findProjectById(projectId));
+    }
+
+    @PostMapping("/{projectId}/application")
+    public ResponseEntity<Void> createApplication(
+            @PathVariable Long projectId,
+            @ApiIgnore @AuthenticationPrincipal User user,
+            @RequestBody ApplicationRequest applicationRequest
+    ) {
+        projectService.createApplication(applicationRequest,user,projectId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -45,4 +55,5 @@ public class ProjectController {
             @ApiIgnore @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(projectService.createProject(user,projectRequest));
     }
+
 }
