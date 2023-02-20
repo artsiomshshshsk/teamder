@@ -11,9 +11,9 @@ env:
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main","feature/*"]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main","feature/*" ]
 
 jobs:
   build:
@@ -40,3 +40,4 @@ jobs:
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
         docker tag teamder:latest $DOCKER_USERNAME/teamder:latest
         docker push $DOCKER_USERNAME/teamder:latest
+      if: github.ref == 'refs/heads/main'
