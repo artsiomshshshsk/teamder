@@ -34,7 +34,7 @@ public class ProjectController {
     public ResponseEntity<Void> createApplication(
             @PathVariable Long projectId,
             @ApiIgnore @AuthenticationPrincipal User user,
-            @RequestBody ApplicationRequest applicationRequest
+            @ModelAttribute ApplicationRequest applicationRequest
     ) {
         projectService.createApplication(applicationRequest,user,projectId);
         return ResponseEntity.ok().build();

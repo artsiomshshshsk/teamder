@@ -14,10 +14,8 @@ import com.github.artsiomshshshsk.findproject.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 
 @Service
@@ -27,8 +25,9 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final ProjectMapper projectMapper;
-
     private final ApplicationRepository applicationRepository;
+
+    private final FileUploadService fileUploadService;
 
     public ProjectResponse findProjectById(Long id) {
         return projectMapper.toProjectResponse(findById(id));
@@ -39,8 +38,13 @@ public class ProjectService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Project with id %s not found", id)));
     }
 
+    public static Specification<Project> hasStatus(ProjectStatus status) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("status"), status);
+    }
+
     public Page<CatalogProjectResponse> findAllProjects(Pageable pageable) {
-        Page<Project> projects = projectRepository.findAll(pageable);
+        Page<Project> projects = projectRepository.findAll(hasStatus(ProjectStatus.RECRUITING),pageable);
         return projects.map(projectMapper::toCatalogProjectResponse);
     }
 
@@ -48,7 +52,7 @@ public class ProjectService {
     public ProjectResponse createProject(User user, ProjectRequest projectRequest) {
         Project project = projectMapper.toProject(user,projectRequest);
         project.setPublishedAt(LocalDateTime.now());
-        if(projectRequest.roles().isEmpty()){
+        if(projectRequest.roles() == null || projectRequest.roles().isEmpty()){
             project.setStatus(ProjectStatus.IN_DEVELOPMENT);
         }else{
             project.setStatus(ProjectStatus.RECRUITING);
@@ -60,6 +64,9 @@ public class ProjectService {
     }
 
     public void createApplication(ApplicationRequest applicationRequest, User user, Long id) {
+        if(user.getResumeURL() == null && applicationRequest.cv() == null){
+            throw new IllegalStateException("Application won't be created without cv");
+        }
         Project project = findById(id);
         if(project.getOwner().equals(user)){
             throw new IllegalStateException("You can't apply for your own project");
@@ -81,6 +88,12 @@ public class ProjectService {
                 .status(ApplicationStatus.WAITING_FOR_REVIEW)
                 .submittedAt(LocalDateTime.now())
                 .build();
+
+        if(applicationRequest.cv() != null){
+            application.setResumeURL(fileUploadService.uploadFile(applicationRequest.cv(), FileType.CV));
+        }else{
+            application.setResumeURL(user.getResumeURL());
+        }
 
         user.addApplication(application);
         project.addApplication(application);

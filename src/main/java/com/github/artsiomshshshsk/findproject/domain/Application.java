@@ -17,7 +17,7 @@ public class Application {
     private Long id;
     @ManyToOne
     private User applicant;
-    private String cvURL;
+    private String resumeURL;
     private String applicationMessage;
     @ManyToOne
     private Project project;

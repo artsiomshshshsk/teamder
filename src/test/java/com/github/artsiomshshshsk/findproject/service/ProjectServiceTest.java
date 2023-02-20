@@ -1,6 +1,7 @@
 package com.github.artsiomshshshsk.findproject.service;
 
 import com.github.artsiomshshshsk.findproject.domain.Project;
+import com.github.artsiomshshshsk.findproject.domain.ProjectStatus;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
@@ -8,6 +9,7 @@ import com.github.artsiomshshshsk.findproject.mapper.ProjectMapper;
 import com.github.artsiomshshshsk.findproject.repository.ProjectRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
@@ -72,11 +76,16 @@ class ProjectServiceTest {
         // given
         Pageable pageable = PageRequest.of(0, 10);
         List<Project> projects = Arrays.asList(
-                Project.builder().id(1L).name("Project 1").build(),
-                Project.builder().id(2L).name("Project 2").build()
+                Project.builder().id(1L).name("Project 1").status(ProjectStatus.RECRUITING).build(),
+                Project.builder().id(2L).name("Project 2").status(ProjectStatus.RECRUITING).build()
         );
         Page<Project> projectPage = new PageImpl<>(projects, pageable, 2);
-        when(projectRepository.findAll(pageable)).thenReturn(projectPage);
+
+
+        when(projectRepository.findAll(
+                ArgumentMatchers.any(Specification.class),
+                ArgumentMatchers.any(Pageable.class))
+        ).thenReturn(projectPage);
 
         CatalogProjectResponse projectResponse1 = CatalogProjectResponse.builder().id(1L).name("Project 1").build();
         CatalogProjectResponse projectResponse2 = CatalogProjectResponse.builder().id(2L).name("Project 2").build();
