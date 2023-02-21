@@ -3,7 +3,9 @@ package com.github.artsiomshshshsk.findproject.security.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.artsiomshshshsk.findproject.domain.FileType;
 import com.github.artsiomshshshsk.findproject.domain.User;
+import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
 import com.github.artsiomshshshsk.findproject.mapper.UserMapper;
 import com.github.artsiomshshshsk.findproject.repository.UserRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
@@ -16,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -25,11 +29,20 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final UserMapper userMapper;
 
+  private final FileUploadService fileUploadService;
+
 
   public AuthenticationResponse register(RegisterRequest registerRequest){
+    if(repository.findByEmail(registerRequest.email()).isPresent()){
+      throw new DuplicateEmailException("Email is already taken");
+    }
+
     var user = userMapper.toUser(registerRequest);
-    user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+    user.setPassword(passwordEncoder.encode(registerRequest.password()));
     user.setRole(Role.USER);
+    if(registerRequest.resume() != null){
+      user.setResumeURL(fileUploadService.uploadFile(registerRequest.resume(), FileType.CV));
+    }
     repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()

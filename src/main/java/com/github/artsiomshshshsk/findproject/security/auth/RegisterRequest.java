@@ -6,12 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-@Data
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegisterRequest {
-  private String username;
-  private String email;
-  private String password;
-}
+public record RegisterRequest(
+
+  @NotBlank
+  String username,
+
+  @NotBlank
+  String email,
+
+  @NotBlank
+  String password,
+
+  MultipartFile resume
+){}

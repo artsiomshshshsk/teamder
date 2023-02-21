@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+
 @RestController
 @Api(tags = "Authentication")
 @RequestMapping("/api/auth")
@@ -24,16 +26,15 @@ public class AuthenticationController {
   @ApiOperation(value = "Sign-up")
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
-          @RequestBody RegisterRequest registerRequest
+          @Valid @ModelAttribute RegisterRequest registerRequest
   ){
-
     return ResponseEntity.ok(service.register(registerRequest));
   }
 
   @ApiOperation(value = "Sign-In")
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(
-      @RequestBody AuthenticationRequest request ){
+      @Valid @RequestBody AuthenticationRequest request ){
     return ResponseEntity.ok(service.authenticate(request));
   }
 
