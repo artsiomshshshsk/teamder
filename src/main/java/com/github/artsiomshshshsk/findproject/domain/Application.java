@@ -18,10 +18,11 @@ public class Application {
     @ManyToOne
     private User applicant;
     private String resumeURL;
-    private String applicationMessage;
+    private String message;
     @ManyToOne
     private Project project;
-    private String roleRequest;
+    @ManyToOne
+    private Role roleRequest;
     private ApplicationStatus status;
-    private LocalDateTime submittedAt;
+    private LocalDateTime applicationDate;
 }

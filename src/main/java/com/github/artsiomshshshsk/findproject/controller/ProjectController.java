@@ -3,6 +3,7 @@ package com.github.artsiomshshshsk.findproject.controller;
 
 import com.github.artsiomshshshsk.findproject.domain.User;
 import com.github.artsiomshshshsk.findproject.dto.ApplicationRequest;
+import com.github.artsiomshshshsk.findproject.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
@@ -47,6 +48,19 @@ public class ProjectController {
     ) {
         projectService.createApplication(applicationRequest,user,projectId);
         return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "View all applications to the project")
+    @GetMapping("/{projectId}/application")
+    public ResponseEntity<Page<ApplicationResponse>> getAllApplications(
+            @PathVariable Long projectId,
+            @ApiIgnore @AuthenticationPrincipal User user,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy
+            ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return ResponseEntity.ok(projectService.getAllApplications(user,projectId,pageable));
     }
 
 

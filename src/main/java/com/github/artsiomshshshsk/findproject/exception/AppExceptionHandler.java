@@ -15,6 +15,16 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ApplicationCreationException.class)
+    public ResponseEntity<ExceptionResponse> handleApplicationCreationException(ApplicationCreationException ex) {
+        return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.NOT_FOUND);
+    }
+
 
     private ExceptionResponse getExceptionResponse(Exception exception){
         return ExceptionResponse.builder()

@@ -62,6 +62,12 @@ public class Project {
                 .anyMatch(applicant->applicant.equals(user));
     }
 
+    public Optional<Role> findRoleByName(String roleName){
+        return roles.stream()
+                .filter(role -> role.getName().equals(roleName))
+                .findFirst();
+    }
+
     public boolean hasOpenedRole(String name){
         return roles.stream()
                 .anyMatch(role -> role.getName().equals(name) && role.getAssignedUser() == null);
