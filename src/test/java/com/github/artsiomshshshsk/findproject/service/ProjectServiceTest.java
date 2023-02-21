@@ -93,7 +93,7 @@ class ProjectServiceTest {
         when(projectMapper.toCatalogProjectResponse(projects.get(1))).thenReturn(projectResponse2);
 
         // when
-        Page<CatalogProjectResponse> projectResponsePage = projectService.findAllProjects(pageable);
+        Page<CatalogProjectResponse> projectResponsePage = projectService.getProjectCatalog(pageable);
 
         // then
         assertThat(projectResponsePage.getTotalPages()).isEqualTo(1);

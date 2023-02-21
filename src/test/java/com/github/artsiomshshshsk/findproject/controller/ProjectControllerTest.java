@@ -1,9 +1,5 @@
 package com.github.artsiomshshshsk.findproject.controller;
 
-import com.github.artsiomshshshsk.findproject.domain.Project;
-import com.github.artsiomshshshsk.findproject.domain.ProjectStatus;
-import com.github.artsiomshshshsk.findproject.domain.User;
-import com.github.artsiomshshshsk.findproject.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.dto.catalog.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
@@ -21,11 +17,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -92,7 +86,7 @@ class ProjectControllerTest {
         Page<CatalogProjectResponse> projectResponses = new PageImpl<>(Arrays.asList(
                 CatalogProjectResponse.builder().build(), CatalogProjectResponse.builder().build())
         );
-        given(projectService.findAllProjects(any(Pageable.class))).willReturn(projectResponses);
+        given(projectService.getProjectCatalog(any(Pageable.class))).willReturn(projectResponses);
 
         // when
         mockMvc.perform(get("/api/projects")
@@ -103,7 +97,7 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.content", hasSize(2)))
                 .andDo(print());
         // then
-        verify(projectService, times(1)).findAllProjects(any(Pageable.class));
+        verify(projectService, times(1)).getProjectCatalog(any(Pageable.class));
     }
 
 }

@@ -43,7 +43,7 @@ public class ProjectService {
                 criteriaBuilder.equal(root.get("status"), status);
     }
 
-    public Page<CatalogProjectResponse> findAllProjects(Pageable pageable) {
+    public Page<CatalogProjectResponse> getProjectCatalog(Pageable pageable) {
         Page<Project> projects = projectRepository.findAll(hasStatus(ProjectStatus.RECRUITING),pageable);
         return projects.map(projectMapper::toCatalogProjectResponse);
     }
