@@ -1,6 +1,10 @@
-package com.github.artsiomshshshsk.findproject.security.auth;
+package com.github.artsiomshshshsk.findproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.artsiomshshshsk.findproject.security.auth.AuthenticationRequest;
+import com.github.artsiomshshshsk.findproject.security.auth.AuthenticationResponse;
+import com.github.artsiomshshshsk.findproject.security.auth.AuthenticationService;
+import com.github.artsiomshshshsk.findproject.security.auth.RegisterRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
