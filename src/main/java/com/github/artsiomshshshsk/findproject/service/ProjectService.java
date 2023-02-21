@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
-    private final UserRepository userRepository;
     private final ProjectMapper projectMapper;
     private final ApplicationRepository applicationRepository;
 

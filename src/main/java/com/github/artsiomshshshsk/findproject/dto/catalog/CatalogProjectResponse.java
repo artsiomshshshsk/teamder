@@ -10,6 +10,9 @@ public record CatalogProjectResponse(
         Long id,
         String name,
         String shortDescription,
-        List<RoleResponse> roles
+        int teamSize,
+        int occupiedPlaces,
+        List<String> openedRoles,
+        List<String> avatarURLs
 ) {
 }
