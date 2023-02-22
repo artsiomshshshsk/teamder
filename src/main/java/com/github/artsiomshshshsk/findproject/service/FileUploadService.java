@@ -4,5 +4,6 @@ import com.github.artsiomshshshsk.findproject.domain.FileType;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileUploadService {
-    public String uploadFile(MultipartFile file, FileType fileType);
+    String uploadFile(MultipartFile file, FileType fileType);
+    void deleteFile(String fileURL, FileType fileType);
 }

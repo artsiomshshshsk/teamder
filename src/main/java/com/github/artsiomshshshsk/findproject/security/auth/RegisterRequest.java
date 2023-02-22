@@ -19,7 +19,5 @@ public record RegisterRequest(
   String email,
 
   @NotBlank
-  String password,
-
-  MultipartFile resume
+  String password
 ){}

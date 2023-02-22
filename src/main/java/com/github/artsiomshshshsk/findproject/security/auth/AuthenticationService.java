@@ -40,9 +40,6 @@ public class AuthenticationService {
     var user = userMapper.toUser(registerRequest);
     user.setPassword(passwordEncoder.encode(registerRequest.password()));
     user.setRole(Role.USER);
-    if(registerRequest.resume() != null){
-      user.setResumeURL(fileUploadService.uploadFile(registerRequest.resume(), FileType.CV));
-    }
     repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()

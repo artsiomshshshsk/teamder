@@ -1,6 +1,5 @@
 package com.github.artsiomshshshsk.findproject.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.artsiomshshshsk.findproject.security.auth.AuthenticationRequest;
 import com.github.artsiomshshshsk.findproject.security.auth.AuthenticationResponse;
 import com.github.artsiomshshshsk.findproject.security.auth.AuthenticationService;
@@ -10,8 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
 
 @RestController
@@ -22,11 +19,10 @@ public class AuthenticationController {
 
   private final AuthenticationService service;
 
-
   @ApiOperation(value = "Sign-up")
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
-          @Valid @ModelAttribute RegisterRequest registerRequest
+          @Valid @RequestBody RegisterRequest registerRequest
   ){
     return ResponseEntity.ok(service.register(registerRequest));
   }

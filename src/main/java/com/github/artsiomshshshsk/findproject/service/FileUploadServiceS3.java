@@ -67,4 +67,9 @@ public class FileUploadServiceS3 implements FileUploadService{
     private static String getFilename(FileType fileType) {
         return UUID.randomUUID() + fileType.getExtension();
     }
+
+    public void deleteFile(String resumeURL, FileType cv) {
+        String filename = resumeURL.substring(resumeURL.lastIndexOf("/") + 1);
+        s3Client.deleteObject(s3ConfigProperties.bucketName(), filename);
+    }
 }
