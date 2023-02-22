@@ -1,5 +1,6 @@
 package com.github.artsiomshshshsk.findproject.security.config;
 
+import com.github.artsiomshshshsk.findproject.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -41,7 +42,7 @@ public class JwtService {
     return Jwts
         .builder()
         .setClaims(extraClaims)
-        .setSubject(userDetails.getUsername())
+        .setSubject(((User)userDetails).getEmail())
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + jwtConfigProperties.expirationTime()))
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -49,8 +50,8 @@ public class JwtService {
   }
 
   public boolean isTokenValid(String token, UserDetails userDetails) {
-    final String username = extractUsername(token);
-    return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    final String email = extractUsername(token);
+    return (email.equals(((User)userDetails).getEmail())) && !isTokenExpired(token);
   }
 
   private boolean isTokenExpired(String token) {
