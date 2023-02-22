@@ -1,6 +1,6 @@
 package com.github.artsiomshshshsk.findproject.security.config;
 
-import com.github.artsiomshshshsk.findproject.repository.UserRepository;
+import com.github.artsiomshshshsk.findproject.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

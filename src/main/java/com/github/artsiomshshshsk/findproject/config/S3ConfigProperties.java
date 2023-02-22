@@ -1,6 +1,5 @@
 package com.github.artsiomshshshsk.findproject.config;
 
-import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("aws.s3")

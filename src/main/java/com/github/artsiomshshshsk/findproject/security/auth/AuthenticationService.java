@@ -1,24 +1,17 @@
 package com.github.artsiomshshshsk.findproject.security.auth;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.artsiomshshshsk.findproject.domain.FileType;
-import com.github.artsiomshshshsk.findproject.domain.User;
 import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
-import com.github.artsiomshshshsk.findproject.mapper.UserMapper;
-import com.github.artsiomshshshsk.findproject.repository.UserRepository;
+import com.github.artsiomshshshsk.findproject.user.UserMapper;
+import com.github.artsiomshshshsk.findproject.user.UserRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
 import com.github.artsiomshshshsk.findproject.security.config.JwtService;
-import com.github.artsiomshshshsk.findproject.service.FileUploadService;
+import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

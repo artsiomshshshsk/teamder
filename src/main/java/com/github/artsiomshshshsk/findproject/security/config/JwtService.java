@@ -1,6 +1,6 @@
 package com.github.artsiomshshshsk.findproject.security.config;
 
-import com.github.artsiomshshshsk.findproject.domain.User;
+import com.github.artsiomshshshsk.findproject.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

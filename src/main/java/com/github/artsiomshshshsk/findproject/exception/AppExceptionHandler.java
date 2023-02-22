@@ -1,6 +1,6 @@
 package com.github.artsiomshshshsk.findproject.exception;
 
-import com.github.artsiomshshshsk.findproject.dto.ExceptionResponse;
+import com.github.artsiomshshshsk.findproject.exception.dto.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
