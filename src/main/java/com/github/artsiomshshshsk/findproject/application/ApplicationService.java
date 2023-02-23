@@ -31,7 +31,7 @@ public class ApplicationService {
 
 
 
-    public void createApplication(ApplicationRequest applicationRequest, User user, Long id) {
+    public ApplicationResponse createApplication(ApplicationRequest applicationRequest, User user, Long id) {
         if(user.getResumeURL() == null && applicationRequest.getCv() == null){
             throw new ApplicationCreationException("Application won't be created without cv");
         }
@@ -72,6 +72,8 @@ public class ApplicationService {
         user.addApplication(application);
         project.addApplication(application);
         applicationRepository.save(application);
+
+        return applicationMapper.toApplicationResponse(application);
     }
 
 

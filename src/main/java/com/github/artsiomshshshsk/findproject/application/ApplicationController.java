@@ -30,13 +30,12 @@ public class ApplicationController {
     )
 
     @PostMapping("/{projectId}/application")
-    public ResponseEntity<Void> createApplication(
+    public ResponseEntity<ApplicationResponse> createApplication(
             @PathVariable Long projectId,
             @ApiIgnore @AuthenticationPrincipal User user,
             @Valid @ModelAttribute ApplicationRequest applicationRequest
     ) {
-        applicationService.createApplication(applicationRequest,user,projectId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(applicationService.createApplication(applicationRequest,user,projectId));
     }
 
     @ApiOperation(value = "View all applications to the project")
