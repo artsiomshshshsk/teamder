@@ -50,4 +50,15 @@ public class ApplicationController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return ResponseEntity.ok(applicationService.getAllApplications(user,projectId,pageable));
     }
+
+    @ApiOperation(value = "Process application decision")
+    @PutMapping("/{projectId}/application/{applicationId}")
+    public ResponseEntity<ApplicationResponse> processApplicationDecision(
+            @PathVariable Long projectId,
+            @PathVariable Long applicationId,
+            @ApiIgnore @AuthenticationPrincipal User user,
+            @RequestParam ApplicationDecision decision
+    ){
+        return ResponseEntity.ok(applicationService.processApplicationDecision(user,projectId,applicationId,decision));
+    }
 }

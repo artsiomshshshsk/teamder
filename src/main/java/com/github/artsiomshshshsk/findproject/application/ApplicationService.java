@@ -3,6 +3,8 @@ package com.github.artsiomshshshsk.findproject.application;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.exception.ApplicationCreationException;
+import com.github.artsiomshshshsk.findproject.exception.ApplicationDecisionException;
+import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.ProjectService;
@@ -15,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,7 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final ProjectService projectService;
     private final FileUploadService fileUploadService;
-
     private final ApplicationMapper applicationMapper;
-
 
 
     public ApplicationResponse createApplication(ApplicationRequest applicationRequest, User user, Long id) {
@@ -93,5 +92,42 @@ public class ApplicationService {
             applicationResponses.add(applicationMapper.toApplicationResponse(applications.get(i)));
         }
         return new PageImpl<>(applicationResponses, pageable, applications.size());
+    }
+
+    public Application findById(Long id){
+        return applicationRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("Application with id: %s not found", id))
+        );
+    }
+
+    public ApplicationResponse processApplicationDecision(User user, Long projectId, Long applicationId, ApplicationDecision decision) {
+        Project project = projectService.findById(projectId);
+        if(!project.getOwner().equals(user)){
+            throw new UnauthorizedAccessException("You don't have an access to applications for project that you don't own");
+        }
+
+        Application application = findById(applicationId);
+
+        if(!application.getProject().equals(project)){
+            throw new ResourceNotFoundException(String.format("Application with id: %s not found", applicationId));
+        }
+
+        if(application.getStatus() != ApplicationStatus.WAITING_FOR_REVIEW){
+            throw new ApplicationDecisionException("You can't change the status of the application that is not in waiting for review status");
+        }
+
+        if(decision == ApplicationDecision.ACCEPTED){
+            Role role = application.getRoleRequest();
+            if(role.getAssignedUser() != null){
+                throw new ApplicationDecisionException(String.format("You can't accept application for role: %s because it is occupied",
+                        role.getName()));
+            }
+            role.setAssignedUser(application.getApplicant());
+            application.setStatus(ApplicationStatus.ACCEPTED);
+        }else {
+            application.setStatus(ApplicationStatus.REJECTED);
+        }
+
+        return applicationMapper.toApplicationResponse(applicationRepository.save(application));
     }
 }

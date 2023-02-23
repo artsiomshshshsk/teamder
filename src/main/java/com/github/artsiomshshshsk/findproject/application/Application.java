@@ -27,4 +27,5 @@ public class Application {
     private Role roleRequest;
     private ApplicationStatus status;
     private LocalDateTime applicationDate;
+
 }

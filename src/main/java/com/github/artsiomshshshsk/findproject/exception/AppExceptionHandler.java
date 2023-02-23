@@ -15,7 +15,7 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(ApplicationCreationException.class)
+    @ExceptionHandler({ApplicationCreationException.class, ApplicationDecisionException.class})
     public ResponseEntity<ExceptionResponse> handleApplicationCreationException(ApplicationCreationException ex) {
         return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.BAD_REQUEST);
     }
