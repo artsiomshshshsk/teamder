@@ -1,5 +1,8 @@
 package com.github.artsiomshshshsk.findproject.security.auth;
 
+import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationRequest;
+import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationResponse;
+import com.github.artsiomshshshsk.findproject.security.dto.RegisterRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

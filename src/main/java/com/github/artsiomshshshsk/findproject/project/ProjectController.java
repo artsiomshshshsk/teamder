@@ -31,35 +31,10 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-
     @ApiOperation(value = "Find a project by Id")
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectResponse> findProjectById(@PathVariable Long projectId) {
         return ResponseEntity.ok(projectService.findProjectById(projectId));
-    }
-
-    @ApiOperation(value = "Apply for the project")
-    @PostMapping("/{projectId}/application")
-    public ResponseEntity<Void> createApplication(
-            @PathVariable Long projectId,
-            @ApiIgnore @AuthenticationPrincipal User user,
-            @Valid @ModelAttribute ApplicationRequest applicationRequest
-    ) {
-        projectService.createApplication(applicationRequest,user,projectId);
-        return ResponseEntity.ok().build();
-    }
-
-    @ApiOperation(value = "View all applications to the project")
-    @GetMapping("/{projectId}/application")
-    public ResponseEntity<Page<ApplicationResponse>> getAllApplications(
-            @PathVariable Long projectId,
-            @ApiIgnore @AuthenticationPrincipal User user,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy
-            ){
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return ResponseEntity.ok(projectService.getAllApplications(user,projectId,pageable));
     }
 
 

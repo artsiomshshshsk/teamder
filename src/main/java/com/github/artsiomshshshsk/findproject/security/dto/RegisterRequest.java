@@ -1,4 +1,4 @@
-package com.github.artsiomshshshsk.findproject.security.auth;
+package com.github.artsiomshshshsk.findproject.security.dto;
 
 import lombok.Builder;
 import javax.validation.constraints.NotBlank;

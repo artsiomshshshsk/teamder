@@ -2,6 +2,9 @@ package com.github.artsiomshshshsk.findproject.security.auth;
 
 
 import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
+import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationRequest;
+import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationResponse;
+import com.github.artsiomshshshsk.findproject.security.dto.RegisterRequest;
 import com.github.artsiomshshshsk.findproject.user.UserMapper;
 import com.github.artsiomshshshsk.findproject.user.UserRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
