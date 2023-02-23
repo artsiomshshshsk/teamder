@@ -3,18 +3,21 @@ package com.github.artsiomshshshsk.findproject.application;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.user.User;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 
+@Api(tags = "Application to Project")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/projects")
@@ -22,7 +25,10 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    @ApiOperation(value = "Apply for the project")
+    @ApiOperation(
+            value = "Apply for the project"
+    )
+
     @PostMapping("/{projectId}/application")
     public ResponseEntity<Void> createApplication(
             @PathVariable Long projectId,

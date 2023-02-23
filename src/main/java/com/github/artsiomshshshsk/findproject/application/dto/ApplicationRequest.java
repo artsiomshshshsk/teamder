@@ -1,14 +1,26 @@
 package com.github.artsiomshshshsk.findproject.application.dto;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotBlank;
 
-public record ApplicationRequest(
+@ApiModel(description = "Request object for creating a new application")
+@Data
+@Builder
+public class ApplicationRequest{
         @NotBlank
-        String applicationMessage,
+        @ApiModelProperty(value = "The application message", required = true)
+        String applicationMessage;
 
         @NotBlank
-        String roleRequest,
+        @ApiModelProperty(value = "The role request", required = true)
+        String roleRequest;
 
-        MultipartFile cv
-) {
+        @ApiModelProperty(value = "The CV file", required = true)
+        MultipartFile cv;
+
 }
+

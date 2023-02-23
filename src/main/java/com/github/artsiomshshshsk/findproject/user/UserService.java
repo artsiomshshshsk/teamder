@@ -47,24 +47,24 @@ public class UserService {
 
     public UserProfileResponse updateLoggedInUser(User user, UserUpdateRequest userUpdateRequest) {
 
-        if(userUpdateRequest.username() != null){
-            user.setUsername(userUpdateRequest.username());
+        if(userUpdateRequest.getUsername() != null){
+            user.setUsername(userUpdateRequest.getUsername());
         }
 
-        if(userUpdateRequest.email() != null){
-            user.setEmail(userUpdateRequest.email());
+        if(userUpdateRequest.getEmail() != null){
+            user.setEmail(userUpdateRequest.getUsername());
         }
 
-        if(userUpdateRequest.password() != null){
-            user.setPassword(passwordEncoder.encode(userUpdateRequest.password()));
+        if(userUpdateRequest.getPassword() != null){
+            user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
         }
 
-        if(userUpdateRequest.profilePicture() != null){
-            uploadFile(user, userUpdateRequest.profilePicture(), FileType.PROFILE_IMAGE);
+        if(userUpdateRequest.getProfilePicture() != null){
+            uploadFile(user, userUpdateRequest.getProfilePicture(), FileType.PROFILE_IMAGE);
         }
 
-        if(userUpdateRequest.resume() != null){
-            uploadFile(user, userUpdateRequest.resume(), FileType.CV);
+        if(userUpdateRequest.getResume() != null){
+            uploadFile(user, userUpdateRequest.getResume(), FileType.CV);
         }
 
         userRepository.save(user);

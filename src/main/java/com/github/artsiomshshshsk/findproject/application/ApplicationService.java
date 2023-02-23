@@ -32,7 +32,7 @@ public class ApplicationService {
 
 
     public void createApplication(ApplicationRequest applicationRequest, User user, Long id) {
-        if(user.getResumeURL() == null && applicationRequest.cv() == null){
+        if(user.getResumeURL() == null && applicationRequest.getCv() == null){
             throw new ApplicationCreationException("Application won't be created without cv");
         }
         Project project = projectService.findById(id);
@@ -44,27 +44,27 @@ public class ApplicationService {
             throw new ApplicationCreationException("You have already applied for your this project.");
         }
 
-        Role role = project.findRoleByName(applicationRequest.roleRequest()).orElseThrow(
+        Role role = project.findRoleByName(applicationRequest.getRoleRequest()).orElseThrow(
                 () -> new ApplicationCreationException(String.format("There is no role: %s in the project",
-                        applicationRequest.roleRequest()))
+                        applicationRequest.getRoleRequest()))
         );
 
         if(role.getAssignedUser() != null){
             throw new ApplicationCreationException(String.format("You can't apply for role: %s because it is occupied",
-                    applicationRequest.roleRequest()));
+                    applicationRequest.getRoleRequest()));
         }
 
         Application application = Application.builder()
                 .applicant(user)
-                .message(applicationRequest.applicationMessage())
+                .message(applicationRequest.getRoleRequest())
                 .project(project)
                 .roleRequest(role)
                 .status(ApplicationStatus.WAITING_FOR_REVIEW)
                 .applicationDate(LocalDateTime.now())
                 .build();
 
-        if(applicationRequest.cv() != null){
-            application.setResumeURL(fileUploadService.uploadFile(applicationRequest.cv(), FileType.CV));
+        if(applicationRequest.getCv() != null){
+            application.setResumeURL(fileUploadService.uploadFile(applicationRequest.getCv(), FileType.CV));
         }else{
             application.setResumeURL(user.getResumeURL());
         }
