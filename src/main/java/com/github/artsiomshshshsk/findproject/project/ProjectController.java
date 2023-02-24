@@ -2,8 +2,6 @@ package com.github.artsiomshshshsk.findproject.project;
 
 
 import com.github.artsiomshshshsk.findproject.user.User;
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.project.dto.CatalogProjectResponse;
@@ -30,7 +28,9 @@ import javax.validation.Valid;
 public class ProjectController {
 
     private final ProjectService projectService;
-
+    private static final String DEFAULT_PAGE_NUMBER = "0";
+    private static final String DEFAULT_PAGE_SIZE = "7";
+    private static final String DEFAULT_SORT_BY = "id";
     @ApiOperation(value = "Find a project by Id")
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectResponse> findProjectById(@PathVariable Long projectId) {
@@ -41,9 +41,9 @@ public class ProjectController {
     @ApiOperation(value = "Get project catalog")
     @GetMapping
     public ResponseEntity<Page<CatalogProjectResponse>> getProjectCatalog(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy) {
+            @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(defaultValue = DEFAULT_SORT_BY) String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return ResponseEntity.ok(projectService.getProjectCatalog(pageable));
     }

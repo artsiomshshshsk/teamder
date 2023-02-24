@@ -1,5 +1,9 @@
-package com.github.artsiomshshshsk.findproject.exception;
+package com.github.artsiomshshshsk.findproject.advice;
 
+import com.github.artsiomshshshsk.findproject.exception.ApplicationCreationException;
+import com.github.artsiomshshshsk.findproject.exception.ApplicationDecisionException;
+import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
+import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.dto.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
