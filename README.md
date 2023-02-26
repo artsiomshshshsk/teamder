@@ -6,7 +6,7 @@ Many individuals who are new to software development often choose to create thei
 ## Setting up Secrets
 
 This project requires the following secrets to be set up in a secrets.yml file:
-
+```yaml
 jwt:
   secret:
   expirationTime:
@@ -18,7 +18,7 @@ aws:
     secretKey:
     region:
     endpoint:
-
+```
 ## Run Locally
 
 You'll need Docker and Terraform
