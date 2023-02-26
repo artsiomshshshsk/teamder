@@ -41,7 +41,7 @@ run docker-compose.yml
   docker-compose up
 ```
 
-Create resources with the Terraform
+Set up S3 bucket locally with Terraform and LocalStack
 
 ```bash
   terraform init
