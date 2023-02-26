@@ -3,6 +3,10 @@
 Many individuals who are new to software development often choose to create their own projects to showcase their skills. These projects typically involve developing applications, websites, or systems that require a diverse set of skills in planning, analysis, design, and implementation. However, the individual behind the idea may not possess all the necessary skills, especially those outside of their specialization. As a result, they may need to acquire additional knowledge to complete the project rather than seeking collaboration with someone who already possesses the required skills. 
 ## But Teamder will help!
 
+## Api Specification
+
+http://localhost:8080/swagger-ui/
+
 ## Setting up Secrets
 
 This project requires the following secrets to be set up in a secrets.yml file:
