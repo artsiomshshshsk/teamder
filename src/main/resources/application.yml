@@ -10,6 +10,9 @@ jwt:
   expirationTime: ${JWT_EXPIRATION_TIME}
   secret: ${JWT_SECRET}
 
+app:
+  baseUrl: ${BASE_URL}
+
 spring:
   config:
     import: optional:secrets.yml

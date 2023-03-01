@@ -18,7 +18,6 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Service
-@Primary
 public class FileUploadServiceS3 implements FileUploadService {
 
     private final AmazonS3 s3Client;
