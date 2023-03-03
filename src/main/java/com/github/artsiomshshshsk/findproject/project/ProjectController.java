@@ -31,9 +31,9 @@ public class ProjectController {
     private static final String DEFAULT_PAGE_NUMBER = "0";
     private static final String DEFAULT_PAGE_SIZE = "7";
     private static final String DEFAULT_SORT_BY = "id";
-    @ApiOperation(value = "Find a project by Id")
+    @ApiOperation(value = "Get project Profile")
     @GetMapping("/{projectId}")
-    public ResponseEntity<ProjectResponse> findProjectById(@PathVariable Long projectId) {
+    public ResponseEntity<ProjectResponse> getProjectProfile(@PathVariable Long projectId) {
         return ResponseEntity.ok(projectService.findProjectById(projectId));
     }
 
@@ -60,5 +60,4 @@ public class ProjectController {
             @ApiIgnore @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(projectService.createProject(user,projectRequest));
     }
-
 }
