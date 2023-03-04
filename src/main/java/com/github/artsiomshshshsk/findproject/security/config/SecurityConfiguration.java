@@ -11,6 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -49,5 +55,18 @@ public class SecurityConfiguration {
         .authenticationProvider(authenticationProvider)
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
+  }
+
+  @Bean
+  public CorsFilter corsFilter() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    final CorsConfiguration config = new CorsConfiguration();
+    config.setAllowedOrigins(Collections.singletonList("*"));
+    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+    config.setAllowedHeaders(Collections.singletonList("*"));
+    config.setMaxAge(1800L);
+    config.setAllowCredentials(true);
+    source.registerCorsConfiguration("/**", config);
+    return new CorsFilter(source);
   }
 }
