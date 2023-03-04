@@ -40,7 +40,7 @@ class ProjectControllerTest {
 
     @Test
 
-    @WithMockUser(username = "user", roles = "USER")
+    @WithMockUser
     void givenValidId_whenFindProjectById_thenReturnProjectResponse() throws Exception {
         // given
         Long id = 1L;
@@ -73,7 +73,7 @@ class ProjectControllerTest {
 
 
     @Test
-    @WithMockUser(username = "fvondrak0")
+    @WithMockUser
     void testFindAllProjects() throws Exception {
         // given
         ProjectResponse.builder().build();
@@ -92,6 +92,13 @@ class ProjectControllerTest {
                 .andDo(print());
         // then
         verify(projectService, times(1)).getProjectCatalog(any(Pageable.class));
+    }
+
+
+    @Test
+    void testCreateProject() {
+
+
     }
 
 }

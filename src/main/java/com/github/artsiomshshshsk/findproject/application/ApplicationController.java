@@ -1,29 +1,24 @@
 package com.github.artsiomshshshsk.findproject.application;
 
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
+import com.github.artsiomshshshsk.findproject.application.dto.UpdateApplicationRequest;
 import com.github.artsiomshshshsk.findproject.user.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 
-@Api(tags = "Application to Project")
+@Api(tags = "Applications")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/applications")
 public class ApplicationController {
 
     private final ApplicationService applicationService;
-
 
     @ApiOperation(value = "Process application decision")
     @PutMapping("/{applicationId}")
@@ -34,4 +29,15 @@ public class ApplicationController {
     ){
         return ResponseEntity.ok(applicationService.processApplicationDecision(user,applicationId,decision));
     }
+
+    @ApiOperation(value = "Update applications for project")
+    @PutMapping("/{applicationUd}")
+    public ResponseEntity<ApplicationResponse> updateApplication(
+            @PathVariable Long applicationId,
+            @ApiIgnore @AuthenticationPrincipal User user,
+            @Valid @RequestBody UpdateApplicationRequest updateApplicationRequest
+    ){
+        return ResponseEntity.ok(applicationService.updateApplication(user,applicationId,updateApplicationRequest));
+    }
+
 }

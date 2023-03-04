@@ -2,6 +2,7 @@ package com.github.artsiomshshshsk.findproject.application;
 
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
+import com.github.artsiomshshshsk.findproject.application.dto.UpdateApplicationRequest;
 import com.github.artsiomshshshsk.findproject.exception.ApplicationCreationException;
 import com.github.artsiomshshshsk.findproject.exception.ApplicationDecisionException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,38 @@ public class ApplicationService {
             application.setStatus(ApplicationStatus.ACCEPTED);
         }else {
             application.setStatus(ApplicationStatus.REJECTED);
+        }
+
+        return applicationMapper.toApplicationResponse(applicationRepository.save(application));
+    }
+
+    public ApplicationResponse updateApplication(User user, Long applicationId, UpdateApplicationRequest updateApplicationRequest) {
+        Application application = findById(applicationId);
+
+        if(!application.getApplicant().equals(user)){
+            throw new UnauthorizedAccessException("You can't update application for other user");
+        }
+
+        if(application.getStatus() != ApplicationStatus.WAITING_FOR_REVIEW){
+            throw new ApplicationDecisionException("You can't update the application that is" +
+                    " not in waiting for review status");
+        }
+
+        String roleName = updateApplicationRequest.getRoleRequest();
+        if(roleName != null){
+            application.setRoleRequest(application.getProject().findOpenedRoleByName(roleName).orElseThrow(
+                    () -> new ResourceNotFoundException(String.format("Role with name: %s not found", roleName))
+            ));
+        }
+
+        String applicationMessage = updateApplicationRequest.getApplicationMessage();
+        if(applicationMessage != null){
+            application.setMessage(applicationMessage);
+        }
+
+        MultipartFile cv = updateApplicationRequest.getCv();
+        if(cv != null){
+            application.setResumeURL(fileUploadService.uploadFile(cv, FileType.CV));
         }
 
         return applicationMapper.toApplicationResponse(applicationRepository.save(application));

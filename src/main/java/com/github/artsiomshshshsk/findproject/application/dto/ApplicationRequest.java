@@ -20,9 +20,5 @@ public class ApplicationRequest{
 
         @ApiModelProperty(value = "The CV file", required = false)
         MultipartFile cv;
-
-        @ApiModelProperty(value = "contact info", required = false)
-        String contact;
-
 }
 
