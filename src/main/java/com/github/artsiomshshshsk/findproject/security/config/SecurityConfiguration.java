@@ -35,7 +35,8 @@ public class SecurityConfiguration {
                     "/v2/api-docs",
                     "/webjars/**",
                     "/verify",
-                    "/process_register").permitAll()
+                    "/process_register",
+                    "/api/mock/**").permitAll()
         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
         .requestMatchers(toH2Console()).permitAll()
         .antMatchers(HttpMethod.GET, "/api/projects/**").permitAll()

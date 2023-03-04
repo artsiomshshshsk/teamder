@@ -10,7 +10,13 @@ jwt:
   expirationTime: ${JWT_EXPIRATION_TIME}
   secret: ${JWT_SECRET}
 
+app:
+  baseUrl: ${BASE_URL}
+
 spring:
+  profiles:
+    active: ${ACTIVE_PROFILE}}
+
   config:
     import: optional:secrets.yml
 

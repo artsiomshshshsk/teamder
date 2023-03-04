@@ -7,6 +7,7 @@ import com.github.artsiomshshshsk.findproject.config.S3ConfigProperties;
 import com.github.artsiomshshshsk.findproject.exception.InvalidFileFormatException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Service
-@Primary
+@Profile("prod")
 public class FileUploadServiceS3 implements FileUploadService {
 
     private final AmazonS3 s3Client;

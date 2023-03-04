@@ -3,7 +3,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotBlank;
 
@@ -21,6 +20,9 @@ public class ApplicationRequest{
 
         @ApiModelProperty(value = "The CV file", required = false)
         MultipartFile cv;
+
+        @ApiModelProperty(value = "contact info", required = false)
+        String contact;
 
 }
 

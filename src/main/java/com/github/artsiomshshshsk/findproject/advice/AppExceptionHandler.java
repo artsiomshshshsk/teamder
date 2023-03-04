@@ -1,9 +1,6 @@
 package com.github.artsiomshshshsk.findproject.advice;
 
-import com.github.artsiomshshshsk.findproject.exception.ApplicationCreationException;
-import com.github.artsiomshshshsk.findproject.exception.ApplicationDecisionException;
-import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
-import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
+import com.github.artsiomshshshsk.findproject.exception.*;
 import com.github.artsiomshshshsk.findproject.exception.dto.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,11 @@ public class AppExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
         return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ExceptionResponse> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
+        return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.FORBIDDEN);
     }
 
 
