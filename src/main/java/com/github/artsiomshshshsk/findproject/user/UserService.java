@@ -1,5 +1,6 @@
 package com.github.artsiomshshshsk.findproject.user;
 
+import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.utils.FileType;
 import com.github.artsiomshshshsk.findproject.user.dto.UserProfileResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserUpdateRequest;
