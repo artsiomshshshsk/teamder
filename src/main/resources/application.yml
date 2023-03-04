@@ -15,7 +15,7 @@ app:
 
 spring:
   profiles:
-    active: ${ACTIVE_PROFILE}}
+    active: ${ACTIVE_PROFILE}
 
   config:
     import: optional:secrets.yml
