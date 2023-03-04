@@ -1,7 +1,6 @@
 package com.github.artsiomshshshsk.findproject.project.dto;
 
 
-import com.github.artsiomshshshsk.findproject.project.ProjectStatus;
 import com.github.artsiomshshshsk.findproject.role.dto.RoleResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserResponse;
 import lombok.Builder;
@@ -16,6 +15,5 @@ public record ProjectResponse (
      String description,
      List<RoleResponse> roles,
      UserResponse owner,
-     LocalDateTime publishedAt,
-     ProjectStatus status
+     LocalDateTime publishedAt
 ){}

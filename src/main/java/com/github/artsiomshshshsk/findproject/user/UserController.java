@@ -25,4 +25,9 @@ public class UserController {
         return ResponseEntity.ok(userService.updateLoggedInUser(user,userUpdateRequest));
     }
 
+    // TODO: 3.03.23 get all user's applications
+
+    // TODO: 3.03.23 get all user's projects
+
+
 }

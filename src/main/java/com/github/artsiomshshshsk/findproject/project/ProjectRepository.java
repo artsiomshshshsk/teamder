@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Page<Project> findAll(Specification<Project> hasStatus, Pageable pageable);
+    Page<Project> findAllByIsVisibleTrue(Pageable pageable);
 }

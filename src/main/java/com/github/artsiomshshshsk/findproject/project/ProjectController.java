@@ -1,6 +1,8 @@
 package com.github.artsiomshshshsk.findproject.project;
 
 
+import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
+import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,7 +40,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findProjectById(projectId));
     }
 
-
     @ApiOperation(value = "Get project catalog")
     @GetMapping
     public ResponseEntity<Page<CatalogProjectResponse>> getProjectCatalog(
@@ -48,7 +50,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getProjectCatalog(pageable));
     }
 
-
     @ApiOperation(value = "Post project")
     @ApiResponses(value = {
             @ApiResponse( responseCode = "200", description = "Successfully posted a Project"),
@@ -58,6 +59,30 @@ public class ProjectController {
     public ResponseEntity<ProjectResponse> createProject(
             @Valid @RequestBody ProjectRequest projectRequest,
             @ApiIgnore @AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(projectService.createProject(user,projectRequest));
+        return new ResponseEntity<>(projectService.createProject(user,projectRequest), HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "Apply for the project")
+    @PostMapping("/{projectId}/application")
+    public ResponseEntity<ApplicationResponse> createApplication(
+            @PathVariable Long projectId,
+            @ApiIgnore @AuthenticationPrincipal User user,
+            @Valid @ModelAttribute ApplicationRequest applicationRequest
+    ) {
+        return ResponseEntity.ok(projectService.applyForProject(projectId,user,applicationRequest));
+    }
+
+
+    @ApiOperation(value = "View all applications to the project")
+    @GetMapping("/{projectId}/application")
+    public ResponseEntity<Page<ApplicationResponse>> getAllApplications(
+            @PathVariable Long projectId,
+            @ApiIgnore @AuthenticationPrincipal User user,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return ResponseEntity.ok(projectService.getAllApplications(user,projectId,pageable));
     }
 }

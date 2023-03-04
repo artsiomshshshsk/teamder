@@ -25,9 +25,9 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
 
-    @Column(name = "short_description")
+    private String name;
+    @Column(name = "short_description",length = 300)
     private String shortDescription;
 
     @Column(length = 1000)
@@ -52,11 +52,11 @@ public class Project {
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
-    @Enumerated(EnumType.STRING)
-    private ProjectStatus status;
-
     @Column(name = "chat_invite_link")
     private String chatInviteLink;
+
+    @Column(name = "is_visible")
+    private Boolean isVisible;
 
     public boolean hasApplicant(User user){
         return applications.stream()
@@ -70,9 +70,10 @@ public class Project {
                 .findFirst();
     }
 
-    public boolean hasOpenedRole(String name){
+    public Boolean hasOpenedRoleWithName(String roleName){
         return roles.stream()
-                .anyMatch(role -> role.getName().equals(name) && role.getAssignedUser() == null);
+                .filter(role -> role.getAssignedUser() == null)
+                .anyMatch(role -> role.getName().equals(roleName));
     }
 
     public void addApplication(Application application){
@@ -90,4 +91,5 @@ public class Project {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

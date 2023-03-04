@@ -28,4 +28,8 @@ public class Application {
     private ApplicationStatus status;
     private LocalDateTime applicationDate;
 
+    public User getProjectOwner(){
+        return project.getOwner();
+    }
+
 }

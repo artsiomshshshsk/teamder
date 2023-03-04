@@ -19,7 +19,7 @@ public class ApplicationRequest{
         @ApiModelProperty(value = "The role request", required = true)
         String roleRequest;
 
-        @ApiModelProperty(value = "The CV file", required = true)
+        @ApiModelProperty(value = "The CV file", required = false)
         MultipartFile cv;
 
 }
