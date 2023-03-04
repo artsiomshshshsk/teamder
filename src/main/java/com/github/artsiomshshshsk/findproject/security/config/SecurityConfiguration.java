@@ -44,7 +44,6 @@ public class SecurityConfiguration {
                     "/process_register",
                     "/api/mock/**").permitAll()
         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-        .requestMatchers(toH2Console()).permitAll()
         .antMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
         .anyRequest().authenticated()
         .and()
