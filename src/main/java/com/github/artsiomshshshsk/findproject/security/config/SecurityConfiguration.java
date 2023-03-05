@@ -29,10 +29,13 @@ public class SecurityConfiguration {
 
   private final JwtAuthenticationFilter jwtAuthFilter;
 
+  private final AuthEntryPointJwt unauthorizedHandler;
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf().disable()
+        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .authorizeHttpRequests()
             .antMatchers("/api/auth/**",
                     "/h2-console/**",
