@@ -31,7 +31,7 @@ public class ApplicationController {
     }
 
     @ApiOperation(value = "Update applications for project")
-    @PutMapping("/{applicationUd}")
+    @PatchMapping("/{applicationId}")
     public ResponseEntity<ApplicationResponse> updateApplication(
             @PathVariable Long applicationId,
             @ApiIgnore @AuthenticationPrincipal User user,
