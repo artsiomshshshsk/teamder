@@ -12,3 +12,6 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
+
+app:
+  baseUrl: http://localhost:8080
