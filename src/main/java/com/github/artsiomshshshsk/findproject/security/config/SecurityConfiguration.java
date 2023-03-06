@@ -1,6 +1,7 @@
 package com.github.artsiomshshshsk.findproject.security.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -22,7 +24,6 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
 
   private final AuthenticationProvider authenticationProvider;
@@ -30,6 +31,17 @@ public class SecurityConfiguration {
   private final JwtAuthenticationFilter jwtAuthFilter;
 
   private final AuthEntryPointJwt unauthorizedHandler;
+
+  public SecurityConfiguration(AuthenticationProvider authenticationProvider,
+                               JwtAuthenticationFilter jwtAuthFilter,
+                               AuthEntryPointJwt unauthorizedHandler) {
+    this.authenticationProvider = authenticationProvider;
+    this.jwtAuthFilter = jwtAuthFilter;
+    this.unauthorizedHandler = unauthorizedHandler;
+  }
+
+  @Value("${app.baseUrl}")
+  private String baseUrl;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,14 +73,14 @@ public class SecurityConfiguration {
 
   @Bean
   public CorsFilter corsFilter() {
-    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    final CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(Collections.singletonList("*"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowedOrigins(Arrays.asList(baseUrl));
     config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-    config.setAllowedHeaders(Collections.singletonList("*"));
-    config.setMaxAge(1800L);
-    config.setAllowCredentials(true);
+    config.setAllowedHeaders(Arrays.asList("content-type", "Authorization"));
+    config.setExposedHeaders(Arrays.asList("Authorization"));
     source.registerCorsConfiguration("/**", config);
     return new CorsFilter(source);
   }
+
 }
