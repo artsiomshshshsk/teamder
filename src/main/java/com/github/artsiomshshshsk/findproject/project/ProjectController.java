@@ -3,11 +3,8 @@ package com.github.artsiomshshshsk.findproject.project;
 
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectProfileResponse;
+import com.github.artsiomshshshsk.findproject.project.dto.*;
 import com.github.artsiomshshshsk.findproject.user.User;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
-import com.github.artsiomshshshsk.findproject.project.dto.CatalogProjectResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -64,7 +61,7 @@ public class ProjectController {
     }
 
     @ApiOperation(value = "Apply for the project")
-    @PostMapping("/{projectId}/application")
+    @PostMapping("/{projectId}/applications")
     public ResponseEntity<ApplicationResponse> createApplication(
             @PathVariable Long projectId,
             @ApiIgnore @AuthenticationPrincipal User user,
@@ -75,8 +72,8 @@ public class ProjectController {
 
 
     @ApiOperation(value = "View all applications to the project")
-    @GetMapping("/{projectId}/application")
-    public ResponseEntity<Page<ApplicationResponse>> getAllApplications(
+    @GetMapping("/{projectId}/applications")
+    public ResponseEntity<Page<ProjectApplicationResponse>> getAllApplications(
             @PathVariable Long projectId,
             @ApiIgnore @AuthenticationPrincipal User user,
             @RequestParam(defaultValue = "0") int page,

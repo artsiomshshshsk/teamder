@@ -11,6 +11,8 @@ public record DashboardApplicationResponse(
         String projectName,
         String applicantMessage,
         String role,
+
+        String resumeURL,
         LocalDateTime applicationDate,
         ApplicationStatus status
 

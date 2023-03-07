@@ -13,17 +13,21 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Builder
+@ToString
 public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @ToString.Exclude
     private User applicant;
     private String resumeURL;
     private String message;
     @ManyToOne
+    @ToString.Exclude
     private Project project;
     @ManyToOne
+    @ToString.Exclude
     private Role roleRequest;
     private ApplicationStatus status;
     private LocalDateTime applicationDate;

@@ -97,6 +97,7 @@ public class UserService {
                         .id(application.getId())
                         .projectName(application.getProject().getName())
                         .applicantMessage(application.getMessage())
+                        .resumeURL(application.getResumeURL())
                         .role(application.getRoleRequest().getName())
                         .applicationDate(application.getApplicationDate())
                         .status(application.getStatus())

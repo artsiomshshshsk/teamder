@@ -7,6 +7,7 @@ import lombok.Builder;
 public record UserProfileResponse(
         String username,
         String resumeUrl,
-        String profilePictureURL
+        String profilePictureURL,
+        String contact
 ) {
 }

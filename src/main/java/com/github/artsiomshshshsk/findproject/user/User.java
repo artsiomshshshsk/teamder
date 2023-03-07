@@ -34,6 +34,8 @@ public class User implements UserDetails {
 
     private String password;
 
+    private String contact;
+
     private String resumeURL;
 
     private String profilePictureURL;
@@ -49,7 +51,7 @@ public class User implements UserDetails {
             mappedBy = "applicant",
             fetch = FetchType.EAGER
     )
-    @ToString.Exclude
+
     private List<Application> applications;
     @Enumerated(EnumType.STRING)
     private Role role;

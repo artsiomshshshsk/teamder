@@ -47,6 +47,7 @@ public class Project {
     private List<Application> applications;
 
     @ManyToOne
+    @ToString.Exclude
     private User owner;
 
     @Column(name = "published_at")

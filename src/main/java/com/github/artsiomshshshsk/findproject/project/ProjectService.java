@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 
@@ -75,7 +76,7 @@ public class ProjectService {
                         applicationRequest.getRoleRequest()))
         );
 
-        if(!project.hasOpenedRoleWithName(role.getName())){
+        if(Boolean.FALSE.equals(project.hasOpenedRoleWithName(role.getName()))){
             throw new ApplicationCreationException(String.format("You can't apply for role: %s because it is occupied",
                     applicationRequest.getRoleRequest()));
         }
@@ -97,22 +98,33 @@ public class ProjectService {
 
         user.addApplication(application);
         project.addApplication(application);
-        return applicationMapper.toApplicationResponse(applicationRepository.save(application));
+
+        Application savedApplication = applicationRepository.saveAndFlush(application);
+        return applicationMapper.toApplicationResponse(savedApplication);
     }
-    public Page<ApplicationResponse> getAllApplications(User user, Long projectId, Pageable pageable) {
+    public Page<ProjectApplicationResponse> getAllApplications(User user, Long projectId, Pageable pageable) {
         Project project = findById(projectId);
         if(!project.getOwner().equals(user)){
             throw new UnauthorizedAccessException("You don't have an access to applications for project that you don't own");
         }
-
-        List<Application> applications = project.getApplications();
+        List<Application> applications = applicationRepository.findAllByProject(project);
 
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), applications.size());
-        List<ApplicationResponse> applicationResponses = new ArrayList<>();
+        List<ProjectApplicationResponse> applicationResponses = new ArrayList<>();
 
         for (int i = start; i < end; i++) {
-            applicationResponses.add(applicationMapper.toApplicationResponse(applications.get(i)));
+            User applicant = applications.get(i).getApplicant();
+            Application application = applications.get(i);
+            applicationResponses.add(ProjectApplicationResponse.builder()
+                            .id(application.getId())
+                            .username(applicant.getUsername())
+                            .contact(applicant.getContact() != null ? applicant.getContact() : applicant.getEmail())
+                            .applicantMessage(application.getMessage())
+                            .role(application.getRoleRequest().getName())
+                            .resumeURL(applicant.getResumeURL())
+                            .applicationDate(application.getApplicationDate())
+                    .build());
         }
         return new PageImpl<>(applicationResponses, pageable, applications.size());
     }
