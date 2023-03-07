@@ -1,15 +1,25 @@
 package com.github.artsiomshshshsk.findproject.user;
 
+import com.github.artsiomshshshsk.findproject.application.Application;
+import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
+import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
+import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
+import com.github.artsiomshshshsk.findproject.user.dto.DashboardApplicationResponse;
 import com.github.artsiomshshshsk.findproject.utils.FileType;
 import com.github.artsiomshshshsk.findproject.user.dto.UserProfileResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserUpdateRequest;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -75,6 +85,27 @@ public class UserService {
                 .resumeUrl(user.getResumeURL())
                 .username(user.getUsername())
                 .build();
+
+    }
+
+
+    public Page<DashboardApplicationResponse> getUsersApplications(User user, Pageable pageable) {
+        List<Application> applications = user.getApplications();
+
+        List<DashboardApplicationResponse> dashboardApplicationResponses = applications.stream()
+                .map(application -> DashboardApplicationResponse.builder()
+                        .id(application.getId())
+                        .projectName(application.getProject().getName())
+                        .applicantMessage(application.getMessage())
+                        .role(application.getRoleRequest().getName())
+                        .applicationDate(application.getApplicationDate())
+                        .status(application.getStatus())
+                        .build())
+                .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), dashboardApplicationResponses.size());
+        return new PageImpl<>(dashboardApplicationResponses.subList(start, end), pageable, dashboardApplicationResponses.size());
 
     }
 }
