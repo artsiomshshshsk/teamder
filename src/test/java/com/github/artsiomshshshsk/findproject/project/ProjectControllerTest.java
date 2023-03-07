@@ -50,7 +50,7 @@ class ProjectControllerTest {
                 .name("Test Project")
                 .description("Test Description")
                 .build();
-        when(projectService.findProjectById(id)).thenReturn(projectResponse);
+        when(projectService.getProjectProfile(id)).thenReturn(projectResponse);
 
         // when + then
         mockMvc.perform(get("/api/projects/{id}", id))
@@ -66,7 +66,7 @@ class ProjectControllerTest {
         // given
         Long id = 2L;
         doThrow(new ResourceNotFoundException("Project not found"))
-                .when(projectService).findProjectById(id);
+                .when(projectService).getProjectProfile(id);
         // when + then
         mockMvc.perform(get("/api/projects/{id}", id))
                 .andExpect(status().isNotFound());

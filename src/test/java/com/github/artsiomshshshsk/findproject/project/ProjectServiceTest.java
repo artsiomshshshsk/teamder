@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +51,7 @@ class ProjectServiceTest {
                 .build();
         when(projectMapper.toProjectResponse(project)).thenReturn(expectedResponse);
         // when
-        ProjectProfileResponse projectResponse = projectService.findProjectById(id);
+        ProjectProfileResponse projectResponse = projectService.getProjectProfile(id);
         // then
         assertEquals(expectedResponse, projectResponse);
     }
@@ -62,7 +62,7 @@ class ProjectServiceTest {
         Long id = 2L;
         when(projectRepository.findById(id)).thenReturn(Optional.empty());
         // when + then
-        assertThrows(ResourceNotFoundException.class, () -> projectService.findProjectById(id));
+        assertThrows(ResourceNotFoundException.class, () -> projectService.getProjectProfile(id));
     }
 
 

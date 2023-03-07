@@ -8,7 +8,6 @@ import com.github.artsiomshshshsk.findproject.exception.ApplicationCreationExcep
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.role.Role;
-import com.github.artsiomshshshsk.findproject.role.dto.RoleRequest;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.utils.FileType;
@@ -16,13 +15,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 
@@ -36,42 +32,8 @@ public class ProjectService {
     private final ApplicationMapper applicationMapper;
     private final ApplicationRepository applicationRepository;
 
-    public ProjectProfileResponse findProjectById(Long id) {
-
-        Project project = findById(id);
-
-        return ProjectProfileResponse.builder()
-                .id(project.getId())
-                .name(project.getName())
-                .shortDescription(project.getShortDescription())
-                .description(project.getDescription())
-                .openedRoles(
-                        project.getRoles().stream()
-                                .filter(role -> role.getAssignedUser() == null)
-                                .map(role -> ProjectProfileOpenedRoleResponse.builder()
-                                        .name(role.getName())
-                                        .id(role.getId())
-                                        .build()
-                                )
-                                .toList())
-                .publishedAt(project.getPublishedAt())
-                .teamSize(project.getRoles().size())
-                .occupiedPlaces((int) project.getRoles().stream().filter(role -> role.getAssignedUser() != null).count())
-                .teamMembers(
-                        project.getRoles().stream()
-                                .filter(role -> role.getAssignedUser() != null)
-                                .map(role -> TeamMemberResponse.builder()
-                                        .userId(role.getAssignedUser().getId())
-                                        .username(role.getAssignedUser().getUsername())
-                                        .roleName(role.getName())
-                                        .build()
-                                )
-                                .toList()
-                )
-                .build();
-
-
-//        return projectMapper.toProjectResponse(findById(id));
+    public ProjectProfileResponse getProjectProfile(Long id) {
+        return projectMapper.toProjectProfileResponse(findById(id));
     }
 
     public Project findById(Long id){

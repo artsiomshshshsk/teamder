@@ -38,7 +38,7 @@ public class ProjectController {
     @ApiOperation(value = "Get project Profile")
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectProfileResponse> getProjectProfile(@PathVariable Long projectId) {
-        return ResponseEntity.ok(projectService.findProjectById(projectId));
+        return ResponseEntity.ok(projectService.getProjectProfile(projectId));
     }
 
     @ApiOperation(value = "Get project catalog")

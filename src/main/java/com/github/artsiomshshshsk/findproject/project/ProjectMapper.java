@@ -1,11 +1,9 @@
 package com.github.artsiomshshshsk.findproject.project;
 
+import com.github.artsiomshshshsk.findproject.project.dto.*;
 import com.github.artsiomshshshsk.findproject.role.Role;
 import com.github.artsiomshshshsk.findproject.user.User;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.role.dto.RoleRequest;
-import com.github.artsiomshshshsk.findproject.project.dto.CatalogProjectResponse;
 import org.mapstruct.Mapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,39 @@ import java.util.Objects;
 @Mapper(componentModel = "spring")
 public interface ProjectMapper {
     ProjectResponse toProjectResponse(Project project);
+
+
+    default ProjectProfileResponse toProjectProfileResponse(Project project){
+        return ProjectProfileResponse.builder()
+                .id(project.getId())
+                .name(project.getName())
+                .shortDescription(project.getShortDescription())
+                .description(project.getDescription())
+                .openedRoles(
+                        project.getRoles().stream()
+                                .filter(role -> role.getAssignedUser() == null)
+                                .map(role -> ProjectProfileOpenedRoleResponse.builder()
+                                        .name(role.getName())
+                                        .id(role.getId())
+                                        .build()
+                                )
+                                .toList())
+                .publishedAt(project.getPublishedAt())
+                .teamSize(project.getRoles().size())
+                .occupiedPlaces((int) project.getRoles().stream().filter(role -> role.getAssignedUser() != null).count())
+                .teamMembers(
+                        project.getRoles().stream()
+                                .filter(role -> role.getAssignedUser() != null)
+                                .map(role -> TeamMemberResponse.builder()
+                                        .userId(role.getAssignedUser().getId())
+                                        .username(role.getAssignedUser().getUsername())
+                                        .roleName(role.getName())
+                                        .build()
+                                )
+                                .toList()
+                )
+                .build();
+    }
 
     default CatalogProjectResponse toCatalogProjectResponse(Project project){
         return CatalogProjectResponse.builder()
