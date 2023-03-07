@@ -45,11 +45,11 @@ class ProjectServiceTest {
                 .name("Test Project")
                 .build();
         when(projectRepository.findById(id)).thenReturn(Optional.of(project));
-        ProjectResponse expectedResponse = ProjectResponse.builder()
+        ProjectProfileResponse expectedResponse = ProjectProfileResponse.builder()
                 .id(id)
                 .name("Test Project")
                 .build();
-        when(projectMapper.toProjectResponse(project)).thenReturn(expectedResponse);
+        when(projectMapper.toProjectProfileResponse(project)).thenReturn(expectedResponse);
         // when
         ProjectProfileResponse projectResponse = projectService.getProjectProfile(id);
         // then
