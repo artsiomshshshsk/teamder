@@ -6,6 +6,7 @@ import com.github.artsiomshshshsk.findproject.user.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,17 @@ public class ApplicationController {
             @Valid @RequestBody UpdateApplicationRequest updateApplicationRequest
     ){
         return ResponseEntity.ok(applicationService.updateApplication(user,applicationId,updateApplicationRequest));
+    }
+
+
+    @ApiOperation(value = "Remove application")
+    @DeleteMapping("/{applicationId}")
+    public ResponseEntity<Void> removeApplication(
+            @PathVariable Long applicationId,
+            @ApiIgnore @AuthenticationPrincipal User user
+    ){
+        applicationService.removeApplication(user,applicationId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

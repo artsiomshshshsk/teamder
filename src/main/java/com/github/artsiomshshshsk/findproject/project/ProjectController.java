@@ -70,7 +70,7 @@ public class ProjectController {
             @ApiIgnore @AuthenticationPrincipal User user,
             @Valid @ModelAttribute ApplicationRequest applicationRequest
     ) {
-        return ResponseEntity.ok(projectService.applyForProject(projectId,user,applicationRequest));
+        return new ResponseEntity<>(projectService.applyForProject(projectId,user,applicationRequest),HttpStatus.CREATED);
     }
 
 

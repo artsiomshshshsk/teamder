@@ -28,7 +28,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
-    private final ProjectService projectService;
     private final FileUploadService fileUploadService;
     private final ApplicationMapper applicationMapper;
 
@@ -98,5 +97,20 @@ public class ApplicationService {
         }
 
         return applicationMapper.toApplicationResponse(applicationRepository.save(application));
+    }
+
+    public void removeApplication(User user, Long applicationId) {
+        Application application = findById(applicationId);
+
+        if(!application.getApplicant().equals(user)){
+            throw new UnauthorizedAccessException("You can't remove application for other user");
+        }
+
+        if(application.getStatus() != ApplicationStatus.WAITING_FOR_REVIEW){
+            throw new ApplicationDecisionException("You can't remove the application that is" +
+                    " not in waiting for review status");
+        }
+
+        applicationRepository.delete(application);
     }
 }
