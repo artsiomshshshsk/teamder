@@ -1,5 +1,6 @@
 package com.github.artsiomshshshsk.findproject.project;
 
+import com.github.artsiomshshshsk.findproject.project.dto.ProjectProfileResponse;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.project.dto.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
@@ -50,7 +51,7 @@ class ProjectServiceTest {
                 .build();
         when(projectMapper.toProjectResponse(project)).thenReturn(expectedResponse);
         // when
-        ProjectResponse projectResponse = projectService.findProjectById(id);
+        ProjectProfileResponse projectResponse = projectService.findProjectById(id);
         // then
         assertEquals(expectedResponse, projectResponse);
     }

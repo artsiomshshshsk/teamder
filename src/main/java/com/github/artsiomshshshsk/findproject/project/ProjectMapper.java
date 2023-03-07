@@ -14,6 +14,7 @@ import java.util.Objects;
 @Mapper(componentModel = "spring")
 public interface ProjectMapper {
     ProjectResponse toProjectResponse(Project project);
+
     default CatalogProjectResponse toCatalogProjectResponse(Project project){
         return CatalogProjectResponse.builder()
                 .id(project.getId())

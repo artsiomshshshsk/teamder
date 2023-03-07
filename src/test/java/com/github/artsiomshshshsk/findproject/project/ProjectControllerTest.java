@@ -1,5 +1,6 @@
 package com.github.artsiomshshshsk.findproject.project;
 
+import com.github.artsiomshshshsk.findproject.project.dto.ProjectProfileResponse;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.project.dto.CatalogProjectResponse;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
@@ -44,7 +45,7 @@ class ProjectControllerTest {
     void givenValidId_whenFindProjectById_thenReturnProjectResponse() throws Exception {
         // given
         Long id = 1L;
-        ProjectResponse projectResponse = ProjectResponse.builder()
+        ProjectProfileResponse projectResponse = ProjectProfileResponse.builder()
                 .id(id)
                 .name("Test Project")
                 .description("Test Description")

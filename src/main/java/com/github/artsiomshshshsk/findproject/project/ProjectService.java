@@ -3,9 +3,7 @@ package com.github.artsiomshshshsk.findproject.project;
 
 import com.github.artsiomshshshsk.findproject.application.*;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
-import com.github.artsiomshshshsk.findproject.project.dto.CatalogProjectResponse;
+import com.github.artsiomshshshsk.findproject.project.dto.*;
 import com.github.artsiomshshshsk.findproject.exception.ApplicationCreationException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
@@ -38,8 +36,42 @@ public class ProjectService {
     private final ApplicationMapper applicationMapper;
     private final ApplicationRepository applicationRepository;
 
-    public ProjectResponse findProjectById(Long id) {
-        return projectMapper.toProjectResponse(findById(id));
+    public ProjectProfileResponse findProjectById(Long id) {
+
+        Project project = findById(id);
+
+        return ProjectProfileResponse.builder()
+                .id(project.getId())
+                .name(project.getName())
+                .shortDescription(project.getShortDescription())
+                .description(project.getDescription())
+                .openedRoles(
+                        project.getRoles().stream()
+                                .filter(role -> role.getAssignedUser() == null)
+                                .map(role -> ProjectProfileOpenedRoleResponse.builder()
+                                        .name(role.getName())
+                                        .id(role.getId())
+                                        .build()
+                                )
+                                .toList())
+                .publishedAt(project.getPublishedAt())
+                .teamSize(project.getRoles().size())
+                .occupiedPlaces((int) project.getRoles().stream().filter(role -> role.getAssignedUser() != null).count())
+                .teamMembers(
+                        project.getRoles().stream()
+                                .filter(role -> role.getAssignedUser() != null)
+                                .map(role -> TeamMemberResponse.builder()
+                                        .userId(role.getAssignedUser().getId())
+                                        .username(role.getAssignedUser().getUsername())
+                                        .roleName(role.getName())
+                                        .build()
+                                )
+                                .toList()
+                )
+                .build();
+
+
+//        return projectMapper.toProjectResponse(findById(id));
     }
 
     public Project findById(Long id){
@@ -55,14 +87,6 @@ public class ProjectService {
 
 
     public ProjectResponse createProject(User user, ProjectRequest projectRequest) {
-//        Set<String> names = projectRequest.roles().stream()
-//                .map(RoleRequest::name)
-//                .collect(Collectors.toSet());
-//        if(names.size() != projectRequest.roles().size()){
-//            throw new ApplicationCreationException("Project can't have two roles with one name")
-//        }
-
-
         Project project = projectMapper.toProject(user,projectRequest);
         project.setPublishedAt(LocalDateTime.now());
         project.setIsVisible(!projectRequest.roles().isEmpty());

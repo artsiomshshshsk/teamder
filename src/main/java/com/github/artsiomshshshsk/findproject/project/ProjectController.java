@@ -3,6 +3,7 @@ package com.github.artsiomshshshsk.findproject.project;
 
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
+import com.github.artsiomshshshsk.findproject.project.dto.ProjectProfileResponse;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
@@ -36,7 +37,7 @@ public class ProjectController {
     private static final String DEFAULT_SORT_BY = "id";
     @ApiOperation(value = "Get project Profile")
     @GetMapping("/{projectId}")
-    public ResponseEntity<ProjectResponse> getProjectProfile(@PathVariable Long projectId) {
+    public ResponseEntity<ProjectProfileResponse> getProjectProfile(@PathVariable Long projectId) {
         return ResponseEntity.ok(projectService.findProjectById(projectId));
     }
 
