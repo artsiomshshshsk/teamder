@@ -86,9 +86,14 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
+//    @Override
+//    public boolean isEnabled() {
+//        return isVerified;
+//    }
+
+
     public boolean isEnabled() {
-        return isVerified;
+        return true;
     }
 
     public void addProject(Project project) {

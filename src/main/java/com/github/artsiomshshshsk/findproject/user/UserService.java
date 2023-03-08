@@ -6,6 +6,7 @@ import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessExcept
 import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.DashboardApplicationResponse;
+import com.github.artsiomshshshsk.findproject.user.dto.DashboardProjectResponse;
 import com.github.artsiomshshshsk.findproject.utils.FileType;
 import com.github.artsiomshshshsk.findproject.user.dto.UserProfileResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserUpdateRequest;
@@ -108,5 +109,21 @@ public class UserService {
         int end = Math.min((start + pageable.getPageSize()), dashboardApplicationResponses.size());
         return new PageImpl<>(dashboardApplicationResponses.subList(start, end), pageable, dashboardApplicationResponses.size());
 
+    }
+
+    public Page<DashboardProjectResponse> getUsersProjects(User user, Pageable pageable) {
+
+        List<Project> projects = user.getProjects();
+
+        List<DashboardProjectResponse> dashboardProjectResponses = projects.stream()
+                .map(project -> DashboardProjectResponse.builder()
+                        .id(project.getId())
+                        .name(project.getName())
+                        .build())
+                .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), dashboardProjectResponses.size());
+        return new PageImpl<>(dashboardProjectResponses.subList(start, end), pageable, dashboardProjectResponses.size());
     }
 }

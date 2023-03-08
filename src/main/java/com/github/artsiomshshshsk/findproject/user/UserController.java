@@ -3,6 +3,7 @@ package com.github.artsiomshshshsk.findproject.user;
 
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.DashboardApplicationResponse;
+import com.github.artsiomshshshsk.findproject.user.dto.DashboardProjectResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserProfileResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserUpdateRequest;
 import io.swagger.annotations.ApiOperation;
@@ -31,9 +32,18 @@ public class UserController {
         return ResponseEntity.ok(userService.updateLoggedInUser(user,userUpdateRequest));
     }
 
-//    // TODO: 3.03.23 get all user's projects
-//    @ApiOperation("Get user's projects ")
-//    @GetMapping("/{userId}/dashboard/projects")
+    @ApiOperation("Get user's projects ")/**/
+    @GetMapping("/{userId}/dashboard/projects")
+
+    public ResponseEntity<Page<DashboardProjectResponse>> getUsersProjects(
+            @AuthenticationPrincipal @ApiIgnore User user,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return ResponseEntity.ok(userService.getUsersProjects(user,pageable));
+    }
 
 
 

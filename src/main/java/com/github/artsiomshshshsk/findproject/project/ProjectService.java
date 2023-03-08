@@ -107,8 +107,7 @@ public class ProjectService {
         if(!project.getOwner().equals(user)){
             throw new UnauthorizedAccessException("You don't have an access to applications for project that you don't own");
         }
-        List<Application> applications = applicationRepository.findAllByProject(project);
-
+        List<Application> applications = project.getApplications();
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), applications.size());
         List<ProjectApplicationResponse> applicationResponses = new ArrayList<>();
