@@ -32,12 +32,20 @@ public class SecurityConfiguration {
 
   private final AuthEntryPointJwt unauthorizedHandler;
 
+  private final CustomAccessDeniedHandler accessDeniedHandler;
+
+  private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+
   public SecurityConfiguration(AuthenticationProvider authenticationProvider,
                                JwtAuthenticationFilter jwtAuthFilter,
-                               AuthEntryPointJwt unauthorizedHandler) {
+                               AuthEntryPointJwt unauthorizedHandler,
+                               CustomAccessDeniedHandler accessDeniedHandler,
+                               CustomAuthenticationEntryPoint authenticationEntryPoint) {
     this.authenticationProvider = authenticationProvider;
     this.jwtAuthFilter = jwtAuthFilter;
     this.unauthorizedHandler = unauthorizedHandler;
+    this.accessDeniedHandler = accessDeniedHandler;
+    this.authenticationEntryPoint = authenticationEntryPoint;
   }
 
   @Value("${app.baseUrl}")
@@ -47,9 +55,9 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+        .exceptionHandling().accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(authenticationEntryPoint).and()
         .authorizeHttpRequests()
-            .antMatchers("/api/auth/**",
+        .antMatchers("/api/auth/**",
                     "/h2-console/**",
                     "/swagger-ui/**",
                     "/swagger-resources/**",

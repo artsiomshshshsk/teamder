@@ -23,7 +23,8 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> register(
           @Valid @RequestBody RegisterRequest registerRequest
   ){
-    return ResponseEntity.ok(service.register(registerRequest));
+    service.register(registerRequest);
+    return ResponseEntity.ok().build();
   }
 
   @ApiOperation(value = "Sign-In")
@@ -31,6 +32,13 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> authenticate(
       @Valid @RequestBody AuthenticationRequest request ){
     return ResponseEntity.ok(service.authenticate(request));
+  }
+
+
+  @GetMapping("/verify")
+  public ResponseEntity<Void> verifyToken(@RequestParam String verificationToken){
+    service.verify(verificationToken);
+    return ResponseEntity.ok().build();
   }
 
 }

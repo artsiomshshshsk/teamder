@@ -2,19 +2,30 @@ package com.github.artsiomshshshsk.findproject.security.auth;
 
 
 import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
+import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
+import com.github.artsiomshshshsk.findproject.notification.service.EmailService;
 import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationRequest;
 import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationResponse;
 import com.github.artsiomshshshsk.findproject.security.dto.RegisterRequest;
+import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.user.UserMapper;
 import com.github.artsiomshshshsk.findproject.user.UserRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
 import com.github.artsiomshshshsk.findproject.security.config.JwtService;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +36,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final UserMapper userMapper;
 
-  private final FileUploadService fileUploadService;
+  private final EmailService emailService;
 
 
   public AuthenticationResponse register(RegisterRequest registerRequest){
@@ -35,7 +46,16 @@ public class AuthenticationService {
 
     var user = userMapper.toUser(registerRequest);
     user.setPassword(passwordEncoder.encode(registerRequest.password()));
+    user.setIsVerified(false);
+    user.setVerificationToken(UUID.randomUUID().toString());
     user.setRole(Role.USER);
+    try {
+      emailService.sendVerificationEmail(user);
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
     repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()
@@ -58,5 +78,15 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
         .token(jwtToken)
         .build();
+  }
+
+  public void verify(String token) {
+    var user = repository.findByVerificationToken(token)
+        .orElseThrow(
+            () -> new ResourceNotFoundException("User not found")
+        );
+    user.setIsVerified(true);
+    user.setVerificationToken(null);
+    repository.save(user);
   }
 }

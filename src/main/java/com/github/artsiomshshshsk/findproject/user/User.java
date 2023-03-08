@@ -40,6 +40,10 @@ public class User implements UserDetails {
 
     private String profilePictureURL;
 
+    private String verificationToken;
+
+    private Boolean isVerified;
+
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "owner",
@@ -84,7 +88,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isVerified;
     }
 
     public void addProject(Project project) {

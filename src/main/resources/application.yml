@@ -10,10 +10,23 @@ jwt:
   expirationTime: ${JWT_EXPIRATION_TIME}
   secret: ${JWT_SECRET}
 
+
 app:
   baseUrl: ${BASE_URL}
 
 spring:
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   profiles:
     active: ${ACTIVE_PROFILE}
 

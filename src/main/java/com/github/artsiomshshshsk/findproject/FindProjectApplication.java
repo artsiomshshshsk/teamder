@@ -6,6 +6,7 @@ import com.github.artsiomshshshsk.findproject.security.config.JWTConfigPropertie
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableConfigurationProperties({JWTConfigProperties.class, S3ConfigProperties.class})

@@ -1,5 +1,6 @@
 package com.github.artsiomshshshsk.findproject.security.config;
 
+import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,6 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     userEmail = jwtService.extractUsername(jwt);
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
       if (jwtService.isTokenValid(jwt, userDetails)) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
             userDetails,
@@ -53,5 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
     }
     filterChain.doFilter(request, response);
+
   }
 }
