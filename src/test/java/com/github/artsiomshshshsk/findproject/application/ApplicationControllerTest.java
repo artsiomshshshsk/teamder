@@ -1,6 +1,5 @@
 package com.github.artsiomshshshsk.findproject.application;
 
-
 import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.ProjectRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
@@ -15,10 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -57,7 +54,6 @@ class ApplicationControllerTest {
     private Project project;
 
     private Application application;
-
 
     @Autowired
     private JwtService jwtService;
