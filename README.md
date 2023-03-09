@@ -5,7 +5,7 @@ Many individuals who are new to software development often choose to create thei
 
 ## Api Specification
 
-http://localhost:8080/swagger-ui/
+https://teamder-dev.herokuapp.com/swagger-ui/
 
 ## Setting up Secrets
 
