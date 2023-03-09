@@ -6,6 +6,11 @@ spring:
     password: ''
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+  mail:
+    host: "test"
+    port: 400
+    username: "test"
+    password: "test"
 
   h2:
     console:

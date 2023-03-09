@@ -7,27 +7,19 @@ import com.github.artsiomshshshsk.findproject.security.Role;
 import com.github.artsiomshshshsk.findproject.security.config.JwtService;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.user.UserRepository;
-import io.jsonwebtoken.Jwts;
-import lombok.AllArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.net.http.HttpHeaders;
-import java.util.HashMap;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -65,6 +57,9 @@ class ApplicationControllerTest {
 
     private Project project;
 
+    private Application application;
+
+
     @Autowired
     private JwtService jwtService;
 
@@ -97,41 +92,51 @@ class ApplicationControllerTest {
                 .name("Backend developer")
                 .assignedUser(null)
                 .build();
+
+
         project = Project.builder()
                 .owner(projectOwner)
                 .roles(List.of(role))
                 .build();
 
-        System.out.println(projectRepository.save(project));
+        project = projectRepository.save(project);
+
+        application = Application.builder()
+                .applicant(applicant)
+                .status(ApplicationStatus.WAITING_FOR_REVIEW)
+                .roleRequest(role)
+                .project(project)
+                .build();
+        application = applicationRepository.save(application);
     }
 
 
 
     @Test
     void testProcessApplicationDecision() throws Exception {
-        Application application = Application.builder()
-                .applicant(applicant)
-                .status(ApplicationStatus.WAITING_FOR_REVIEW)
-                .roleRequest(role)
-                .project(project)
-                .build();
-        applicationRepository.save(application);
-
         mockMvc.perform(put("/api/applications/{applicationId}", application.getId())
                         .header("Authorization", "Bearer " + projectOwnerToken)
                 .param("decision", "ACCEPTED"))
                 .andExpect(status().isOk());
+
+        Application processedApplication = applicationRepository.findById(application.getId()).get();
+        assertThat(processedApplication.getStatus()).isEqualTo(ApplicationStatus.ACCEPTED);
+    }
+
+    @Test
+    void testProcessApplicationDecisionRejected() throws Exception {
+
+        mockMvc.perform(put("/api/applications/{applicationId}", application.getId())
+                        .header("Authorization", "Bearer " + projectOwnerToken)
+                .param("decision", ApplicationDecision.REJECTED.toString()))
+                .andExpect(status().isOk());
+
+        Application processedApplication = applicationRepository.findById(application.getId()).get();
+        assertThat(processedApplication.getStatus()).isEqualTo(ApplicationStatus.REJECTED);
     }
 
     @Test
     void testProcessApplicationDecisionWithWrongUser() throws Exception {
-        Application application = Application.builder()
-                .applicant(applicant)
-                .status(ApplicationStatus.WAITING_FOR_REVIEW)
-                .roleRequest(role)
-                .project(project)
-                .build();
-        applicationRepository.save(application);
 
         mockMvc.perform(put("/api/applications/{applicationId}", application.getId())
                         .header("Authorization", "Bearer " + applicantToken)
@@ -142,13 +147,9 @@ class ApplicationControllerTest {
 
     @Test
     void testProcessApplicationDecisionWithWrongStatus() throws Exception {
-        Application application = Application.builder()
-                .applicant(applicant)
-                .status(ApplicationStatus.ACCEPTED)
-                .roleRequest(role)
-                .project(project)
-                .build();
-        applicationRepository.save(application);
+
+        application.setStatus(ApplicationStatus.ACCEPTED);
+        applicationRepository.saveAndFlush(application);
 
         mockMvc.perform(put("/api/applications/{applicationId}", application.getId())
                         .header("Authorization", "Bearer " + projectOwnerToken)
@@ -160,14 +161,6 @@ class ApplicationControllerTest {
 
     @Test
     void testProcessApplicationDecisionWithOccupiedRole() throws Exception {
-        Application application = Application.builder()
-                .applicant(applicant)
-                .status(ApplicationStatus.WAITING_FOR_REVIEW)
-                .roleRequest(role)
-                .project(project)
-                .build();
-        applicationRepository.save(application);
-
         role.setAssignedUser(applicant);
         projectRepository.save(project);
 
@@ -177,6 +170,7 @@ class ApplicationControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("You can't accept application for role: " +
                         "%s because it is occupied".formatted(role.getName())));
+        assertTrue(application.getStatus().equals(ApplicationStatus.WAITING_FOR_REVIEW));
     }
 
 }
