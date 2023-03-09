@@ -21,8 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -172,5 +171,35 @@ class ApplicationControllerTest {
                         "%s because it is occupied".formatted(role.getName())));
         assertTrue(application.getStatus().equals(ApplicationStatus.WAITING_FOR_REVIEW));
     }
+
+
+    @Test
+    void testRemoveApplicatiom() throws Exception {
+        mockMvc.perform(delete("/api/applications/{applicationId}", application.getId())
+                        .header("Authorization", "Bearer " + applicantToken))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void testRemoveApplicationOtherOwner() throws Exception {
+        mockMvc.perform(delete("/api/applications/{applicationId}", application.getId())
+                        .header("Authorization", "Bearer " + projectOwnerToken))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.message").value("You can't remove application for other user"));
+    }
+
+    @Test
+    void testRemoveApplicationIllegalStatus() throws Exception {
+        application.setStatus(ApplicationStatus.ACCEPTED);
+        applicationRepository.saveAndFlush(application);
+
+        mockMvc.perform(delete("/api/applications/{applicationId}", application.getId())
+                        .header("Authorization", "Bearer " + applicantToken))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("You can't remove the application " +
+                        "that is not in waiting for review status"));
+
+    }
+
 
 }
