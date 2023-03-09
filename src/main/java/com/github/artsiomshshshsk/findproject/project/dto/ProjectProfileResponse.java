@@ -23,7 +23,9 @@ public record ProjectProfileResponse(
 
         int occupiedPlaces,
 
-        List<TeamMemberResponse> teamMembers
+        List<TeamMemberResponse> teamMembers,
+
+        Long ownerId
 
 ) {
 }

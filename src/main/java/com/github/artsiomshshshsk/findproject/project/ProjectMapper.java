@@ -43,6 +43,7 @@ public interface ProjectMapper {
                                 )
                                 .toList()
                 )
+                .ownerId(project.getOwner().getId())
                 .build();
     }
 
