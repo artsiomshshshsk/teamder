@@ -28,7 +28,7 @@ spring:
             enable: true
 
   profiles:
-    active: ${ACTIVE_PROFILE}
+    active: test
 
   config:
     import: optional:secrets.yml
@@ -36,12 +36,8 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
 
-  sql:
-    init:
-      data-locations: "classpath*:db/data.sql"
-      mode: always
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

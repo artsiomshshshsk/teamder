@@ -51,6 +51,6 @@ public class EmailService {
 
         helper.setText(content, true);
 
-        mailSender.send(message);
+//        mailSender.send(message);
     }
 }
