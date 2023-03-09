@@ -38,10 +38,10 @@ spring:
     hibernate:
       ddl-auto: update
 
-#  sql:
-#    init:
-#      data-locations: "classpath*:db/data.sql"
-#      mode: always
+  sql:
+    init:
+      data-locations: "classpath*:db/data.sql"
+      mode: always
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

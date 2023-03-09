@@ -43,9 +43,10 @@ public class ProjectController {
     public ResponseEntity<Page<CatalogProjectResponse>> getProjectCatalog(
             @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size,
-            @RequestParam(defaultValue = DEFAULT_SORT_BY) String sortBy) {
+            @RequestParam(defaultValue = DEFAULT_SORT_BY) String sortBy,
+            @RequestParam(required = false) String searchQuery) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return ResponseEntity.ok(projectService.getProjectCatalog(pageable));
+        return ResponseEntity.ok(projectService.getProjectCatalog(pageable,searchQuery));
     }
 
     @ApiOperation(value = "Post project")
@@ -83,4 +84,7 @@ public class ProjectController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return ResponseEntity.ok(projectService.getAllApplications(user,projectId,pageable));
     }
+
+
+
 }

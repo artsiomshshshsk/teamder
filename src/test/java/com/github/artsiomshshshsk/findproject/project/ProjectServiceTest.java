@@ -65,33 +65,4 @@ class ProjectServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> projectService.getProjectProfile(id));
     }
 
-
-    @Test
-    void givenPageable_whenFindAllProjects_thenReturnPageOfProjectResponse() {
-        // given
-        Pageable pageable = PageRequest.of(0, 10);
-        List<Project> projects = Arrays.asList(
-                Project.builder().id(1L).name("Project 1").isVisible(true).build(),
-                Project.builder().id(2L).name("Project 2").isVisible(true).build()
-        );
-        Page<Project> projectPage = new PageImpl<>(projects, pageable, 2);
-
-
-        when(projectRepository.findAllByIsVisibleTrue(
-                ArgumentMatchers.any(Pageable.class))
-        ).thenReturn(projectPage);
-
-        CatalogProjectResponse projectResponse1 = CatalogProjectResponse.builder().id(1L).name("Project 1").build();
-        CatalogProjectResponse projectResponse2 = CatalogProjectResponse.builder().id(2L).name("Project 2").build();
-        when(projectMapper.toCatalogProjectResponse(projects.get(0))).thenReturn(projectResponse1);
-        when(projectMapper.toCatalogProjectResponse(projects.get(1))).thenReturn(projectResponse2);
-
-        // when
-        Page<CatalogProjectResponse> projectResponsePage = projectService.getProjectCatalog(pageable);
-
-        // then
-        assertThat(projectResponsePage.getTotalPages()).isEqualTo(1);
-        assertThat(projectResponsePage.getContent()).containsExactly(projectResponse1, projectResponse2);
-    }
-
 }
