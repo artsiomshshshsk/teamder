@@ -6,6 +6,7 @@ import com.github.artsiomshshshsk.findproject.user.dto.DashboardApplicationRespo
 import com.github.artsiomshshshsk.findproject.user.dto.DashboardProjectResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserProfileResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.UserUpdateRequest;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+
+@Api(tags = "User")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/users")

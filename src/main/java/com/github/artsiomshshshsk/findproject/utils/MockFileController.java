@@ -1,5 +1,6 @@
 package com.github.artsiomshshshsk.findproject.utils;
 
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 @RestController
 @Profile({"dev","test"})
+@Api(tags = "User")
 @RequestMapping("/api/mock")
 public class MockFileController {
 
