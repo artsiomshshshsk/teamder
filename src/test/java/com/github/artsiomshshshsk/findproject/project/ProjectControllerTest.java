@@ -1,6 +1,9 @@
 package com.github.artsiomshshshsk.findproject.project;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.artsiomshshshsk.findproject.application.Application;
+import com.github.artsiomshshshsk.findproject.application.ApplicationStatus;
+import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.role.dto.RoleRequest;
 import com.github.artsiomshshshsk.findproject.security.Role;
@@ -20,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -82,6 +86,7 @@ class ProjectControllerTest {
                 .role(Role.USER)
                 .password(passwordEncoder.encode("password"))
                 .email("applicant@email.com")
+                .resumeURL("https://test-resume-url.com")
                 .build();
         applicant = userRepository.save(applicant);
         applicantToken = jwtService.generateToken(applicant);

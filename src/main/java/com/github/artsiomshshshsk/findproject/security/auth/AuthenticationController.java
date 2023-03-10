@@ -23,8 +23,7 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> register(
           @Valid @RequestBody RegisterRequest registerRequest
   ){
-    service.register(registerRequest);
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok(service.register(registerRequest));
   }
 
   @ApiOperation(value = "Sign-In")
