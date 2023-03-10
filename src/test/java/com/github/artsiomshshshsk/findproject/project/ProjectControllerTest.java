@@ -170,5 +170,14 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.publishedAt").isNotEmpty());
     }
 
+    @Test
+    void findProjectByIdIsNotFound() throws Exception {
+        Long id = 100L;
+
+        mockMvc.perform(get("/api/projects/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Project with id " + id + " not found"));
+    }
 
 }
