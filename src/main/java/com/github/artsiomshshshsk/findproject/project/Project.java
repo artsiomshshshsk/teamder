@@ -36,7 +36,6 @@ public class Project {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
-    @ToString.Exclude
     private List<Role> roles;
 
     @OneToMany(

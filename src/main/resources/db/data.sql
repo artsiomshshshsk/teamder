@@ -8,7 +8,7 @@ insert into _USERS (username, email, password, role) values ('zolotaya','zlata.k
 insert into PROJECT (chat_invite_link, description, is_visible, name, published_at, short_description, owner_id) values ('https:///in/faucibus/orci/luctus/et/ultrices/posuere.jsp', 'tortor risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor', true, 'Para Grass Pollen', '2022-06-08', 'magnis dis parturient montes nascetur', 5);
 
 insert into _ROLES (name, assigned_user_id) values ('Frontend Developer', null);
-insert into _ROLES (name, assigned_user_id) values ('Backend Developer', null);
+insert into _ROLES (name, assigned_user_id) values ('Backend Developer', 1);
 insert into _ROLES (name, assigned_user_id) values ('Project Manager', 5);
 
 insert into PROJECT_ROLES( project_id, roles_id) values (1,1);

@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
@@ -37,6 +40,9 @@ class ProjectControllerTest {
     private Project project;
 
     @Autowired
+    private ProjectService projectService;
+
+    @Autowired
     private ProjectRepository projectRepository;
 
     private User projectOwner;
@@ -51,6 +57,9 @@ class ProjectControllerTest {
 
     @Autowired
     private JwtService jwtService;
+
+    private String openedRole;
+    private String closedRole;
     private String projectOwnerToken;
     private String applicantToken;
 
@@ -77,17 +86,21 @@ class ProjectControllerTest {
         applicant = userRepository.save(applicant);
         applicantToken = jwtService.generateToken(applicant);
 
+
+        openedRole = "Frontend Developer";
+        closedRole = "Backend Developer";
+
         project = Project.builder()
                 .name("Test Project")
                 .shortDescription("Test project short description")
                 .description("Test project description")
                 .roles(
                         List.of(com.github.artsiomshshshsk.findproject.role.Role.builder()
-                                        .name("Test Role")
+                                        .name(openedRole)
                                         .assignedUser(null)
                                         .build(),
                                 com.github.artsiomshshshsk.findproject.role.Role.builder()
-                                        .name("Owner role")
+                                        .name(closedRole)
                                         .assignedUser(projectOwner)
                                         .build()
                                 )
@@ -227,6 +240,36 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.content.[0].openedRoles.length()").value(1));
     }
 
+
+    @Test
+    void testProjectCatalogWithQueryMatchingFullyOpenedROle() throws Exception{
+        mockMvc.perform(get("/api/projects")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("query", openedRole)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content.[0].id").value(project.getId()))
+                .andExpect(jsonPath("$.content.[0].name").value(project.getName()))
+                .andExpect(jsonPath("$.content.[0].shortDescription").value(project.getShortDescription()))
+                .andExpect(jsonPath("$.content.[0].teamSize").value(project.getRoles().size()))
+                .andExpect(jsonPath("$.content.[0].openedRoles.length()").value(1));
+    }
+
+    @Test
+    void testProjectCatalogWithQueryMatchingNotFullyOpenedROle() throws Exception{
+        mockMvc.perform(get("/api/projects")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("query", openedRole.substring(0, 3))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content.[0].id").value(project.getId()))
+                .andExpect(jsonPath("$.content.[0].name").value(project.getName()))
+                .andExpect(jsonPath("$.content.[0].shortDescription").value(project.getShortDescription()))
+                .andExpect(jsonPath("$.content.[0].teamSize").value(project.getRoles().size()))
+                .andExpect(jsonPath("$.content.[0].openedRoles.length()").value(1));
+    }
 
 
 }

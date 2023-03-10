@@ -49,6 +49,7 @@ public class User implements UserDetails {
             mappedBy = "owner",
             fetch = FetchType.EAGER
     )
+    @ToString.Exclude
     private List<Project> projects;
 
     @OneToMany(
@@ -56,6 +57,7 @@ public class User implements UserDetails {
             fetch = FetchType.EAGER
     )
 
+    @ToString.Exclude
     private List<Application> applications;
     @Enumerated(EnumType.STRING)
     private Role role;
