@@ -180,4 +180,20 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.message").value("Project with id " + id + " not found"));
     }
 
+
+    @Test
+    void testProjectCatalogWithoutQuerry() throws Exception{
+        mockMvc.perform(get("/api/projects")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content.[0].id").value(project.getId()))
+                .andExpect(jsonPath("$.content.[0].name").value(project.getName()))
+                .andExpect(jsonPath("$.content.[0].shortDescription").value(project.getShortDescription()))
+                .andExpect(jsonPath("$.content.[0].teamSize").value(project.getRoles().size()))
+                .andExpect(jsonPath("$.content.[0].openedRoles.length()").value(1));
+    }
+
+
+
 }
