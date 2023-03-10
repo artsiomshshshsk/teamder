@@ -7,6 +7,7 @@ import com.github.artsiomshshshsk.findproject.security.Role;
 import com.github.artsiomshshshsk.findproject.security.config.JwtService;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.user.UserRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,9 +36,12 @@ class ProjectControllerTest {
 
     private Project project;
 
+    @Autowired
     private ProjectRepository projectRepository;
 
     private User projectOwner;
+
+    private User applicant;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -44,8 +52,7 @@ class ProjectControllerTest {
     @Autowired
     private JwtService jwtService;
     private String projectOwnerToken;
-
-
+    private String applicantToken;
 
 
     @BeforeEach
@@ -54,16 +61,43 @@ class ProjectControllerTest {
         projectOwner = User.builder()
                 .username("projectOwner")
                 .role(Role.USER)
-                .password("password")
                 .email("projectOwner@gmail.com")
                 .password(passwordEncoder.encode("password"))
                 .build();
         projectOwner = userRepository.save(projectOwner);
-
-
         projectOwnerToken = jwtService.generateToken(projectOwner);
 
 
+        applicant = User.builder()
+                .username("applicant")
+                .role(Role.USER)
+                .password(passwordEncoder.encode("password"))
+                .email("applicant@email.com")
+                .build();
+        applicant = userRepository.save(applicant);
+        applicantToken = jwtService.generateToken(applicant);
+
+        project = Project.builder()
+                .name("Test Project")
+                .shortDescription("Test project short description")
+                .description("Test project description")
+                .roles(
+                        List.of(com.github.artsiomshshshsk.findproject.role.Role.builder()
+                                        .name("Test Role")
+                                        .assignedUser(null)
+                                        .build(),
+                                com.github.artsiomshshshsk.findproject.role.Role.builder()
+                                        .name("Owner role")
+                                        .assignedUser(projectOwner)
+                                        .build()
+                                )
+                )
+                .chatInviteLink("https://test-chat-link.com")
+                .publishedAt(LocalDateTime.now())
+                .owner(projectOwner)
+                .isVisible(true)
+                .build();
+        projectRepository.save(project);
     }
 
     @Test
@@ -120,10 +154,21 @@ class ProjectControllerTest {
     }
 
 
+    @Test
+    void findProjectByIdIsFound() throws Exception {
+        Long id = project.getId();
 
-
-
-
+        mockMvc.perform(get("/api/projects/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value(project.getName()))
+                .andExpect(jsonPath("$.shortDescription").value(project.getShortDescription()))
+                .andExpect(jsonPath("$.description").value(project.getDescription()))
+                .andExpect(jsonPath("$.openedRoles.length()").value(project.getRoles().size() - 1))
+                .andExpect(jsonPath("$.ownerId").value(project.getOwner().getId()))
+                .andExpect(jsonPath("$.publishedAt").isNotEmpty());
+    }
 
 
 }
