@@ -1,6 +1,8 @@
 package com.github.artsiomshshshsk.findproject.utils;
 
+import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.github.artsiomshshshsk.findproject.config.S3ConfigProperties;
@@ -8,13 +10,16 @@ import com.github.artsiomshshshsk.findproject.exception.InvalidFileFormatExcepti
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -25,7 +30,6 @@ public class FileUploadServiceS3 implements FileUploadService {
     private final AmazonS3 s3Client;
     private final S3ConfigProperties s3ConfigProperties;
     private static final String TEMP_DIR = System.getProperty("java.io.tmpdir");
-
 
     public String uploadFile(MultipartFile file, FileType fileType) {
 
