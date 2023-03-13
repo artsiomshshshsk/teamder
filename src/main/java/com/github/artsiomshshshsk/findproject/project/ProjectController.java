@@ -31,7 +31,7 @@ public class ProjectController {
     private final ProjectService projectService;
     private static final String DEFAULT_PAGE_NUMBER = "0";
     private static final String DEFAULT_PAGE_SIZE = "7";
-    private static final String DEFAULT_SORT_BY = "id";
+    private static final String DEFAULT_SORT_BY = "publishedAt";
     @ApiOperation(value = "Get project Profile")
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectProfileResponse> getProjectProfile(@PathVariable Long projectId) {

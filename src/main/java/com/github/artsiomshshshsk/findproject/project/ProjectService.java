@@ -46,7 +46,7 @@ public class ProjectService {
     public Page<CatalogProjectResponse> getProjectCatalog(Pageable pageable, String searchQuery) {
         if(searchQuery == null || searchQuery.isEmpty())
             return projectRepository.findAllByIsVisibleTrue(pageable).map(projectMapper::toCatalogProjectResponse);
-        Page<Project> projects = projectRepository.search(pageable,searchQuery);
+        Page<Project> projects = projectRepository.search(pageable,searchQuery.toLowerCase());
         return projects.map(projectMapper::toCatalogProjectResponse);
     }
 

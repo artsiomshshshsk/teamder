@@ -41,7 +41,7 @@ spring:
   sql:
     init:
       data-locations: "classpath*:db/data.sql"
-      mode: ${SQL_INIT_MODE}
+#      mode: ${SQL_INIT_MODE}
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
