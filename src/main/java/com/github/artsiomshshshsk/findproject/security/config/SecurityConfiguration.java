@@ -91,7 +91,7 @@ public class SecurityConfiguration {
             .allowedOrigins("*")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH")
             .allowedHeaders("*")
-            .allowCredentials(true)
+            .allowCredentials(false)
             .maxAge(3600);
       }
     };
