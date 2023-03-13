@@ -1,15 +1,13 @@
 package com.github.artsiomshshshsk.findproject.user;
 
+import com.amazonaws.services.opsworks.model.UserProfile;
 import com.github.artsiomshshshsk.findproject.application.Application;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
-import com.github.artsiomshshshsk.findproject.user.dto.DashboardApplicationResponse;
-import com.github.artsiomshshshsk.findproject.user.dto.DashboardProjectResponse;
+import com.github.artsiomshshshsk.findproject.user.dto.*;
 import com.github.artsiomshshshsk.findproject.utils.FileType;
-import com.github.artsiomshshshsk.findproject.user.dto.UserProfileResponse;
-import com.github.artsiomshshshsk.findproject.user.dto.UserUpdateRequest;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -125,5 +123,14 @@ public class UserService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), dashboardProjectResponses.size());
         return new PageImpl<>(dashboardProjectResponses.subList(start, end), pageable, dashboardProjectResponses.size());
+    }
+
+    public UserResponse getUserProfile(User user) {
+        return UserResponse.builder()
+                .profilePictureURL(user.getProfilePictureURL())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .id(user.getId())
+                .build();
     }
 }

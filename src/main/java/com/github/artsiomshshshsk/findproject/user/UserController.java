@@ -2,10 +2,7 @@ package com.github.artsiomshshshsk.findproject.user;
 
 
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
-import com.github.artsiomshshshsk.findproject.user.dto.DashboardApplicationResponse;
-import com.github.artsiomshshshsk.findproject.user.dto.DashboardProjectResponse;
-import com.github.artsiomshshshsk.findproject.user.dto.UserProfileResponse;
-import com.github.artsiomshshshsk.findproject.user.dto.UserUpdateRequest;
+import com.github.artsiomshshshsk.findproject.user.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -63,6 +60,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsersApplications(user,pageable));
     }
 
+
+    @ApiOperation("Get currently logged in user's profile")
+    @GetMapping
+    public ResponseEntity<UserResponse> getUserProfile(
+            @ApiIgnore @AuthenticationPrincipal User user
+    ){
+        return ResponseEntity.ok(userService.getUserProfile(user));
+    }
 
 
     // TODO: 3.03.23 get all user's applications
