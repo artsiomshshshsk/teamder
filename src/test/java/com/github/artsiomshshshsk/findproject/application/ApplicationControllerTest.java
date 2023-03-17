@@ -3,7 +3,7 @@ package com.github.artsiomshshshsk.findproject.application;
 import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.ProjectRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
-import com.github.artsiomshshshsk.findproject.security.config.JwtService;
+import com.github.artsiomshshshsk.findproject.security.config.JwtUtils;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +56,7 @@ class ApplicationControllerTest {
     private Application application;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtUtils jwtService;
 
     @BeforeEach
     void setUp() {

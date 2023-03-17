@@ -4,27 +4,21 @@ package com.github.artsiomshshshsk.findproject.security.auth;
 import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.notification.service.EmailService;
+import com.github.artsiomshshshsk.findproject.security.config.JwtUtils;
 import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationRequest;
 import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationResponse;
 import com.github.artsiomshshshsk.findproject.security.dto.RegisterRequest;
-import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.user.UserMapper;
 import com.github.artsiomshshshsk.findproject.user.UserRepository;
 import com.github.artsiomshshshsk.findproject.security.Role;
-import com.github.artsiomshshshsk.findproject.security.config.JwtService;
-import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,7 +26,7 @@ import java.util.UUID;
 public class AuthenticationService {
   private final UserRepository repository;
   private final PasswordEncoder passwordEncoder;
-  private final JwtService jwtService;
+  private final JwtUtils jwtService;
   private final AuthenticationManager authenticationManager;
   private final UserMapper userMapper;
 

@@ -1,29 +1,21 @@
 package com.github.artsiomshshshsk.findproject.project;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.artsiomshshshsk.findproject.application.Application;
-import com.github.artsiomshshshsk.findproject.application.ApplicationStatus;
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectRequest;
 import com.github.artsiomshshshsk.findproject.role.dto.RoleRequest;
 import com.github.artsiomshshshsk.findproject.security.Role;
-import com.github.artsiomshshshsk.findproject.security.config.JwtService;
+import com.github.artsiomshshshsk.findproject.security.config.JwtUtils;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.user.UserRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -60,7 +52,7 @@ class ProjectControllerTest {
     private UserRepository userRepository;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtUtils jwtService;
 
     private String openedRole;
     private String closedRole;

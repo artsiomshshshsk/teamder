@@ -1,57 +1,72 @@
 package com.github.artsiomshshshsk.findproject.security.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfiguration {
 
-  private final AuthenticationProvider authenticationProvider;
 
-  private final JwtAuthenticationFilter jwtAuthFilter;
+  private final UserDetailsService userDetailsService;
 
-  private final AuthEntryPointJwt unauthorizedHandler;
+  private AuthEntryPointJwt unauthorizedHandler;
 
-  private final CustomAccessDeniedHandler accessDeniedHandler;
 
-  private final CustomAuthenticationEntryPoint authenticationEntryPoint;
-
-  public SecurityConfiguration(AuthenticationProvider authenticationProvider,
-                               JwtAuthenticationFilter jwtAuthFilter,
-                               AuthEntryPointJwt unauthorizedHandler,
-                               CustomAccessDeniedHandler accessDeniedHandler,
-                               CustomAuthenticationEntryPoint authenticationEntryPoint) {
-    this.authenticationProvider = authenticationProvider;
-    this.jwtAuthFilter = jwtAuthFilter;
-    this.unauthorizedHandler = unauthorizedHandler;
-    this.accessDeniedHandler = accessDeniedHandler;
-    this.authenticationEntryPoint = authenticationEntryPoint;
+  @Bean
+  public AuthTokenFilter authenticationJwtTokenFilter() {
+    return new AuthTokenFilter();
   }
 
-  @Value("${app.baseUrl}")
-  private String baseUrl;
+  @Bean
+  public DaoAuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setPasswordEncoder(passwordEncoder());
+
+    return authProvider;
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    return authConfig.getAuthenticationManager();
+  }
+
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf().disable()
         .cors().configurationSource(corsConfigurationSource()).and()
-        .exceptionHandling().accessDeniedHandler(accessDeniedHandler).authenticationEntryPoint(authenticationEntryPoint).and()
+        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .authorizeHttpRequests()
         .antMatchers("/api/auth/**",
                     "/h2-console/**",
@@ -70,8 +85,8 @@ public class SecurityConfiguration {
         .and()
         .headers().frameOptions().sameOrigin()
         .and()
-        .authenticationProvider(authenticationProvider)
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        .authenticationProvider(authenticationProvider())
+        .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 
