@@ -5,6 +5,8 @@ import com.github.artsiomshshshsk.findproject.security.dto.AuthenticationRespons
 import com.github.artsiomshshshsk.findproject.security.dto.RegisterRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,10 @@ public class AuthenticationController {
 
   @ApiOperation(value = "Sign-In")
   @PostMapping("/authenticate")
+  @ApiResponses(value = {
+          @ApiResponse( responseCode = "200", description = "Successfully authenticated"),
+          @ApiResponse( responseCode = "401", description = "Bad credentials")
+  })
   public ResponseEntity<AuthenticationResponse> authenticate(
       @Valid @RequestBody AuthenticationRequest request ){
     return ResponseEntity.ok(service.authenticate(request));
