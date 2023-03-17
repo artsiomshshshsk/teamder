@@ -22,6 +22,11 @@ public class AuthenticationController {
 
   @ApiOperation(value = "Sign-up")
   @PostMapping("/register")
+  @ApiResponses(value = {
+          @ApiResponse( responseCode = "200", description = "Successfully registered"),
+          @ApiResponse( responseCode = "400", description = "Bad register format"),
+          @ApiResponse( responseCode = "409", description = "username or email already exists")
+  })
   public ResponseEntity<AuthenticationResponse> register(
           @Valid @RequestBody RegisterRequest registerRequest
   ){

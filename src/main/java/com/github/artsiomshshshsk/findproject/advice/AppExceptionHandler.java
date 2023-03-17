@@ -38,8 +38,8 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<ExceptionResponse> handleDuplicateEmailException(DuplicateEmailException ex) {
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ExceptionResponse> handleDuplicateEmailException(DuplicateResourceException ex) {
         return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.CONFLICT);
     }
 

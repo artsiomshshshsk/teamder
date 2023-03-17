@@ -1,7 +1,7 @@
 package com.github.artsiomshshshsk.findproject.security.auth;
 
 
-import com.github.artsiomshshshsk.findproject.exception.DuplicateEmailException;
+import com.github.artsiomshshshsk.findproject.exception.DuplicateResourceException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.notification.service.EmailService;
 import com.github.artsiomshshshsk.findproject.security.config.JwtUtils;
@@ -35,7 +35,11 @@ public class AuthenticationService {
 
   public AuthenticationResponse register(RegisterRequest registerRequest){
     if(repository.findByEmail(registerRequest.email()).isPresent()){
-      throw new DuplicateEmailException("Email is already taken");
+      throw new DuplicateResourceException("Email is already taken");
+    }
+
+    if(repository.findByUsername(registerRequest.username()).isPresent()){
+      throw new DuplicateResourceException("Username is already taken");
     }
 
     var user = userMapper.toUser(registerRequest);
