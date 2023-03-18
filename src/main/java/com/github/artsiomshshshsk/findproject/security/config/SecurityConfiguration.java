@@ -78,7 +78,7 @@ public class SecurityConfiguration {
                     "/process_register",
                     "/api/mock/**").permitAll()
         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-        .antMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/projects/**","/api/users/profile/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

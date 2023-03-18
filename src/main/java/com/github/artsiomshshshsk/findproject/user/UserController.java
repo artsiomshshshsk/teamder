@@ -62,7 +62,7 @@ public class UserController {
 
 
     @ApiOperation("Get user's profile")
-    @GetMapping("/{id}")
+    @GetMapping("/profile/{id}")
     public ResponseEntity<UserProfileResponse> getUserProfile(
             @PathVariable Long id
     ){
