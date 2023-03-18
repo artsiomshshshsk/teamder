@@ -3,6 +3,7 @@ package com.github.artsiomshshshsk.findproject.user;
 import com.amazonaws.services.opsworks.model.UserProfile;
 import com.github.artsiomshshshsk.findproject.application.Application;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
+import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
@@ -125,12 +126,13 @@ public class UserService {
         return new PageImpl<>(dashboardProjectResponses.subList(start, end), pageable, dashboardProjectResponses.size());
     }
 
-    public UserResponse getUserProfile(User user) {
-        return UserResponse.builder()
+    public UserProfileResponse getUserProfile(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found id: " + id));
+
+        return UserProfileResponse.builder()
                 .profilePictureURL(user.getProfilePictureURL())
                 .username(user.getUsername())
-                .email(user.getEmail())
-                .id(user.getId())
+                .contact(user.getContact())
                 .build();
     }
 }

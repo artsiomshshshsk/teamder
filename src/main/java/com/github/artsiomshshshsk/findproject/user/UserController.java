@@ -61,12 +61,12 @@ public class UserController {
     }
 
 
-    @ApiOperation("Get currently logged in user's profile")
-    @GetMapping
-    public ResponseEntity<UserResponse> getUserProfile(
-            @ApiIgnore @AuthenticationPrincipal User user
+    @ApiOperation("Get user's profile")
+    @GetMapping("/{id}")
+    public ResponseEntity<UserProfileResponse> getUserProfile(
+            @PathVariable Long id
     ){
-        return ResponseEntity.ok(userService.getUserProfile(user));
+        return ResponseEntity.ok(userService.getUserProfile(id));
     }
 
 
