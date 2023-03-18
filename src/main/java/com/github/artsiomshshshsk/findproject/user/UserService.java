@@ -134,13 +134,7 @@ public class UserService {
 
         for (Application application : user.getApplications()) {
             if (application.getStatus().equals(ApplicationStatus.ACCEPTED)) {
-                participations.add(Participation.builder()
-                        .projectId(application.getProject().getId())
-                        .projectTitle(application.getProject().getName())
-                        .shortDescription(application.getProject().getShortDescription())
-                        .role(application.getRoleRequest().getName())
-                        .isOwner(false)
-                        .build());
+                participations.add(userMapper.toParticipation(application));
             }
         }
 
