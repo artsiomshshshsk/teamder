@@ -1,6 +1,8 @@
 package com.github.artsiomshshshsk.findproject.user;
 
 import com.github.artsiomshshshsk.findproject.application.Application;
+import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
+import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.user.dto.Participation;
 import com.github.artsiomshshshsk.findproject.user.dto.UserResponse;
 import com.github.artsiomshshshsk.findproject.security.dto.RegisterRequest;
@@ -20,6 +22,21 @@ public interface UserMapper {
                 .shortDescription(application.getProject().getShortDescription())
                 .role(application.getRoleRequest().getName())
                 .isOwner(false)
+                .build();
+    }
+
+
+    default Participation toParticipation(Project project){
+        return Participation.builder()
+                .projectId(project.getId())
+                .projectTitle(project.getName())
+                .shortDescription(project.getShortDescription())
+                .role(project.getRoles().stream()
+                        .filter(role -> role.getAssignedUser().getId().equals(project.getOwner().getId()))
+                        .findFirst()
+                        .orElseThrow(() -> new UnauthorizedAccessException("User is not owner of the project"))
+                        .getName())
+                .isOwner(true)
                 .build();
     }
 

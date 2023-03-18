@@ -139,17 +139,7 @@ public class UserService {
         }
 
         for (Project project : user.getProjects()) {
-            participations.add(Participation.builder()
-                    .projectId(project.getId())
-                    .projectTitle(project.getName())
-                    .shortDescription(project.getShortDescription())
-                    .role(project.getRoles().stream()
-                            .filter(role -> role.getAssignedUser().getId().equals(user.getId()))
-                            .findFirst()
-                            .orElseThrow(() -> new UnauthorizedAccessException("User is not owner of the project"))
-                            .getName())
-                    .isOwner(true)
-                    .build());
+            participations.add(userMapper.toParticipation(project));
         }
 
         return ProfileResponse.builder()
