@@ -63,7 +63,7 @@ public class UserController {
 
     @ApiOperation("Get user's profile")
     @GetMapping("/profile/{id}")
-    public ResponseEntity<UserProfileResponse> getUserProfile(
+    public ResponseEntity<ProfileResponse> getUserProfile(
             @PathVariable Long id
     ){
         return ResponseEntity.ok(userService.getUserProfile(id));
