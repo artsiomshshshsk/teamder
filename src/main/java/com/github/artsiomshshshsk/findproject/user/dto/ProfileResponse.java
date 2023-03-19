@@ -9,7 +9,7 @@ public record ProfileResponse(
 
         Long id,
         String username,
-        String profileSummary,
+        String bio,
         String avatarUrl,
 
         String resumeUrl,

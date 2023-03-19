@@ -157,10 +157,11 @@ public class UserService {
         }
 
         return ProfileResponse.builder()
+                .id(user.getId())
                 .avatarUrl(user.getProfilePictureURL())
                 .username(user.getUsername())
                 .resumeUrl(user.getResumeURL())
-                .profileSummary(user.getProfileSummary())
+                .bio(user.getProfileSummary())
                 .participations(participations)
                 .build();
 
