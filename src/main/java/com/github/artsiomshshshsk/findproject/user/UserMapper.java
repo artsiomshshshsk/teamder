@@ -3,6 +3,7 @@ package com.github.artsiomshshshsk.findproject.user;
 import com.github.artsiomshshshsk.findproject.application.Application;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
+import com.github.artsiomshshshsk.findproject.user.dto.DashboardApplicationResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.Participation;
 import com.github.artsiomshshshsk.findproject.user.dto.UserResponse;
 import com.github.artsiomshshshsk.findproject.security.dto.RegisterRequest;
@@ -37,6 +38,19 @@ public interface UserMapper {
                         .orElseThrow(() -> new UnauthorizedAccessException("User is not owner of the project"))
                         .getName())
                 .isOwner(true)
+                .build();
+    }
+
+
+    default DashboardApplicationResponse toDashboardApplicationResponse(Application application){
+        return DashboardApplicationResponse.builder()
+                .id(application.getId())
+                .projectName(application.getProject().getName())
+                .applicantMessage(application.getMessage())
+                .resumeURL(application.getResumeURL())
+                .role(application.getRoleRequest().getName())
+                .applicationDate(application.getApplicationDate())
+                .status(application.getStatus())
                 .build();
     }
 

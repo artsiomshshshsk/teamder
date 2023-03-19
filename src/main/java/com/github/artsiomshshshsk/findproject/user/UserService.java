@@ -1,14 +1,11 @@
 package com.github.artsiomshshshsk.findproject.user;
 
-import com.amazonaws.services.opsworks.model.UserProfile;
 import com.github.artsiomshshshsk.findproject.application.Application;
 import com.github.artsiomshshshsk.findproject.application.ApplicationStatus;
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.exception.DuplicateResourceException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
-import com.github.artsiomshshshsk.findproject.project.dto.ProjectResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.*;
 import com.github.artsiomshshshsk.findproject.utils.FileType;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
@@ -108,21 +105,17 @@ public class UserService {
         List<Application> applications = user.getApplications();
 
         List<DashboardApplicationResponse> dashboardApplicationResponses = applications.stream()
-                .map(application -> DashboardApplicationResponse.builder()
-                        .id(application.getId())
-                        .projectName(application.getProject().getName())
-                        .applicantMessage(application.getMessage())
-                        .resumeURL(application.getResumeURL())
-                        .role(application.getRoleRequest().getName())
-                        .applicationDate(application.getApplicationDate())
-                        .status(application.getStatus())
-                        .build())
+                .map(userMapper::toDashboardApplicationResponse)
                 .toList();
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), dashboardApplicationResponses.size());
-        return new PageImpl<>(dashboardApplicationResponses.subList(start, end), pageable, dashboardApplicationResponses.size());
+        return listToPage(pageable, dashboardApplicationResponses);
 
+    }
+
+    private static <T> PageImpl<T> listToPage(Pageable pageable, List<T> list) {
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), list.size());
+        return new PageImpl<>(list.subList(start, end), pageable, list.size());
     }
 
     public Page<DashboardProjectResponse> getUsersProjects(User user, Pageable pageable) {
@@ -136,9 +129,7 @@ public class UserService {
                         .build())
                 .toList();
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), dashboardProjectResponses.size());
-        return new PageImpl<>(dashboardProjectResponses.subList(start, end), pageable, dashboardProjectResponses.size());
+        return listToPage(pageable, dashboardProjectResponses);
     }
 
     public ProfileResponse getUserProfile(Long id) {
