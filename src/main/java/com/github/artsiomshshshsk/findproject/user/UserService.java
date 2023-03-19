@@ -83,8 +83,8 @@ public class UserService {
             user.setContact(userUpdateRequest.getContact());
         }
 
-        if(userUpdateRequest.getProfileSummary() != null){
-            user.setProfileSummary(userUpdateRequest.getProfileSummary());
+        if(userUpdateRequest.getBio() != null){
+            user.setBio(userUpdateRequest.getBio());
         }
 
         if(userUpdateRequest.getProfilePicture() != null){
@@ -152,7 +152,7 @@ public class UserService {
                 .avatarUrl(user.getProfilePictureURL())
                 .username(user.getUsername())
                 .resumeUrl(user.getResumeURL())
-                .bio(user.getProfileSummary())
+                .bio(user.getBio())
                 .participations(participations)
                 .build();
 

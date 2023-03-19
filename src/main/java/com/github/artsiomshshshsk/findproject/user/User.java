@@ -37,7 +37,7 @@ public class User implements UserDetails {
 
     private String contact;
 
-    private String profileSummary;
+    private String bio;
 
 
     private String resumeURL;

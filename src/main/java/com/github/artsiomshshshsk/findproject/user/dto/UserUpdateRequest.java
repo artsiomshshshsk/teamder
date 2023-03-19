@@ -11,8 +11,8 @@ public class UserUpdateRequest{
         String username;
         String email;
         String password;
+        String bio;
         MultipartFile profilePicture;
         MultipartFile resume;
         String contact;
-        String profileSummary;
 }
