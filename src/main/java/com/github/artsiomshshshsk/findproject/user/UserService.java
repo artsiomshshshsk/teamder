@@ -158,7 +158,11 @@ public class UserService {
 
     }
 
-    public ProfileResponse getLoggedInUserProfile(User user) {
-        return getUserProfile(user.getId());
+    public CurrentUserProfile getLoggedInUserProfile(User user) {
+        return CurrentUserProfile.builder()
+                .username(user.getUsername())
+                .id(user.getId())
+                .avatarUrl(user.getProfilePictureURL())
+                .build();
     }
 }

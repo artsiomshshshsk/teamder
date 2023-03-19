@@ -1,7 +1,6 @@
 package com.github.artsiomshshshsk.findproject.user;
 
 
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.user.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -64,7 +63,7 @@ public class UserController {
 
     @ApiOperation("Get currently user's profile")
     @GetMapping("/profile")
-    public ResponseEntity<ProfileResponse> getLoggedInUserProfile(
+    public ResponseEntity<CurrentUserProfile> getLoggedInUserProfile(
             @ApiIgnore @AuthenticationPrincipal User user
     ){
         return ResponseEntity.ok(userService.getLoggedInUserProfile(user));
