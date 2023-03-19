@@ -85,6 +85,16 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getAllApplications(user,projectId,pageable));
     }
 
+    @ApiOperation(value = "Remove project")
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<String> deleteProject(
+            @PathVariable Long projectId,
+            @ApiIgnore @AuthenticationPrincipal User user
+    ){
+        projectService.deleteProject(user,projectId);
+        return new ResponseEntity<>("Project deleted",HttpStatus.OK);
+    }
+
 
 
 }

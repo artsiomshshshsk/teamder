@@ -129,4 +129,12 @@ public class ProjectService {
         }
         return new PageImpl<>(applicationResponses, pageable, applications.size());
     }
+
+    public void deleteProject(User user, Long projectId) {
+        Project project = findById(projectId);
+        if(!project.getOwner().equals(user)){
+            throw new UnauthorizedAccessException("You don't have an access to delete project that you don't own");
+        }
+        projectRepository.delete(project);
+    }
 }

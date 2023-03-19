@@ -38,6 +38,7 @@ public interface ProjectMapper {
                                 .map(role -> TeamMemberResponse.builder()
                                         .userId(role.getAssignedUser().getId())
                                         .username(role.getAssignedUser().getUsername())
+                                        .profilePictureURL(role.getAssignedUser().getProfilePictureURL())
                                         .roleName(role.getName())
                                         .build()
                                 )
