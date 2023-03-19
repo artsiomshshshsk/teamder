@@ -45,6 +45,7 @@ public interface UserMapper {
     default DashboardApplicationResponse toDashboardApplicationResponse(Application application){
         return DashboardApplicationResponse.builder()
                 .id(application.getId())
+                .projectId(application.getProject().getId())
                 .projectName(application.getProject().getName())
                 .applicantMessage(application.getMessage())
                 .resumeURL(application.getResumeURL())

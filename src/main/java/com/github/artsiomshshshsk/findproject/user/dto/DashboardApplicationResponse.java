@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 @Builder
 public record DashboardApplicationResponse(
         Long id,
+
+        Long projectId,
         String projectName,
         String applicantMessage,
         String role,
