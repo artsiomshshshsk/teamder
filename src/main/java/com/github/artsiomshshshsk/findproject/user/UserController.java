@@ -62,6 +62,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserProfile(id));
     }
 
+    @ApiOperation("Get currently user's profile")
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileResponse> getLoggedInUserProfile(
+            @ApiIgnore @AuthenticationPrincipal User user
+    ){
+        return ResponseEntity.ok(userService.getLoggedInUserProfile(user));
+    }
+
 
     @ApiOperation("Update currently user's profile")
     @PatchMapping("/profile/{id}")

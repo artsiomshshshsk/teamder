@@ -157,4 +157,8 @@ public class UserService {
                 .build();
 
     }
+
+    public ProfileResponse getLoggedInUserProfile(User user) {
+        return getUserProfile(user.getId());
+    }
 }
