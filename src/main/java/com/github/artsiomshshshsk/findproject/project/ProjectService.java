@@ -59,7 +59,8 @@ public class ProjectService {
         return projectMapper.toProjectResponse(projectRepository.save(project));
     }
 
-    public ApplicationResponse applyForProject(Long projectId, User user, ApplicationRequest applicationRequest){
+    public AppliedResponse applyForProject(Long projectId, User user, ApplicationRequest applicationRequest){
+
         if(user.getResumeURL() == null && applicationRequest.getCv() == null){
             throw new ApplicationCreationException("Application won't be created without cv");
         }
@@ -85,7 +86,7 @@ public class ProjectService {
 
         Application application = Application.builder()
                 .applicant(user)
-                .message(applicationRequest.getRoleRequest())
+                .message(applicationRequest.getApplicationMessage())
                 .project(project)
                 .roleRequest(role)
                 .status(ApplicationStatus.WAITING_FOR_REVIEW)
@@ -102,7 +103,7 @@ public class ProjectService {
         project.addApplication(application);
 
         Application savedApplication = applicationRepository.saveAndFlush(application);
-        return applicationMapper.toApplicationResponse(savedApplication);
+        return applicationMapper.toAppliedResponse(savedApplication);
     }
     public Page<ProjectApplicationResponse> getAllApplications(User user, Long projectId, Pageable pageable) {
         Project project = findById(projectId);

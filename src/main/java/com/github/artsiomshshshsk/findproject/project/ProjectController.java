@@ -63,7 +63,7 @@ public class ProjectController {
 
     @ApiOperation(value = "Apply for the project")
     @PostMapping("/{projectId}/applications")
-    public ResponseEntity<ApplicationResponse> createApplication(
+    public ResponseEntity<AppliedResponse> createApplication(
             @PathVariable Long projectId,
             @ApiIgnore @AuthenticationPrincipal User user,
             @Valid @ModelAttribute ApplicationRequest applicationRequest
