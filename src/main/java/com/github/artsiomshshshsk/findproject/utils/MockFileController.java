@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@Profile({"dev","test"})
+@Profile({"dev","test","prod"})
 @Api(tags = "User")
 @RequestMapping("/api/mock")
 public class MockFileController {
