@@ -14,4 +14,5 @@ public class UserUpdateRequest{
         MultipartFile profilePicture;
         MultipartFile resume;
         String contact;
+        String profileSummary;
 }

@@ -11,6 +11,8 @@ public record ProfileResponse(
         String username,
         String profileSummary,
         String avatarUrl,
+
+        String resumeUrl,
         List<Participation> participations
 ) {
 }

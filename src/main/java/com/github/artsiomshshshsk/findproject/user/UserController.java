@@ -24,13 +24,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @ApiOperation("Update currently logged in user")
-    @PatchMapping
-    public ResponseEntity<UserProfileResponse> updateLoggedInUser(
-            @ApiIgnore @AuthenticationPrincipal User user,
-            @ModelAttribute UserUpdateRequest userUpdateRequest){
-        return ResponseEntity.ok(userService.updateLoggedInUser(user,userUpdateRequest));
-    }
 
     @ApiOperation("Get user's projects ")/**/
     @GetMapping("/{userId}/dashboard/projects")
@@ -70,5 +63,14 @@ public class UserController {
     }
 
 
-    // TODO: 3.03.23 get all user's applications
+    @ApiOperation("Update currently user's profile")
+    @PatchMapping("/profile/{id}")
+    public ResponseEntity<ProfileResponse> updateLoggedInUser(
+            @ApiIgnore @AuthenticationPrincipal User user,
+            @ModelAttribute UserUpdateRequest userUpdateRequest,
+            @PathVariable Long id){
+        return ResponseEntity.ok(userService.updateLoggedInUser(user,id,userUpdateRequest));
+    }
+
+
 }

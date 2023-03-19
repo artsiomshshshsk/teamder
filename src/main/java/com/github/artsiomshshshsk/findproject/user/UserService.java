@@ -4,6 +4,7 @@ import com.amazonaws.services.opsworks.model.UserProfile;
 import com.github.artsiomshshshsk.findproject.application.Application;
 import com.github.artsiomshshshsk.findproject.application.ApplicationStatus;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
+import com.github.artsiomshshshsk.findproject.exception.DuplicateResourceException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
@@ -57,18 +58,36 @@ public class UserService {
         return fileURL;
     }
 
-    public UserProfileResponse updateLoggedInUser(User user, UserUpdateRequest userUpdateRequest) {
+    public ProfileResponse updateLoggedInUser(User user, Long id,UserUpdateRequest userUpdateRequest) {
+
+        if(!user.getId().equals(id)){
+            throw new UnauthorizedAccessException("You are not authorized to update this user");
+        }
 
         if(userUpdateRequest.getUsername() != null){
+            if(userRepository.findByUsername(userUpdateRequest.getUsername()).isPresent()){
+                throw new DuplicateResourceException(userUpdateRequest.getUsername() + " is taken by another user");
+            }
             user.setUsername(userUpdateRequest.getUsername());
         }
 
         if(userUpdateRequest.getEmail() != null){
-            user.setEmail(userUpdateRequest.getUsername());
+            if(userRepository.findByEmail(userUpdateRequest.getEmail()).isPresent()){
+                throw new DuplicateResourceException(userUpdateRequest.getEmail() + " is taken by another user");
+            }
+            user.setEmail(userUpdateRequest.getEmail());
         }
 
         if(userUpdateRequest.getPassword() != null){
             user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
+        }
+
+        if(userUpdateRequest.getContact() != null){
+            user.setContact(userUpdateRequest.getContact());
+        }
+
+        if(userUpdateRequest.getProfileSummary() != null){
+            user.setProfileSummary(userUpdateRequest.getProfileSummary());
         }
 
         if(userUpdateRequest.getProfilePicture() != null){
@@ -81,12 +100,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        return UserProfileResponse.builder()
-                .profilePictureURL(user.getProfilePictureURL())
-                .resumeUrl(user.getResumeURL())
-                .username(user.getUsername())
-                .build();
-
+        return getUserProfile(user.getId());
     }
 
 
@@ -145,10 +159,10 @@ public class UserService {
         return ProfileResponse.builder()
                 .avatarUrl(user.getProfilePictureURL())
                 .username(user.getUsername())
+                .resumeUrl(user.getResumeURL())
                 .profileSummary(user.getProfileSummary())
                 .participations(participations)
                 .build();
-
 
     }
 }
