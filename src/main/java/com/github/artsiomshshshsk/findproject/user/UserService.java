@@ -62,6 +62,9 @@ public class UserService {
         }
 
         if(userUpdateRequest.getUsername() != null){
+            if(userUpdateRequest.getUsername().length() > 15){
+                throw new IllegalArgumentException("Username must be less than 15 characters");
+            }
             if(userRepository.findByUsername(userUpdateRequest.getUsername()).isPresent()){
                 throw new DuplicateResourceException(userUpdateRequest.getUsername() + " is taken by another user");
             }
@@ -69,6 +72,12 @@ public class UserService {
         }
 
         if(userUpdateRequest.getEmail() != null){
+            // check if email is valid
+            String regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+            if(!userUpdateRequest.getEmail().matches(regexp)){
+                throw new IllegalArgumentException("Email is not valid");
+            }
+
             if(userRepository.findByEmail(userUpdateRequest.getEmail()).isPresent()){
                 throw new DuplicateResourceException(userUpdateRequest.getEmail() + " is taken by another user");
             }
@@ -76,6 +85,9 @@ public class UserService {
         }
 
         if(userUpdateRequest.getPassword() != null){
+            if(userUpdateRequest.getPassword().length() < 10){
+                throw new IllegalArgumentException("Password must be at least 10 characters");
+            }
             user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
         }
 
