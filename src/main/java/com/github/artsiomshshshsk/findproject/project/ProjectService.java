@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class ProjectService {
     public Page<CatalogProjectResponse> getProjectCatalog(Pageable pageable, String searchQuery) {
         if(searchQuery == null || searchQuery.isEmpty())
             return projectRepository.findAllByIsVisibleTrue(pageable).map(projectMapper::toCatalogProjectResponse);
-        Page<Project> projects = projectRepository.search(pageable,searchQuery.toLowerCase());
+        Page<Project> projects = projectRepository.findAll(pageable);
         return projects.map(projectMapper::toCatalogProjectResponse);
     }
 

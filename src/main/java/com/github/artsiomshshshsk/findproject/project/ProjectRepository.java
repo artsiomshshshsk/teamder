@@ -14,5 +14,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT DISTINCT p FROM Project p LEFT JOIN p.roles r WHERE p.name LIKE %:query% OR p.shortDescription LIKE %:query% OR r.name LIKE %:query%")
     Page<Project> search(Pageable pageable, @Param("query") String query);
     Page<Project> findAll(Specification<Project> hasStatus, Pageable pageable);
+
+    Page<Project> findAll(Pageable pageable);
     Page<Project> findAllByIsVisibleTrue(Pageable pageable);
 }

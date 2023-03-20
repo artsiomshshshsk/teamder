@@ -32,10 +32,19 @@ public class ProjectController {
     private static final String DEFAULT_PAGE_NUMBER = "0";
     private static final String DEFAULT_PAGE_SIZE = "7";
     private static final String DEFAULT_SORT_BY = "publishedAt";
+    private static final String DEFAULT_SORT_DIRECTION = "ASC";
     @ApiOperation(value = "Get project Profile")
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectProfileResponse> getProjectProfile(@PathVariable Long projectId) {
         return ResponseEntity.ok(projectService.getProjectProfile(projectId));
+    }
+
+
+    private Sort getSort(String sortDirection,String sortBy) {
+        if (sortDirection.equals("ASC")) {
+            return Sort.by(sortBy).ascending();
+        }
+        return Sort.by(sortBy).descending();
     }
 
     @ApiOperation(value = "Get project catalog")
@@ -44,8 +53,10 @@ public class ProjectController {
             @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size,
             @RequestParam(defaultValue = DEFAULT_SORT_BY) String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortDirection,
             @RequestParam(required = false) String searchQuery) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(page, size, getSort(sortDirection,sortBy));
+        // TODO: 20.03.23 fix search
         return ResponseEntity.ok(projectService.getProjectCatalog(pageable,searchQuery));
     }
 
