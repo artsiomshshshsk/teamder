@@ -63,6 +63,10 @@ public class ProjectController {
 
     @ApiOperation(value = "Apply for the project")
     @PostMapping("/{projectId}/applications")
+    @ApiResponses(value = {
+            @ApiResponse( responseCode = "200", description = "Successfully applied to the Project"),
+            @ApiResponse( responseCode = "400", description = "bad request")
+    })
     public ResponseEntity<AppliedResponse> createApplication(
             @PathVariable Long projectId,
             @ApiIgnore @AuthenticationPrincipal User user,
