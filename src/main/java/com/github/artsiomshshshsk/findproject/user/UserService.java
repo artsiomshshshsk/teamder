@@ -100,10 +100,16 @@ public class UserService {
         }
 
         if(userUpdateRequest.getProfilePicture() != null){
+            if(user.getProfilePictureURL() != null){
+                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE);
+            }
             uploadFile(user, userUpdateRequest.getProfilePicture(), FileType.PROFILE_IMAGE);
         }
 
         if(userUpdateRequest.getResume() != null){
+            if(user.getResumeURL() != null){
+                fileUploadService.deleteFile(user.getResumeURL(), FileType.CV);
+            }
             uploadFile(user, userUpdateRequest.getResume(), FileType.CV);
         }
 
