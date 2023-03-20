@@ -99,4 +99,10 @@ public class Project {
         return getClass().hashCode();
     }
 
+
+
+    public void removeApplication(Application application){
+        getApplications().remove(application);
+    }
+
 }

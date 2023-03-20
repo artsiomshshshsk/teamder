@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
     List<Application> findAllByProject(Project project);
+
+    @Query("delete from Application a where a.id = ?1")
+    void deleteById(Long applicationId);
 }

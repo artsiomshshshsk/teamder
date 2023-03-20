@@ -8,6 +8,7 @@ import com.github.artsiomshshshsk.findproject.exception.ApplicationDecisionExcep
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
+import com.github.artsiomshshshsk.findproject.project.ProjectRepository;
 import com.github.artsiomshshshsk.findproject.project.ProjectService;
 import com.github.artsiomshshshsk.findproject.role.Role;
 import com.github.artsiomshshshsk.findproject.user.User;
@@ -110,7 +111,7 @@ public class ApplicationService {
             throw new ApplicationDecisionException("You can't remove the application that is" +
                     " not in waiting for review status");
         }
-
+        application.getProject().removeApplication(application);
         applicationRepository.delete(application);
     }
 }

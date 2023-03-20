@@ -37,6 +37,10 @@ spring:
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
   sql:
     init:
@@ -50,7 +54,4 @@ logging:
   level:
     org.hibernate.SQL: TRACE
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
-
-
 
