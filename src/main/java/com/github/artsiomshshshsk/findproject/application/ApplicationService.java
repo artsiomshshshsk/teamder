@@ -111,6 +111,8 @@ public class ApplicationService {
             throw new ApplicationDecisionException("You can't remove the application that is" +
                     " not in waiting for review status");
         }
+
+        fileUploadService.deleteFile(application.getResumeURL(), FileType.CV);
         application.getProject().removeApplication(application);
         applicationRepository.delete(application);
     }
