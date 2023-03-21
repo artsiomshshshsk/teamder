@@ -114,6 +114,7 @@ public class ApplicationService {
 
         fileUploadService.deleteFile(application.getResumeURL(), FileType.CV);
         application.getProject().removeApplication(application);
+        application.getApplicant().getApplications().remove(application);
         applicationRepository.delete(application);
     }
 }
