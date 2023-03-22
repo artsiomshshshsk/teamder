@@ -36,7 +36,7 @@ public class ApplicationController {
     public ResponseEntity<ApplicationResponse> updateApplication(
             @PathVariable Long applicationId,
             @ApiIgnore @AuthenticationPrincipal User user,
-            @Valid @RequestBody UpdateApplicationRequest updateApplicationRequest
+            @Valid @ModelAttribute UpdateApplicationRequest updateApplicationRequest
     ){
         return ResponseEntity.ok(applicationService.updateApplication(user,applicationId,updateApplicationRequest));
     }

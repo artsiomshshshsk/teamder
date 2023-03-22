@@ -26,7 +26,7 @@ public class Application {
     @ManyToOne
     @ToString.Exclude
     private Project project;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.)
     @ToString.Exclude
     private Role roleRequest;
     private ApplicationStatus status;
