@@ -4,7 +4,6 @@ import com.github.artsiomshshshsk.findproject.application.Application;
 import com.github.artsiomshshshsk.findproject.application.ApplicationRepository;
 import com.github.artsiomshshshsk.findproject.application.ApplicationStatus;
 import com.github.artsiomshshshsk.findproject.exception.DuplicateResourceException;
-import com.github.artsiomshshshsk.findproject.exception.IllegalFileFormat;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
@@ -23,8 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -55,7 +52,7 @@ public class UserService {
     }
 
     private String uploadProfileImage(User user, MultipartFile file){
-        String fileURL = uploadValidationService.uploadProfileImage(file);
+        String fileURL = uploadValidationService.validateAndUploadProfileImage(file);
         if(user.getProfilePictureURL() != null){
             uploadValidationService.deleteFile(user.getProfilePictureURL());
         }
@@ -65,7 +62,7 @@ public class UserService {
     }
 
     private String uploadCV(User user, MultipartFile file){
-        String fileURL = uploadValidationService.uploadCv(file);
+        String fileURL = uploadValidationService.validateAndUploadCv(file);
         if(user.getResumeURL() != null){
             uploadValidationService.deleteFile(user.getResumeURL());
         }

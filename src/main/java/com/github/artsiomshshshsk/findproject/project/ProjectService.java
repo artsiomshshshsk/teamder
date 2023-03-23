@@ -10,7 +10,7 @@ import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessExcept
 import com.github.artsiomshshshsk.findproject.role.Role;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import com.github.artsiomshshshsk.findproject.user.User;
-import com.github.artsiomshshshsk.findproject.utils.UploadType;
+import com.github.artsiomshshshsk.findproject.utils.UploadValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,9 +26,9 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
-    private final FileUploadService fileUploadService;
     private final ApplicationMapper applicationMapper;
     private final ApplicationRepository applicationRepository;
+    private final UploadValidationService uploadValidationService;
 
     public ProjectProfileResponse getProjectProfile(Long id) {
         return projectMapper.toProjectProfileResponse(findById(id));
@@ -91,7 +91,7 @@ public class ProjectService {
                 .build();
 
         if(applicationRequest.getCv() != null){
-            application.setResumeURL(fileUploadService.uploadFile(applicationRequest.getCv()));
+            application.setResumeURL(uploadValidationService.validateAndUploadCv(applicationRequest.getCv()));
         }else{
             application.setResumeURL(user.getResumeURL());
         }

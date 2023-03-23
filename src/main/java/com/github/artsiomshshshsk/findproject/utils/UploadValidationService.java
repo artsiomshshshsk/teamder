@@ -19,7 +19,7 @@ public class UploadValidationService {
 
     private final static Set<String> allowedImageTypes = Set.of("image/png", "image/jpeg", "image/jpg", "image/svg+xml");
 
-    public String uploadCv(MultipartFile file) {
+    public String validateAndUploadCv(MultipartFile file) {
         if (Objects.requireNonNull(file.getContentType()).equals(PDF_FILE_TYPE)) {
             return fileUploadService.uploadFile(file);
         } else {
@@ -27,7 +27,7 @@ public class UploadValidationService {
         }
     }
 
-    public String uploadProfileImage(MultipartFile file) {
+    public String validateAndUploadProfileImage(MultipartFile file) {
         if(!allowedImageTypes.contains(file.getContentType())){
             throw new IllegalFileFormat("File type is not supported:" + file.getContentType() + ". Choose one of the following: " + allowedImageTypes);
         }
