@@ -127,7 +127,7 @@ public class ProjectService {
                             .contact(applicant.getContact() != null ? applicant.getContact() : applicant.getEmail())
                             .applicantMessage(application.getMessage())
                             .role(application.getRoleRequest().getName())
-                            .resumeURL(applicant.getResumeURL())
+                            .resumeURL(application.getResumeURL())
                             .applicationDate(application.getApplicationDate())
                     .build());
         }
