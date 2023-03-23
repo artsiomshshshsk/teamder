@@ -12,6 +12,7 @@ import com.github.artsiomshshshsk.findproject.project.ProjectRepository;
 import com.github.artsiomshshshsk.findproject.user.dto.*;
 import com.github.artsiomshshshsk.findproject.utils.UploadType;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
+import com.github.artsiomshshshsk.findproject.utils.UploadValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -41,9 +42,7 @@ public class UserService {
 
     private final FileUploadService fileUploadService;
 
-    private final static Set<String> allowedImageTypes = Set.of("image/png", "image/jpeg", "image/jpg", "image/svg+xml");
-
-    private final static String PDF_TYPE = "application/pdf";
+    private final UploadValidationService uploadValidationService;
 
     public String uploadFile(User user, MultipartFile file, UploadType uploadType){
         if(uploadType == UploadType.PROFILE_IMAGE){
@@ -56,12 +55,9 @@ public class UserService {
     }
 
     private String uploadProfileImage(User user, MultipartFile file){
-        if(!allowedImageTypes.contains(file.getContentType())){
-            throw new IllegalFileFormat("File type is not supported:" + file.getContentType() + ". Choose one of the following: " + allowedImageTypes);
-        }
-        String fileURL = fileUploadService.uploadFile(file);
+        String fileURL = uploadValidationService.uploadProfileImage(file);
         if(user.getProfilePictureURL() != null){
-            fileUploadService.deleteFile(user.getProfilePictureURL());
+            uploadValidationService.deleteFile(user.getProfilePictureURL());
         }
         user.setProfilePictureURL(fileURL);
         userRepository.save(user);
@@ -69,12 +65,9 @@ public class UserService {
     }
 
     private String uploadCV(User user, MultipartFile file){
-        if(file.getContentType() != PDF_TYPE){
-            throw new IllegalFileFormat("File type is not supported:" + file.getContentType() + ". Choose the following: " + PDF_TYPE);
-        }
-        String fileURL = fileUploadService.uploadFile(file);
+        String fileURL = uploadValidationService.uploadCv(file);
         if(user.getResumeURL() != null){
-            fileUploadService.deleteFile(user.getResumeURL());
+            uploadValidationService.deleteFile(user.getResumeURL());
         }
         user.setResumeURL(fileURL);
         userRepository.save(user);
