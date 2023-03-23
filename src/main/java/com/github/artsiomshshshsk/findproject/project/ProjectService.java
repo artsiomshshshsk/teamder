@@ -10,19 +10,15 @@ import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessExcept
 import com.github.artsiomshshshsk.findproject.role.Role;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import com.github.artsiomshshshsk.findproject.user.User;
-import com.github.artsiomshshshsk.findproject.utils.FileType;
+import com.github.artsiomshshshsk.findproject.utils.UploadType;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 
 @Service
 @AllArgsConstructor
@@ -95,7 +91,7 @@ public class ProjectService {
                 .build();
 
         if(applicationRequest.getCv() != null){
-            application.setResumeURL(fileUploadService.uploadFile(applicationRequest.getCv(), FileType.CV));
+            application.setResumeURL(fileUploadService.uploadFile(applicationRequest.getCv()));
         }else{
             application.setResumeURL(user.getResumeURL());
         }

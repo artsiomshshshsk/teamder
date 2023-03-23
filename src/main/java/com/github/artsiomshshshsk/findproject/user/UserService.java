@@ -4,12 +4,13 @@ import com.github.artsiomshshshsk.findproject.application.Application;
 import com.github.artsiomshshshsk.findproject.application.ApplicationRepository;
 import com.github.artsiomshshshsk.findproject.application.ApplicationStatus;
 import com.github.artsiomshshshsk.findproject.exception.DuplicateResourceException;
+import com.github.artsiomshshshsk.findproject.exception.IllegalFileFormat;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
 import com.github.artsiomshshshsk.findproject.project.ProjectRepository;
 import com.github.artsiomshshshsk.findproject.user.dto.*;
-import com.github.artsiomshshshsk.findproject.utils.FileType;
+import com.github.artsiomshshshsk.findproject.utils.UploadType;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -39,39 +41,42 @@ public class UserService {
 
     private final FileUploadService fileUploadService;
 
-    public String uploadFile(User user, MultipartFile file, FileType fileType){
+    private final static Set<String> allowedImageTypes = Set.of("image/png", "image/jpeg", "image/jpg", "image/svg+xml");
 
-        String fileURL = fileUploadService.uploadFile(file,fileType);
+    private final static String PDF_TYPE = "application/pdf";
 
-        if (Objects.requireNonNull(fileType) == FileType.CV) {
-            if(user.getResumeURL() != null){
-                fileUploadService.deleteFile(user.getResumeURL(), FileType.CV);
-            }
-            user.setResumeURL(fileURL);
+    public String uploadFile(User user, MultipartFile file, UploadType uploadType){
+        if(uploadType == UploadType.PROFILE_IMAGE){
+            return uploadProfileImage(user, file);
+        }else if(uploadType == UploadType.CV){
+            return uploadCV(user, file);
+        }else{
+            throw new IllegalArgumentException("Upload type is not supported: " + uploadType);
         }
+    }
 
-        // TODO: 23.03.23 Refactore this shit 
-        if (Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE_PNG) {
-            if(user.getProfilePictureURL() != null){
-                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_PNG);
-            }
-            user.setProfilePictureURL(fileURL);
+    private String uploadProfileImage(User user, MultipartFile file){
+        if(!allowedImageTypes.contains(file.getContentType())){
+            throw new IllegalFileFormat("File type is not supported:" + file.getContentType() + ". Choose one of the following: " + allowedImageTypes);
         }
-
-        if(Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE_SVG){
-            if(user.getProfilePictureURL() != null){
-                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_SVG);
-            }
-            user.setProfilePictureURL(fileURL);
+        String fileURL = fileUploadService.uploadFile(file);
+        if(user.getProfilePictureURL() != null){
+            fileUploadService.deleteFile(user.getProfilePictureURL());
         }
+        user.setProfilePictureURL(fileURL);
+        userRepository.save(user);
+        return fileURL;
+    }
 
-        if(Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE_JPG){
-            if(user.getProfilePictureURL() != null){
-                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_JPG);
-            }
-            user.setProfilePictureURL(fileURL);
+    private String uploadCV(User user, MultipartFile file){
+        if(file.getContentType() != PDF_TYPE){
+            throw new IllegalFileFormat("File type is not supported:" + file.getContentType() + ". Choose the following: " + PDF_TYPE);
         }
-
+        String fileURL = fileUploadService.uploadFile(file);
+        if(user.getResumeURL() != null){
+            fileUploadService.deleteFile(user.getResumeURL());
+        }
+        user.setResumeURL(fileURL);
         userRepository.save(user);
         return fileURL;
     }
@@ -122,16 +127,16 @@ public class UserService {
 
         if(userUpdateRequest.getProfilePicture() != null){
             if(user.getProfilePictureURL() != null){
-                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_PNG);
+                fileUploadService.deleteFile(user.getProfilePictureURL());
             }
-            uploadFile(user, userUpdateRequest.getProfilePicture(), FileType.PROFILE_IMAGE_PNG);
+            uploadFile(user, userUpdateRequest.getProfilePicture(), UploadType.PROFILE_IMAGE);
         }
 
         if(userUpdateRequest.getResume() != null){
             if(user.getResumeURL() != null){
-                fileUploadService.deleteFile(user.getResumeURL(), FileType.CV);
+                fileUploadService.deleteFile(user.getResumeURL());
             }
-            uploadFile(user, userUpdateRequest.getResume(), FileType.CV);
+            uploadFile(user, userUpdateRequest.getResume(), UploadType.CV);
         }
 
         userRepository.save(user);

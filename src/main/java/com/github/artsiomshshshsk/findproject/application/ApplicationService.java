@@ -1,29 +1,17 @@
 package com.github.artsiomshshshsk.findproject.application;
 
-import com.github.artsiomshshshsk.findproject.application.dto.ApplicationRequest;
 import com.github.artsiomshshshsk.findproject.application.dto.ApplicationResponse;
 import com.github.artsiomshshshsk.findproject.application.dto.UpdateApplicationRequest;
-import com.github.artsiomshshshsk.findproject.exception.ApplicationCreationException;
 import com.github.artsiomshshshsk.findproject.exception.ApplicationDecisionException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
-import com.github.artsiomshshshsk.findproject.project.Project;
-import com.github.artsiomshshshsk.findproject.project.ProjectRepository;
-import com.github.artsiomshshshsk.findproject.project.ProjectService;
 import com.github.artsiomshshshsk.findproject.role.Role;
 import com.github.artsiomshshshsk.findproject.user.User;
-import com.github.artsiomshshshsk.findproject.utils.FileType;
+import com.github.artsiomshshshsk.findproject.utils.UploadType;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -94,7 +82,7 @@ public class ApplicationService {
 
         MultipartFile cv = updateApplicationRequest.getCv();
         if(cv != null){
-            application.setResumeURL(fileUploadService.uploadFile(cv, FileType.CV));
+            application.setResumeURL(fileUploadService.uploadFile(cv));
         }
 
         return applicationMapper.toApplicationResponse(applicationRepository.save(application));
@@ -112,7 +100,7 @@ public class ApplicationService {
                     " not in waiting for review status");
         }
 
-        fileUploadService.deleteFile(application.getResumeURL(), FileType.CV);
+        fileUploadService.deleteFile(application.getResumeURL());
         application.getProject().removeApplication(application);
         application.getApplicant().getApplications().remove(application);
         applicationRepository.delete(application);

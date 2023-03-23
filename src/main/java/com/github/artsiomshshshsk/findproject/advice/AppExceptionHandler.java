@@ -22,6 +22,12 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(IllegalFileFormat.class)
+    public ResponseEntity<ExceptionResponse> handleIllegalFileFormat(IllegalFileFormat ex) {
+        return new ResponseEntity<>(getExceptionResponse(ex), HttpStatus.BAD_REQUEST);
+    }
+
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleValidationException(MethodArgumentNotValidException ex) {
         String errorMessage = ex.getBindingResult()
