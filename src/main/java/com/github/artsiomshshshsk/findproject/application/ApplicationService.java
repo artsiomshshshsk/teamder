@@ -9,6 +9,7 @@ import com.github.artsiomshshshsk.findproject.role.Role;
 import com.github.artsiomshshshsk.findproject.user.User;
 import com.github.artsiomshshshsk.findproject.utils.UploadType;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
+import com.github.artsiomshshshsk.findproject.utils.UploadValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
-    private final FileUploadService fileUploadService;
+    private final UploadValidationService uploadValidationService;
     private final ApplicationMapper applicationMapper;
 
 
@@ -82,10 +83,18 @@ public class ApplicationService {
 
         MultipartFile cv = updateApplicationRequest.getCv();
         if(cv != null){
-            application.setResumeURL(fileUploadService.uploadFile(cv));
+            removeResumeFromApplication(application);
+            application.setResumeURL(uploadValidationService.validateAndUploadCv(cv));
         }
 
         return applicationMapper.toApplicationResponse(applicationRepository.save(application));
+    }
+
+
+    private void removeResumeFromApplication(Application application) {
+        if(application.getResumeURL() != null && application.getApplicant().getResumeURL() != application.getResumeURL()){
+            uploadValidationService.deleteFile(application.getResumeURL());
+        }
     }
 
     public void removeApplication(User user, Long applicationId) {
@@ -100,7 +109,7 @@ public class ApplicationService {
                     " not in waiting for review status");
         }
 
-        fileUploadService.deleteFile(application.getResumeURL());
+        removeResumeFromApplication(application);
         application.getProject().removeApplication(application);
         application.getApplicant().getApplications().remove(application);
         applicationRepository.delete(application);
