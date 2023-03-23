@@ -44,9 +44,24 @@ public class UserService {
             user.setResumeURL(fileURL);
         }
 
+        // TODO: 23.03.23 Refactore this shit 
         if (Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE_PNG) {
             if(user.getProfilePictureURL() != null){
                 fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_PNG);
+            }
+            user.setProfilePictureURL(fileURL);
+        }
+
+        if(Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE_SVG){
+            if(user.getProfilePictureURL() != null){
+                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_SVG);
+            }
+            user.setProfilePictureURL(fileURL);
+        }
+
+        if(Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE_JPG){
+            if(user.getProfilePictureURL() != null){
+                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_JPG);
             }
             user.setProfilePictureURL(fileURL);
         }
