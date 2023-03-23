@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum FileType {
     CV(".pdf","application/pdf"),
-    PROFILE_IMAGE(".png","image/png");
+    PROFILE_IMAGE_PNG(".png","image/png");
 
     final String extension;
     final String contentType;

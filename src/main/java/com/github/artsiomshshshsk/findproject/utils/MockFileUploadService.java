@@ -1,7 +1,6 @@
 package com.github.artsiomshshshsk.findproject.utils;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +17,7 @@ public class MockFileUploadService implements FileUploadService {
         if(fileType == FileType.CV){
             return baseUrl + "/api/mock/pdf";
         }
-        if(fileType == FileType.PROFILE_IMAGE){
+        if(fileType == FileType.PROFILE_IMAGE_PNG){
             return baseUrl + "/api/mock/img";
         }
         return null;

@@ -44,9 +44,9 @@ public class UserService {
             user.setResumeURL(fileURL);
         }
 
-        if (Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE) {
+        if (Objects.requireNonNull(fileType) == FileType.PROFILE_IMAGE_PNG) {
             if(user.getProfilePictureURL() != null){
-                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE);
+                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_PNG);
             }
             user.setProfilePictureURL(fileURL);
         }
@@ -101,9 +101,9 @@ public class UserService {
 
         if(userUpdateRequest.getProfilePicture() != null){
             if(user.getProfilePictureURL() != null){
-                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE);
+                fileUploadService.deleteFile(user.getProfilePictureURL(), FileType.PROFILE_IMAGE_PNG);
             }
-            uploadFile(user, userUpdateRequest.getProfilePicture(), FileType.PROFILE_IMAGE);
+            uploadFile(user, userUpdateRequest.getProfilePicture(), FileType.PROFILE_IMAGE_PNG);
         }
 
         if(userUpdateRequest.getResume() != null){
