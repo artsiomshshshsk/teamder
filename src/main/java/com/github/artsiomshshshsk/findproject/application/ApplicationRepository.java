@@ -13,4 +13,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     @Query("delete from Application a where a.id = ?1")
     void deleteById(Long applicationId);
+
+    List<Application> findAllByProjectId(Long projectId);
 }
