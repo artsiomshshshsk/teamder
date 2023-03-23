@@ -1,11 +1,13 @@
 package com.github.artsiomshshshsk.findproject.user;
 
 import com.github.artsiomshshshsk.findproject.application.Application;
+import com.github.artsiomshshshsk.findproject.application.ApplicationRepository;
 import com.github.artsiomshshshsk.findproject.application.ApplicationStatus;
 import com.github.artsiomshshshsk.findproject.exception.DuplicateResourceException;
 import com.github.artsiomshshshsk.findproject.exception.ResourceNotFoundException;
 import com.github.artsiomshshshsk.findproject.exception.UnauthorizedAccessException;
 import com.github.artsiomshshshsk.findproject.project.Project;
+import com.github.artsiomshshshsk.findproject.project.ProjectRepository;
 import com.github.artsiomshshshsk.findproject.user.dto.*;
 import com.github.artsiomshshshsk.findproject.utils.FileType;
 import com.github.artsiomshshshsk.findproject.utils.FileUploadService;
@@ -30,6 +32,10 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final ApplicationRepository applicationRepository;
+
+    private final ProjectRepository projectRepository;
 
     private final FileUploadService fileUploadService;
 
@@ -170,13 +176,14 @@ public class UserService {
 
         List<Participation> participations = new ArrayList<>();
 
-        for (Application application : user.getApplications()) {
+
+        for (Application application : applicationRepository.findAllByApplicantId(id)) {
             if (application.getStatus().equals(ApplicationStatus.ACCEPTED)) {
                 participations.add(userMapper.toParticipation(application));
             }
         }
 
-        for (Project project : user.getProjects()) {
+        for (Project project : projectRepository.findAllByOwnerId(id)) {
             participations.add(userMapper.toParticipation(project));
         }
 
