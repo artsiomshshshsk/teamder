@@ -37,7 +37,6 @@ public class UserService {
 
     private final ProjectRepository projectRepository;
 
-    private final FileUploadService fileUploadService;
 
     private final UploadValidationService uploadValidationService;
 
@@ -117,14 +116,16 @@ public class UserService {
 
         if(userUpdateRequest.getProfilePicture() != null){
             if(user.getProfilePictureURL() != null){
-                fileUploadService.deleteFile(user.getProfilePictureURL());
+                uploadValidationService.deleteFile(user.getProfilePictureURL());
             }
             uploadFile(user, userUpdateRequest.getProfilePicture(), UploadType.PROFILE_IMAGE);
         }
 
         if(userUpdateRequest.getResume() != null){
             if(user.getResumeURL() != null){
-                fileUploadService.deleteFile(user.getResumeURL());
+                if(!user.cvIsUsed(user.getResumeURL())){
+                    uploadValidationService.deleteFile(user.getResumeURL());
+                }
             }
             uploadFile(user, userUpdateRequest.getResume(), UploadType.CV);
         }

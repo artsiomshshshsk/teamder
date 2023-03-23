@@ -98,6 +98,18 @@ public class User implements UserDetails {
 //    }
 
 
+    public boolean cvIsUsed(String cvUrl){
+        if(resumeURL.equals(cvUrl)){
+            return true;
+        }
+        for(Application application : applications){
+            if(application.getResumeURL().equals(cvUrl)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isEnabled() {
         return true;
     }

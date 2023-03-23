@@ -92,7 +92,7 @@ public class ApplicationService {
 
 
     private void removeResumeFromApplication(Application application) {
-        if(application.getResumeURL() != null && application.getApplicant().getResumeURL() != application.getResumeURL()){
+        if(application.getResumeURL() != null && !application.getApplicant().cvIsUsed(application.getResumeURL())){
             uploadValidationService.deleteFile(application.getResumeURL());
         }
     }
