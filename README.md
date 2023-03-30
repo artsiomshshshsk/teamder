@@ -4,7 +4,7 @@ Many individuals who are new to software development often choose to create thei
 ## But Teamder will help!
 
 ## Technology Stack 
-Java 17, Spring(Boot, Data, Security), Hibernate, Lombok, JWT, Docker, Terraform, AWS, Heroku, Junit, Mockito.
+Java 17, PostgreSQL, Spring(Boot, Data, Security), Hibernate, Lombok, JWT, Docker, Terraform, AWS, Heroku, Junit, Mockito.
 
 ## Api Specification
 
